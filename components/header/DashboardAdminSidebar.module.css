@@ -1,0 +1,90 @@
+.adminTitle {
+  text-align: center;
+  font-weight: 800;
+  font-size: 20px;
+  margin-top: 20px;
+  background-color: #043389;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+@media (min-width: 1600px) {
+  .adminTitle {
+    margin-top: 40px;
+  }
+}
+
+/* SUBMENU PARENT (MATCH SINGLE MENU STYLE) */
+.menu-link {
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menu-link:hover {
+  background: #eef5ff;
+  color: #0d6efd;
+}
+
+.menu-link.active {
+  background: #eaf2ff;
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* ICON + TEXT GROUP */
+.menu-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ARROW (NO HUGE GAP) */
+.submenu-arrow {
+  margin-left: auto;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+/* SUBMENU */
+.submenu {
+  list-style: none;
+  padding-left: 25px;
+  margin-top: 8px;
+}
+
+.submenu li a {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.submenu li a:hover {
+  background: #eef5ff;
+  color: #0d6efd;
+}
+
+/* SUBMENU ACTIVE */
+.submenu li a.active {
+  background: #eaf2ff;
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* FORCE ACTIVE MENU BACKGROUND */
+.user-sidebar .navigation li.active > a {
+  color: var(--primary-color);
+  background: rgba(25, 103, 210, 0.1);
+  border-radius: 10px;
+}
+
+/* FORCE HOVER BACKGROUND */
+.user-sidebar .navigation li > a:hover {
+  color: var(--primary-color);
+  background: rgba(25, 103, 210, 0.1);
+}
