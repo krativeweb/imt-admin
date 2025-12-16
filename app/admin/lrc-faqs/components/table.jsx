@@ -15,28 +15,28 @@ const Table = () => {
   const [editRow, setEditRow] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  /* -----------------------------
-        FETCH NEWS DATA
-  ------------------------------ */
-  const fetchNews = async () => {
+  /* =====================================
+        FETCH ALL FAQ
+  ===================================== */
+  const fetchFaqs = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/api/news`);
+      const res = await api.get("/api/lrc-faq");
       setData(res.data?.data || []);
     } catch (error) {
-      console.error("Error fetching news:", error);
+      console.error("Error fetching FAQs:", error);
     } finally {
       setLoading(false); // ✅ stop loader
     }
   };
 
   useEffect(() => {
-    fetchNews();
+    fetchFaqs();
   }, []);
 
-  /* -----------------------------
-        OPEN / CLOSE MODALS
-  ------------------------------ */
+  /* =====================================
+        OPEN / CLOSE EDIT
+  ===================================== */
   const openEditModal = (row) => {
     setEditRow(row);
     setShowEditModal(true);
@@ -47,62 +47,67 @@ const Table = () => {
     setEditRow(null);
   };
 
-  /* -----------------------------
-        SAVE EDIT NEWS
-  ------------------------------ */
+  /* =====================================
+        UPDATE FAQ
+  ===================================== */
   const handleEditSave = async (updatedData) => {
     try {
-      const formData = new FormData();
-      if (updatedData.images) formData.append("images", updatedData.images);
-      formData.append("content", updatedData.content || "");
+      await api.put(`/api/lrc-faq/${editRow._id}`, {
+        question: updatedData.question,
+        answer: updatedData.answer,
+      });
 
-      await api.put(`/api/news/edit/${editRow._id}`, formData);
-      fetchNews();
+      fetchFaqs();
       closeEditModal();
     } catch (err) {
       console.error("Update failed:", err);
     }
   };
 
-  /* -----------------------------
-        DELETE NEWS
-  ------------------------------ */
+  /* =====================================
+        DELETE FAQ
+  ===================================== */
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this FAQ?"
+    );
+    if (!confirmDelete) return;
+
     try {
-      await api.delete(`/api/news/delete/${id}`);
-      fetchNews();
+      await api.delete(`/api/lrc-faq/${id}`);
+      fetchFaqs();
     } catch (error) {
       console.error("Delete failed:", error);
     }
   };
 
-  /* -----------------------------
-        ADD NEWS
-  ------------------------------ */
+  /* =====================================
+        ADD FAQ
+  ===================================== */
   const handleAddSave = async (newData) => {
     try {
-      const formData = new FormData();
-      formData.append("images", newData.images);
-      formData.append("content", newData.content || "");
+      await api.post("/api/lrc-faq", {
+        question: newData.question,
+        answer: newData.answer,
+      });
 
-      await api.post(`/api/news/add`, formData);
-      fetchNews();
+      fetchFaqs();
       setShowAddModal(false);
     } catch (err) {
       console.error("Add failed:", err);
     }
   };
 
-  /* -----------------------------
+  /* =====================================
         SEARCH FILTER
-  ------------------------------ */
+  ===================================== */
   const filteredData = data.filter((item) =>
-    (item.content || "").toLowerCase().includes(search.toLowerCase())
+    (item.question || "").toLowerCase().includes(search.toLowerCase())
   );
 
-  /* -----------------------------
+  /* =====================================
         TABLE COLUMNS
-  ------------------------------ */
+  ===================================== */
   const columns = [
     {
       name: "SL",
@@ -110,17 +115,13 @@ const Table = () => {
       width: "70px",
     },
     {
-      name: "Image",
-      cell: (row) => (
-        <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
-          alt="News"
-          style={{ width: "80px" }}
-        />
-      ),
+      name: "Question",
+      selector: (row) => row.question,
+      wrap: true,
     },
     {
       name: "Action",
+      width: "150px",
       cell: (row) => (
         <>
           <Pencil
@@ -148,7 +149,7 @@ const Table = () => {
           onClick={() => setShowAddModal(true)}
           disabled={loading}
         >
-          <Plus size={18} className="me-2" /> Add News
+          <Plus size={18} className="me-2" /> Add FAQ
         </button>
       </div>
 
@@ -172,7 +173,7 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="News List"
+          title="FAQ List"
           columns={columns}
           data={filteredData}
           pagination
@@ -182,7 +183,7 @@ const Table = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search News Content..."
+              placeholder="Search Question..."
               style={{ width: "250px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -191,7 +192,7 @@ const Table = () => {
         />
       )}
 
-      {/* EDIT MODAL */}
+      {/* Edit FAQ Modal */}
       {showEditModal && (
         <EditFieldModal
           show={showEditModal}
@@ -201,7 +202,7 @@ const Table = () => {
         />
       )}
 
-      {/* ADD MODAL */}
+      {/* Add FAQ Modal */}
       {showAddModal && (
         <AddFieldModal
           show={showAddModal}

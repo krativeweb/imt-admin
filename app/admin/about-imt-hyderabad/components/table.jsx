@@ -8,22 +8,27 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true); // ✅ loader state
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
+
   const baseURL = process.env.NEXT_PUBLIC_API_URL;
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
   // Load pages from backend
   const fetchPages = async () => {
     try {
+      setLoading(true);
       const res = await api.get(
         `/api/mandatory?page_parent=About-IMT-Hyderabad`
       );
-
       setData(res.data.pages || []);
     } catch (error) {
       console.error("Error fetching pages:", error);
+    } finally {
+      setLoading(false); // ✅ stop loader
     }
   };
 
@@ -48,7 +53,7 @@ const Table = () => {
       });
 
       if (res.data.success) {
-        await fetchPages(); // Refresh table
+        await fetchPages();
         closeEditModal();
       }
     } catch (err) {
@@ -81,11 +86,10 @@ const Table = () => {
         if (!row.banner_image)
           return <span className="text-muted">No Image</span>;
 
-        // This handles ALL cases: backslashes, leading slashes, double slashes
         const imagePath = row.banner_image
-          .replace(/\\/g, "/") // Fix Windows backslashes
-          .replace(/^\/+/g, "") // Remove leading slashes
-          .replace(/^uploads\//, ""); // Remove "uploads/" if accidentally duplicated
+          .replace(/\\/g, "/")
+          .replace(/^\/+/g, "")
+          .replace(/^uploads\//, "");
 
         const finalUrl = `${baseURL}/uploads/${imagePath}`;
 
@@ -101,12 +105,6 @@ const Table = () => {
       },
       style: { textAlign: "center" },
       width: "140px",
-    },
-    {
-      name: "Banner Text",
-      selector: (row) => row.banner_text || "-",
-      sortable: true,
-      style: { textAlign: "center" },
     },
     {
       name: "Action",
@@ -126,27 +124,47 @@ const Table = () => {
 
   return (
     <div className="p-2">
-      <DataTable
-        title="About IMT Hyderabad Pages"
-        columns={columns}
-        data={filteredData}
-        highlightOnHover
-        pagination
-        onChangePage={(page) => setCurrentPage(page - 1)}
-        onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
-        subHeader
-        subHeaderAlign="right"
-        subHeaderComponent={
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search..."
-            style={{ width: "250px" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
-      />
+      {loading ? (
+        /* 🔄 Bootstrap Loader */
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "300px" }}
+        >
+          <div
+            className="spinner-border"
+            role="status"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <DataTable
+          title="About IMT Hyderabad Pages"
+          columns={columns}
+          data={filteredData}
+          highlightOnHover
+          pagination
+          onChangePage={(page) => setCurrentPage(page - 1)}
+          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
+          subHeader
+          subHeaderAlign="right"
+          subHeaderComponent={
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              style={{ width: "250px" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          }
+        />
+      )}
 
       {showEditModal && (
         <EditfieldModal

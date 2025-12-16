@@ -9,10 +9,10 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true); // ✅ loader
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
-
   const [showAddModal, setShowAddModal] = useState(false);
 
   /* =====================================
@@ -20,10 +20,13 @@ const Table = () => {
   ===================================== */
   const fetchFaqs = async () => {
     try {
+      setLoading(true);
       const res = await api.get(`/api/faq/all`);
       setData(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching FAQs:", error);
+    } finally {
+      setLoading(false); // ✅ stop loader
     }
   };
 
@@ -99,7 +102,6 @@ const Table = () => {
 
   /* =====================================
         TABLE COLUMNS
-        (NO ANSWER COLUMN)
   ===================================== */
   const columns = [
     {
@@ -140,29 +142,50 @@ const Table = () => {
         <button
           className="btn btn-success"
           onClick={() => setShowAddModal(true)}
+          disabled={loading}
         >
           <Plus size={18} className="me-2" /> Add FAQ
         </button>
       </div>
 
-      <DataTable
-        title="FAQ List"
-        columns={columns}
-        data={filteredData}
-        pagination
-        highlightOnHover
-        subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search Question..."
-            style={{ width: "250px" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
-      />
+      {loading ? (
+        /* 🔄 Loader */
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "300px" }}
+        >
+          <div
+            className="spinner-border"
+            role="status"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <DataTable
+          title="FAQ List"
+          columns={columns}
+          data={filteredData}
+          pagination
+          highlightOnHover
+          subHeader
+          subHeaderComponent={
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Question..."
+              style={{ width: "250px" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          }
+        />
+      )}
 
       {/* Edit FAQ Modal */}
       {showEditModal && (

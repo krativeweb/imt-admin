@@ -17,6 +17,8 @@ const AddFacultyModal = ({ show, onClose, onSave }) => {
     phone: "",
     linkedin_url: "",
     google_scholar_url: "",
+    faculty_image: null,
+    qr_image: null,
     brief: "",
     education: "",
     teaching_research_interests: "",
@@ -30,7 +32,31 @@ const AddFacultyModal = ({ show, onClose, onSave }) => {
   --------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[name];
+        return updated;
+      });
+    }
+  };
+
+  /* ---------------------------------
+     FILE HANDLER
+  --------------------------------- */
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files[0],
+    }));
 
     if (errors[name]) {
       setErrors((prev) => {
@@ -51,13 +77,23 @@ const AddFacultyModal = ({ show, onClose, onSave }) => {
     if (!formData.designation.trim())
       newErrors.designation = "Designation is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.faculty_image)
+      newErrors.faculty_image = "Faculty image is required";
+    if (!formData.qr_image)
+      newErrors.qr_image = "QR image is required";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    onSave(formData);
+    // Prepare FormData for API
+    const payload = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      payload.append(key, value);
+    });
+
+    onSave(payload);
     onClose();
   };
 
@@ -105,11 +141,13 @@ const AddFacultyModal = ({ show, onClose, onSave }) => {
     >
       <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
+          {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">Add Faculty</h5>
             <button className="btn-close" onClick={onClose} />
           </div>
 
+          {/* BODY */}
           <div className="modal-body">
             {/* BASIC DETAILS */}
             <div className="row">
@@ -210,40 +248,49 @@ const AddFacultyModal = ({ show, onClose, onSave }) => {
               </div>
 
               <div className="col-md-4 mb-4">
-                <label className="form-label fw-semibold">Phone</label>
+                <label className="form-label fw-semibold">
+                  Faculty Image *
+                </label>
                 <input
-                  type="text"
-                  name="phone"
-                  className="form-control"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  type="file"
+                  name="faculty_image"
+                  accept="image/*"
+                  className={`form-control ${
+                    errors.faculty_image ? "is-invalid" : ""
+                  }`}
+                  onChange={handleFileChange}
                 />
+                {formData.faculty_image && (
+                  <img
+                    src={URL.createObjectURL(formData.faculty_image)}
+                    alt="Faculty Preview"
+                    className="img-thumbnail mt-2"
+                    style={{ maxHeight: "120px" }}
+                  />
+                )}
               </div>
 
               <div className="col-md-4 mb-4">
                 <label className="form-label fw-semibold">
-                  LinkedIn URL
+                  QR Image *
                 </label>
                 <input
-                  type="url"
-                  name="linkedin_url"
-                  className="form-control"
-                  value={formData.linkedin_url}
-                  onChange={handleChange}
+                  type="file"
+                  name="qr_image"
+                  accept="image/*"
+                  className={`form-control ${
+                    errors.qr_image ? "is-invalid" : ""
+                  }`}
+                  onChange={handleFileChange}
                 />
-              </div>
-
-              <div className="col-md-4 mb-4">
-                <label className="form-label fw-semibold">
-                  Google Scholar URL
-                </label>
-                <input
-                  type="url"
-                  name="google_scholar_url"
-                  className="form-control"
-                  value={formData.google_scholar_url}
-                  onChange={handleChange}
-                />
+                {formData.qr_image && (
+                  <img
+                    src={URL.createObjectURL(formData.qr_image)}
+                    alt="QR Preview"
+                    className="img-thumbnail mt-2"
+                    style={{ maxHeight: "120px" }}
+                  />
+                )}
               </div>
             </div>
 
@@ -283,6 +330,7 @@ const AddFacultyModal = ({ show, onClose, onSave }) => {
             ))}
           </div>
 
+          {/* FOOTER */}
           <div className="modal-footer">
             <button className="btn btn-secondary" onClick={onClose}>
               Cancel

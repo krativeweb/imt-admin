@@ -9,16 +9,24 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true); // ✅ loader
+
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
+  /* -----------------------------
+        FETCH GALLERY
+  ------------------------------ */
   const fetchGallery = async () => {
     try {
+      setLoading(true);
       const res = await api.get(`/api/photo-gallery`);
       setData(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching gallery:", error);
+    } finally {
+      setLoading(false); // ✅ stop loader
     }
   };
 
@@ -36,6 +44,9 @@ const Table = () => {
     setEditRow(null);
   };
 
+  /* -----------------------------
+        UPDATE PHOTO
+  ------------------------------ */
   const handleEditSave = async (updatedData) => {
     try {
       const formData = new FormData();
@@ -50,6 +61,9 @@ const Table = () => {
     }
   };
 
+  /* -----------------------------
+        DELETE PHOTO
+  ------------------------------ */
   const handleDelete = async (id) => {
     try {
       await api.delete(`/api/photo-gallery/delete/${id}`);
@@ -59,25 +73,33 @@ const Table = () => {
     }
   };
 
-const handleAddSave = async (newData) => {
-  try {
-    const formData = new FormData();
-    formData.append("image", newData.images);
-    formData.append("content", newData.content || "");
+  /* -----------------------------
+        ADD PHOTO
+  ------------------------------ */
+  const handleAddSave = async (newData) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", newData.images);
+      formData.append("content", newData.content || "");
 
-    await api.post(`/api/photo-gallery/add`, formData);
-    fetchGallery(); // ⬅ refresh list immediately
-    setShowAddModal(false);
-  } catch (err) {
-    console.error("Add failed:", err);
-  }
-};
+      await api.post(`/api/photo-gallery/add`, formData);
+      fetchGallery();
+      setShowAddModal(false);
+    } catch (err) {
+      console.error("Add failed:", err);
+    }
+  };
 
-
+  /* -----------------------------
+        SEARCH FILTER
+  ------------------------------ */
   const filteredData = data.filter((item) =>
     (item.content || "").toLowerCase().includes(search.toLowerCase())
   );
 
+  /* -----------------------------
+        TABLE COLUMNS
+  ------------------------------ */
   const columns = [
     {
       name: "SL",
@@ -119,29 +141,53 @@ const handleAddSave = async (newData) => {
   return (
     <div className="p-2">
       <div className="d-flex justify-content-end mb-2">
-        <button className="btn btn-success" onClick={() => setShowAddModal(true)}>
+        <button
+          className="btn btn-success"
+          onClick={() => setShowAddModal(true)}
+          disabled={loading}
+        >
           <Plus size={18} className="me-2" /> Add Photo
         </button>
       </div>
 
-      <DataTable
-        title="Photo Gallery"
-        columns={columns}
-        data={filteredData}
-        pagination
-        highlightOnHover
-        subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search Content..."
-            style={{ width: "250px" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
-      />
+      {loading ? (
+        /* 🔄 Loader */
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "300px" }}
+        >
+          <div
+            className="spinner-border"
+            role="status"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <DataTable
+          title="Photo Gallery"
+          columns={columns}
+          data={filteredData}
+          pagination
+          highlightOnHover
+          subHeader
+          subHeaderComponent={
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Content..."
+              style={{ width: "250px" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          }
+        />
+      )}
 
       {showEditModal && (
         <EditFieldModal

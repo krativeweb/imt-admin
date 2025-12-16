@@ -1,18 +1,19 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil, Plus, Trash2 } from "lucide-react";
-import EditfieldModal from "./modals/editfield";
-import AddFieldModal from "./modals/addfield";
+import EditFacultyModal from "./modals/editfield";
+import AddFacultyModal from "./modals/addfield";
 import api from "../../lib/api";
 
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true); // ✅ loader
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
-
   const [showAddModal, setShowAddModal] = useState(false);
 
   const baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -22,17 +23,20 @@ const Table = () => {
   /* ---------------------------------
      FETCH ALL FACULTY
   --------------------------------- */
-  const fetchPages = async () => {
+  const fetchFaculty = async () => {
     try {
-      const res = await api.get("/api/faculty-seo");
+      setLoading(true);
+      const res = await api.get("/api/faculty");
       setData(res.data || []);
     } catch (error) {
       console.error("Error fetching faculty:", error);
+    } finally {
+      setLoading(false); // ✅ stop loader
     }
   };
 
   useEffect(() => {
-    fetchPages();
+    fetchFaculty();
   }, []);
 
   /* ---------------------------------
@@ -51,33 +55,32 @@ const Table = () => {
   /* ---------------------------------
      ADD FACULTY
   --------------------------------- */
-  const handleAddSave = async (newData) => {
+  const handleAddSave = async (formData) => {
     try {
-      await api.post("/api/faculty/add", newData);
-      fetchPages();
+      await api.post("/api/faculty", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      await fetchFaculty();
       setShowAddModal(false);
     } catch (err) {
-      console.error("Add failed:", err);
+      console.error("Add faculty failed:", err);
     }
   };
 
   /* ---------------------------------
      UPDATE FACULTY
   --------------------------------- */
-  const handleEditSave = async (updatedData) => {
+  const handleEditSave = async (formData) => {
     try {
-      const res = await api.put(
-        `/api/faculty-seo/${editRow._id}`,
-        updatedData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      await api.put(`/api/faculty/${editRow._id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      if (res.data?.data) {
-        fetchPages();
-        closeEditModal();
-      }
+      await fetchFaculty();
+      closeEditModal();
     } catch (err) {
-      console.error("Update failed:", err);
+      console.error("Update faculty failed:", err);
     }
   };
 
@@ -86,16 +89,15 @@ const Table = () => {
   --------------------------------- */
   const handleDelete = async (row) => {
     const confirmDelete = window.confirm(
-      `Are you sure you want to delete faculty "${row.page_title}"?`
+      `Are you sure you want to delete faculty "${row.name}"?`
     );
-
     if (!confirmDelete) return;
 
     try {
-      await api.delete(`/api/faculty-seo/${row._id}`);
-      fetchPages();
+      await api.delete(`/api/faculty/${row._id}`);
+      await fetchFaculty();
     } catch (err) {
-      console.error("Delete failed:", err);
+      console.error("Delete faculty failed:", err);
     }
   };
 
@@ -104,7 +106,7 @@ const Table = () => {
   --------------------------------- */
   const filteredData = data.filter(
     (item) =>
-      item.page_title?.toLowerCase().includes(search.toLowerCase()) ||
+      item.name?.toLowerCase().includes(search.toLowerCase()) ||
       item.designation?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -128,22 +130,19 @@ const Table = () => {
             color: "#6c757d",
           }}
         >
-          {row.page_title?.charAt(0)}
+          {row.name?.charAt(0)}
         </div>
       );
     }
 
     const imagePath = row.faculty_image
       .replace(/\\/g, "/")
-      .replace(/^\/+/g, "")
-      .replace(/^uploads\//, "");
-
-    const finalUrl = `${baseURL}/uploads/${imagePath}`;
+      .replace(/^\/+/g, "");
 
     return (
       <img
-        src={finalUrl}
-        alt={row.page_title}
+        src={`${baseURL}/${imagePath}`}
+        alt={row.name}
         width="45"
         height="45"
         style={{
@@ -173,7 +172,7 @@ const Table = () => {
     },
     {
       name: "Faculty Name",
-      selector: (row) => row.page_title,
+      selector: (row) => row.name,
       sortable: true,
       center: true,
     },
@@ -214,49 +213,70 @@ const Table = () => {
         <button
           className="btn btn-primary d-flex align-items-center gap-2"
           onClick={() => setShowAddModal(true)}
+          disabled={loading}
         >
           <Plus size={16} />
           Add Faculty
         </button>
       </div>
 
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        highlightOnHover
-        pagination
-        onChangePage={(page) => setCurrentPage(page - 1)}
-        onChangeRowsPerPage={(newPerPage) =>
-          setRowsPerPage(newPerPage)
-        }
-        subHeader
-        subHeaderAlign="right"
-        subHeaderComponent={
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search faculty..."
-            style={{ width: "250px" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
-      />
+      {loading ? (
+        /* 🔄 Loader */
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "300px" }}
+        >
+          <div
+            className="spinner-border"
+            role="status"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <DataTable
+          columns={columns}
+          data={filteredData}
+          highlightOnHover
+          pagination
+          onChangePage={(page) => setCurrentPage(page - 1)}
+          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
+          subHeader
+          subHeaderAlign="right"
+          subHeaderComponent={
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search faculty..."
+              style={{ width: "250px" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          }
+        />
+      )}
 
-      {showEditModal && (
-        <EditfieldModal
+      {/* ADD MODAL */}
+      {showAddModal && (
+        <AddFacultyModal
+          show={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onSave={handleAddSave}
+        />
+      )}
+
+      {/* EDIT MODAL */}
+      {showEditModal && editRow && (
+        <EditFacultyModal
           show={showEditModal}
           onClose={closeEditModal}
           field={editRow}
           onSave={handleEditSave}
-        />
-      )}
-
-      {showAddModal && (
-        <AddFieldModal
-          show={showAddModal}
-          onClose={() => setShowAddModal(false)}
-          onSave={handleAddSave}
         />
       )}
     </div>

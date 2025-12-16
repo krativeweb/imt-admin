@@ -42,8 +42,8 @@ module.exports = [
     active: "",
   },
 
-    {
-  id: 7,
+  {
+    id: 7,
     name: "Manage Faculty",
     icon: "la-user-tie",
     children: [
@@ -61,6 +61,46 @@ module.exports = [
         id: "7-3",
         name: "Faculty Departments",
         routePath: "/admin/faculty/departments",
+      },
+    ],
+  },
+
+  {
+    id: 8,
+    name: "Manage LRC",
+    icon: "la-book",
+    children: [
+      {
+        id: "8-1",
+        name: "LRC Page Details",
+        icon: "la-file-signature",
+        routePath: "/admin/lrc-page-details",
+      },
+      {
+        id: "8-2",
+        name: "List LRC FAQs",
+        icon: "la-question-circle",
+        routePath: "/admin/lrc-faqs",
+      },
+    ],
+  },
+
+  {
+    id: 9,
+    name: "Manage Awards && Recognitions",
+    icon: "la-book",
+    children: [
+      {
+        id: "9-1",
+        name: "Page Seo Settings",
+        icon: "la-file-signature",
+        routePath: "/admin/award-seo-settings",
+      },
+      {
+        id: "9-2",
+        name: "List LRC FAQs",
+        icon: "la-question-circle",
+        routePath: "/admin/lrc-faqs",
       },
     ],
   },

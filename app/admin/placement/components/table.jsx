@@ -8,11 +8,11 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true); // ✅ loader
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
 
-  const baseURL = process.env.NEXT_PUBLIC_API_URL;
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -21,10 +21,13 @@ const Table = () => {
   ----------------------------------------- */
   const fetchPages = async () => {
     try {
+      setLoading(true);
       const res = await api.get(`/api/placement`);
       setData(res.data.data || []);
     } catch (error) {
       console.error("Error fetching placement pages:", error);
+    } finally {
+      setLoading(false); // ✅ stop loader
     }
   };
 
@@ -53,13 +56,11 @@ const Table = () => {
       const res = await api.put(
         `/api/placement/edit/${editRow._id}`,
         updatedData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (res.data.msg) {
-        await fetchPages(); // Refresh list
+        await fetchPages();
         closeEditModal();
       }
     } catch (err) {
@@ -92,7 +93,6 @@ const Table = () => {
       sortable: true,
       style: { textAlign: "center" },
     },
-  
     {
       name: "Action",
       cell: (row) => (
@@ -109,32 +109,49 @@ const Table = () => {
     },
   ];
 
-  /* -----------------------------------------
-        FINAL RETURN
-  ----------------------------------------- */
   return (
     <div className="p-2">
-      <DataTable
-        title="Placement Pages"
-        columns={columns}
-        data={filteredData}
-        highlightOnHover
-        pagination
-        onChangePage={(page) => setCurrentPage(page - 1)}
-        onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
-        subHeader
-        subHeaderAlign="right"
-        subHeaderComponent={
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search..."
-            style={{ width: "250px" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
-      />
+      {loading ? (
+        /* 🔄 Loader */
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "300px" }}
+        >
+          <div
+            className="spinner-border"
+            role="status"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <DataTable
+          title="Placement Pages"
+          columns={columns}
+          data={filteredData}
+          highlightOnHover
+          pagination
+          onChangePage={(page) => setCurrentPage(page - 1)}
+          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
+          subHeader
+          subHeaderAlign="right"
+          subHeaderComponent={
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              style={{ width: "250px" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          }
+        />
+      )}
 
       {showEditModal && (
         <EditfieldModal

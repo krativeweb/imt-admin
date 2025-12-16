@@ -7,35 +7,32 @@ import api from "../../lib/api";
 
 const Table = () => {
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true); // ✅ loader
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
 
   const baseURL = process.env.NEXT_PUBLIC_API_URL;
-  const [currentPage, setCurrentPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* ---------------------------------
-     FETCH ALL FACULTY SEO PAGES
+     FETCH LRC PAGE DATA
   --------------------------------- */
-  const fetchPages = async () => {
+  const fetchLrcPage = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/faculty-seo");
+      const res = await api.get("/api/lrc-page");
 
-      // backend returns array directly
-      setData(res.data || []);
+      // backend returns single object → convert to array
+      setData(res.data ? [res.data] : []);
     } catch (error) {
-      console.error("Error fetching pages:", error);
+      console.error("Error fetching LRC page:", error);
     } finally {
       setLoading(false); // ✅ stop loader
     }
   };
 
   useEffect(() => {
-    fetchPages();
+    fetchLrcPage();
   }, []);
 
   /* ---------------------------------
@@ -52,18 +49,16 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     UPDATE PAGE (ID BASED)
+     UPDATE LRC PAGE
   --------------------------------- */
   const handleEditSave = async (updatedData) => {
     try {
-      const res = await api.put(
-        `/api/faculty-seo/${editRow._id}`,
-        updatedData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const res = await api.put(`/api/lrc-page/${editRow._id}`, updatedData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (res.data?.data) {
-        await fetchPages();
+        await fetchLrcPage();
         closeEditModal();
       }
     } catch (err) {
@@ -72,34 +67,23 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     SEARCH FILTER
-  --------------------------------- */
-  const filteredData = data.filter(
-    (item) =>
-      item.page_title?.toLowerCase().includes(search.toLowerCase()) ||
-      item.banner_text?.toLowerCase().includes(search.toLowerCase())
-  );
-
-  /* ---------------------------------
      TABLE COLUMNS
   --------------------------------- */
   const columns = [
     {
-      name: "SL No",
-      selector: (row, index) => index + 1 + currentPage * rowsPerPage,
-      width: "80px",
+      name: "Page Title",
+      selector: (row) => row.page_title,
       center: true,
     },
     {
-      name: "Page Title",
-      selector: (row) => row.page_title,
-      sortable: true,
+      name: "Page Slug",
+      selector: (row) => row.page_slug,
       center: true,
     },
     {
       name: "Banner Image",
       center: true,
-      width: "150px",
+      width: "160px",
       cell: (row) => {
         if (!row.banner_image) {
           return <span className="text-muted">No Image</span>;
@@ -107,18 +91,19 @@ const Table = () => {
 
         const imagePath = row.banner_image
           .replace(/\\/g, "/")
-          .replace(/^\/+/g, "")
-          .replace(/^uploads\//, "");
-
-        const finalUrl = `${baseURL}/uploads/${imagePath}`;
+          .replace(/^\/+/g, "");
 
         return (
           <img
-            src={finalUrl}
-            alt={row.page_title}
-            width="70"
-            height="40"
-            style={{ objectFit: "cover", borderRadius: "6px" }}
+            src={`${baseURL}/${imagePath}`}
+            alt="Banner"
+            width="90"
+            height="45"
+            style={{
+              objectFit: "cover",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+            }}
           />
         );
       },
@@ -126,6 +111,7 @@ const Table = () => {
     {
       name: "Action",
       center: true,
+      width: "100px",
       cell: (row) => (
         <Pencil
           size={20}
@@ -140,10 +126,10 @@ const Table = () => {
   return (
     <div className="p-2">
       {loading ? (
-        /* 🔄 Bootstrap Loader */
+        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
-          style={{ minHeight: "300px" }}
+          style={{ minHeight: "250px" }}
         >
           <div
             className="spinner-border"
@@ -159,29 +145,15 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="Faculty SEO Settings"
+          title="LRC Page SEO & Content"
           columns={columns}
-          data={filteredData}
+          data={data}
           highlightOnHover
-          pagination
-          onChangePage={(page) => setCurrentPage(page - 1)}
-          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
-          subHeader
-          subHeaderAlign="right"
-          subHeaderComponent={
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search..."
-              style={{ width: "250px" }}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          }
+          pagination={false} // only one row
         />
       )}
 
-      {showEditModal && (
+      {showEditModal && editRow && (
         <EditfieldModal
           show={showEditModal}
           onClose={closeEditModal}

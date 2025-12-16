@@ -14,28 +14,27 @@ const Table = () => {
   const [editRow, setEditRow] = useState(null);
 
   const baseURL = process.env.NEXT_PUBLIC_API_URL;
-  const [currentPage, setCurrentPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* ---------------------------------
-     FETCH ALL FACULTY SEO PAGES
+     FETCH AWARDS & RECOGNITION SEO
   --------------------------------- */
-  const fetchPages = async () => {
+  const fetchAwardsSeo = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/faculty-seo");
+      const res = await api.get("/api/awards-recognition-seo");
 
-      // backend returns array directly
-      setData(res.data || []);
+      // API returns single object → convert to array
+      const seoData = res.data?.data ? [res.data.data] : [];
+      setData(seoData);
     } catch (error) {
-      console.error("Error fetching pages:", error);
+      console.error("Error fetching awards SEO:", error);
     } finally {
       setLoading(false); // ✅ stop loader
     }
   };
 
   useEffect(() => {
-    fetchPages();
+    fetchAwardsSeo();
   }, []);
 
   /* ---------------------------------
@@ -52,18 +51,18 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     UPDATE PAGE (ID BASED)
+     UPDATE SEO
   --------------------------------- */
-  const handleEditSave = async (updatedData) => {
+  const handleEditSave = async (formData) => {
     try {
       const res = await api.put(
-        `/api/faculty-seo/${editRow._id}`,
-        updatedData,
+        `/api/awards-recognition-seo/${editRow._id}`,
+        formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (res.data?.data) {
-        await fetchPages();
+        await fetchAwardsSeo();
         closeEditModal();
       }
     } catch (err) {
@@ -74,10 +73,8 @@ const Table = () => {
   /* ---------------------------------
      SEARCH FILTER
   --------------------------------- */
-  const filteredData = data.filter(
-    (item) =>
-      item.page_title?.toLowerCase().includes(search.toLowerCase()) ||
-      item.banner_text?.toLowerCase().includes(search.toLowerCase())
+  const filteredData = data.filter((item) =>
+    item.page_title?.toLowerCase().includes(search.toLowerCase())
   );
 
   /* ---------------------------------
@@ -86,14 +83,13 @@ const Table = () => {
   const columns = [
     {
       name: "SL No",
-      selector: (row, index) => index + 1 + currentPage * rowsPerPage,
+      selector: (_, index) => index + 1,
       width: "80px",
       center: true,
     },
     {
       name: "Page Title",
       selector: (row) => row.page_title,
-      sortable: true,
       center: true,
     },
     {
@@ -107,14 +103,11 @@ const Table = () => {
 
         const imagePath = row.banner_image
           .replace(/\\/g, "/")
-          .replace(/^\/+/g, "")
-          .replace(/^uploads\//, "");
-
-        const finalUrl = `${baseURL}/uploads/${imagePath}`;
+          .replace(/^\/+/g, "");
 
         return (
           <img
-            src={finalUrl}
+            src={`${baseURL}/${imagePath}`}
             alt={row.page_title}
             width="70"
             height="40"
@@ -140,10 +133,10 @@ const Table = () => {
   return (
     <div className="p-2">
       {loading ? (
-        /* 🔄 Bootstrap Loader */
+        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
-          style={{ minHeight: "300px" }}
+          style={{ minHeight: "250px" }}
         >
           <div
             className="spinner-border"
@@ -159,13 +152,11 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="Faculty SEO Settings"
+          title="Awards & Recognition SEO"
           columns={columns}
           data={filteredData}
           highlightOnHover
-          pagination
-          onChangePage={(page) => setCurrentPage(page - 1)}
-          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
+          pagination={false} // single record
           subHeader
           subHeaderAlign="right"
           subHeaderComponent={

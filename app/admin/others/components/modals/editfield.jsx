@@ -15,11 +15,11 @@ const pageConfig = {
     label: "Add Photo Gallery Images",
     url: "/admin/photo-gallery",
   },
-  "news": {
+  news: {
     label: "Add News Articles",
     url: "/admin/news",
   },
-    "faqs": {
+  faqs: {
     label: "Add FAQs",
     url: "/admin/faqs",
   },
@@ -471,7 +471,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                 <>
                   {/* TinyMCE Editor with Source Code Button */}
                   <label className="form-label fw-semibold d-block mb-2">
-                    Page Content
+                   About LRC
                   </label>
                   <Editor
                     apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
