@@ -98,9 +98,15 @@ module.exports = [
       },
       {
         id: "9-2",
-        name: "List LRC FAQs",
+        name: "Institute Awards",
         icon: "la-question-circle",
-        routePath: "/admin/lrc-faqs",
+        routePath: "/admin/institute-awards",
+      },
+            {
+        id: "9-3",
+        name: "Faculty Awards",
+        icon: "la-question-circle",
+        routePath: "/admin/faculty-awards",
       },
     ],
   },
