@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil } from "lucide-react";
-import EditUspModal from "./modals/Editfield";
+import EditUspModal from "./modals/editfield";
 import api from "../../lib/api";
 
 const UspTable = () => {
