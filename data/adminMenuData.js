@@ -102,7 +102,7 @@ module.exports = [
         icon: "la-question-circle",
         routePath: "/admin/institute-awards",
       },
-            {
+      {
         id: "9-3",
         name: "Faculty Awards",
         icon: "la-question-circle",
@@ -110,4 +110,40 @@ module.exports = [
       },
     ],
   },
+
+  {
+    id: 10,
+    name: "Manage Home-Settings",
+    icon: "la-book",
+    children: [
+      {
+        id: "10-1",
+        name: "Page Seo Settings",
+        icon: "la-file-signature",
+        routePath: "/admin/home-settings",
+      },
+      {
+        id: "10-2",
+        name: "About Us settings",
+        icon: "la-question-circle",
+        routePath: "/admin/about-us",
+      },
+      {
+        id: "10-3",
+        name: "Manage Usp Section",
+        icon: "la-question-circle",
+        routePath: "/admin/usp-section",
+      },
+      {
+        id: "10-4",
+        name: "Manage Research Section",
+        icon: "la-question-circle",
+        routePath: "/admin/research-infocus",
+      },
+
+     
+    ],
+  },
+
+  
 ];

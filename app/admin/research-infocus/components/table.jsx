@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil, Trash2, Plus } from "lucide-react";
@@ -10,34 +9,34 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // ✅ loader
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  /* =====================================
-        FETCH ALL FACULTY AWARDS
-  ===================================== */
-  const fetchFacultyAwards = async () => {
+  /* -----------------------------
+        FETCH NEWS DATA
+  ------------------------------ */
+  const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/faculty-awards");
+      const res = await api.get(`/api/news`);
       setData(res.data?.data || []);
     } catch (error) {
-      console.error("Error fetching faculty awards:", error);
+      console.error("Error fetching news:", error);
     } finally {
-      setLoading(false);
+      setLoading(false); // ✅ stop loader
     }
   };
 
   useEffect(() => {
-    fetchFacultyAwards();
+    fetchNews();
   }, []);
 
-  /* =====================================
-        OPEN / CLOSE EDIT
-  ===================================== */
+  /* -----------------------------
+        OPEN / CLOSE MODALS
+  ------------------------------ */
   const openEditModal = (row) => {
     setEditRow(row);
     setShowEditModal(true);
@@ -48,70 +47,62 @@ const Table = () => {
     setEditRow(null);
   };
 
-  /* =====================================
-        UPDATE FACULTY AWARD
-  ===================================== */
-const handleEditSave = async (data) => {
-  try {
-    await api.put(`/api/usp/${editRow._id}`, {
-      content: data.content,
-    });
-
-    fetchUsp();
-    closeEditModal();
-  } catch (err) {
-    console.error("USP update failed:", err);
-  }
-};
-
-
-  /* =====================================
-        DELETE FACULTY AWARD (SOFT)
-  ===================================== */
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this faculty award?"
-    );
-    if (!confirmDelete) return;
-
+  /* -----------------------------
+        SAVE EDIT NEWS
+  ------------------------------ */
+  const handleEditSave = async (updatedData) => {
     try {
-      await api.delete(`/api/faculty-awards/${id}`);
-      fetchFacultyAwards();
+      const formData = new FormData();
+      if (updatedData.images) formData.append("images", updatedData.images);
+      formData.append("content", updatedData.content || "");
+
+      await api.put(`/api/news/edit/${editRow._id}`, formData);
+      fetchNews();
+      closeEditModal();
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
+  };
+
+  /* -----------------------------
+        DELETE NEWS
+  ------------------------------ */
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/api/news/delete/${id}`);
+      fetchNews();
     } catch (error) {
       console.error("Delete failed:", error);
     }
   };
 
-  /* =====================================
-        ADD FACULTY AWARD
-  ===================================== */
+  /* -----------------------------
+        ADD NEWS
+  ------------------------------ */
   const handleAddSave = async (newData) => {
     try {
       const formData = new FormData();
-      formData.append("image", newData.image);
-      formData.append("content", newData.content);
+      formData.append("images", newData.images);
+      formData.append("content", newData.content || "");
 
-      await api.post("/api/faculty-awards", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      fetchFacultyAwards();
+      await api.post(`/api/news/add`, formData);
+      fetchNews();
       setShowAddModal(false);
     } catch (err) {
       console.error("Add failed:", err);
     }
   };
 
-  /* =====================================
-        SEARCH FILTER (CONTENT)
-  ===================================== */
+  /* -----------------------------
+        SEARCH FILTER
+  ------------------------------ */
   const filteredData = data.filter((item) =>
     (item.content || "").toLowerCase().includes(search.toLowerCase())
   );
 
-  /* =====================================
+  /* -----------------------------
         TABLE COLUMNS
-  ===================================== */
+  ------------------------------ */
   const columns = [
     {
       name: "SL",
@@ -120,32 +111,16 @@ const handleEditSave = async (data) => {
     },
     {
       name: "Image",
-      width: "120px",
-      cell: (row) =>
-        row.image ? (
-          <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
-            alt="Faculty Award"
-            style={{
-              width: "70px",
-              height: "45px",
-              objectFit: "cover",
-              borderRadius: "4px",
-            }}
-          />
-        ) : (
-          "-"
-        ),
-    },
-    {
-      name: "Content",
-      selector: (row) =>
-        row.content?.replace(/<[^>]*>?/gm, "").substring(0, 80) + "...",
-      wrap: true,
+      cell: (row) => (
+        <img
+          src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
+          alt="News"
+          style={{ width: "80px" }}
+        />
+      ),
     },
     {
       name: "Action",
-      width: "150px",
       cell: (row) => (
         <>
           <Pencil
@@ -173,11 +148,12 @@ const handleEditSave = async (data) => {
           onClick={() => setShowAddModal(true)}
           disabled={loading}
         >
-          <Plus size={18} className="me-2" /> Add Faculty Award
+          <Plus size={18} className="me-2" /> Add News
         </button>
       </div>
 
       {loading ? (
+        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "300px" }}
@@ -185,14 +161,18 @@ const handleEditSave = async (data) => {
           <div
             className="spinner-border"
             role="status"
-            style={{ width: "3rem", height: "3rem", color: "#D4AA2D" }}
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
           >
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       ) : (
         <DataTable
-          title="Faculty Awards"
+          title="News List"
           columns={columns}
           data={filteredData}
           pagination
@@ -202,7 +182,7 @@ const handleEditSave = async (data) => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search content..."
+              placeholder="Search News Content..."
               style={{ width: "250px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -211,7 +191,7 @@ const handleEditSave = async (data) => {
         />
       )}
 
-      {/* Edit Modal */}
+      {/* EDIT MODAL */}
       {showEditModal && (
         <EditFieldModal
           show={showEditModal}
@@ -221,7 +201,7 @@ const handleEditSave = async (data) => {
         />
       )}
 
-      {/* Add Modal */}
+      {/* ADD MODAL */}
       {showAddModal && (
         <AddFieldModal
           show={showAddModal}
