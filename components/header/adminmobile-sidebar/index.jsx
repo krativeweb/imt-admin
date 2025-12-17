@@ -2,7 +2,6 @@
 
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import mobileMenuData from "../../../data/adminMobilemenudata";
-/* import SidebarFooter from "./SidebarFooter"; */
 import SidebarHeader from "./SidebarHeader";
 import {
   isActiveLink,
@@ -10,7 +9,7 @@ import {
 } from "../../../utils/linkActiveChecker";
 import { usePathname, useRouter } from "next/navigation";
 
-const Index = () => {
+const MobileMenu = () => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -21,68 +20,76 @@ const Index = () => {
       id="offcanvasMenu"
       data-bs-scroll="true"
     >
+      {/* ================= HEADER ================= */}
       <SidebarHeader />
+
       <p
         style={{
           textAlign: "center",
-          fontWeight: "800",
+          fontWeight: 800,
           fontSize: "20px",
           marginTop: "20px",
-          backgroundColor: "#043389", // Set background color
-          color: "white", // Set text color
-          padding: "10px", // Optional: add some padding
-          borderRadius: "5px", // Optional: rounded corners
+          backgroundColor: "#043389",
+          color: "#fff",
+          padding: "10px",
+          borderRadius: "5px",
         }}
       >
         Admin Panel
       </p>
+
+      {/* ================= SIDEBAR ================= */}
       <Sidebar>
         <Menu>
           {mobileMenuData.map((item) =>
-            item.items && item.items.length > 0 ? (
+            item.children && item.children.length > 0 ? (
               <SubMenu
+                key={item.id}
+                label={item.name}
+                icon={
+                  item.icon ? <i className={`la ${item.icon}`} /> : null
+                }
                 className={
-                  isActiveParentChaild(item.items, pathname)
+                  isActiveParentChaild(item.children, pathname)
                     ? "menu-active"
                     : ""
                 }
-                label={item.label}
-                key={item.id}
               >
-                {item.items.map((menuItem, i) => (
+                {item.children.map((child) => (
                   <MenuItem
-                    onClick={() => router.push(menuItem.routePath)}
+                    key={child.id}
+                    onClick={() => router.push(child.routePath)}
                     className={
-                      isActiveLink(menuItem.routePath, pathname)
+                      isActiveLink(child.routePath, pathname)
                         ? "menu-active-link"
                         : ""
                     }
-                    key={i}
                   >
-                    {menuItem.label}
+                    {child.name}
                   </MenuItem>
                 ))}
               </SubMenu>
             ) : (
               <MenuItem
+                key={item.id}
+                icon={
+                  item.icon ? <i className={`la ${item.icon}`} /> : null
+                }
                 onClick={() => router.push(item.routePath)}
                 className={
                   isActiveLink(item.routePath, pathname)
                     ? "menu-active-link"
                     : ""
                 }
-                key={item.id}
               >
-                {item.label}
+                {item.name}
               </MenuItem>
             )
           )}
         </Menu>
       </Sidebar>
-
-      {/*  <SidebarFooter /> */}
     </div>
   );
 };
 
-export default Index;
+export default MobileMenu;
