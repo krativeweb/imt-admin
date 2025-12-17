@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const EditUspModal = ({ show, onClose, field, onSave }) => {
+const editfield = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     content: "",
@@ -116,5 +116,5 @@ const EditUspModal = ({ show, onClose, field, onSave }) => {
   );
 };
 
-export default EditUspModal;
+export default editfield;
  
