@@ -57,11 +57,7 @@ module.exports = [
         name: "List Faculty",
         routePath: "/admin/list-faculty",
       },
-      {
-        id: "7-3",
-        name: "Faculty Departments",
-        routePath: "/admin/faculty/departments",
-      },
+      
     ],
   },
 
