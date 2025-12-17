@@ -108,12 +108,7 @@ const Table = () => {
       style: { textAlign: "center" },
       width: "140px",
     },
-    {
-      name: "Banner Text",
-      selector: (row) => row.banner_text || "-",
-      sortable: true,
-      style: { textAlign: "center" },
-    },
+   
     {
       name: "Action",
       cell: (row) => (
