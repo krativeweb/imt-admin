@@ -1,53 +1,42 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import React, { useState } from "react";
 import { X } from "lucide-react";
 
-const EditResearchModal = ({ show, onClose, field, onSave }) => {
+const AddPlacementAllianceModal = ({ show, onClose, onSave }) => {
   const [errors, setErrors] = useState({});
   const [preview, setPreview] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
     image: null,
-    description: "",
   });
-
-  /* ---------------------------------
-     LOAD EXISTING DATA
-  --------------------------------- */
-  useEffect(() => {
-    if (field) {
-      setFormData({
-        title: field.title || "",
-        image: null, // replace only if new selected
-        description: field.description || "",
-      });
-
-      if (field.image) {
-        setPreview(
-          `${process.env.NEXT_PUBLIC_API_URL}/${field.image}`
-        );
-      }
-    }
-  }, [field]);
 
   /* ---------------------------------
      INPUT HANDLERS
   --------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
+  /* ---------------------------------
+     IMAGE HANDLER
+  --------------------------------- */
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     setFormData((prev) => ({ ...prev, image: file }));
     setPreview(URL.createObjectURL(file));
+
+    if (errors.image) {
+      setErrors((prev) => ({ ...prev, image: null }));
+    }
   };
 
   const removeImage = () => {
@@ -64,8 +53,8 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     if (!formData.title.trim())
       newErrors.title = "Title is required";
 
-    if (!formData.description.trim())
-      newErrors.description = "Description is required";
+    if (!formData.image)
+      newErrors.image = "Image is required";
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
@@ -73,6 +62,12 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     }
 
     onSave(formData);
+
+    setFormData({
+      title: "",
+      image: null,
+    });
+    setPreview(null);
     onClose();
   };
 
@@ -84,19 +79,19 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
       tabIndex="-1"
       style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
     >
-      <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div className="modal-dialog modal-lg modal-dialog-centered">
         <div className="modal-content">
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Research In Focus
+              Add Placement Alliance
             </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
 
           {/* BODY */}
           <div className="modal-body">
-            {/* Title */}
+            {/* TITLE */}
             <div className="mb-3">
               <label className="form-label fw-semibold">Title</label>
               <input
@@ -113,19 +108,22 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               )}
             </div>
 
-            {/* Image */}
+            {/* IMAGE */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Image <span className="text-muted">(optional)</span>
-              </label>
-
+              <label className="form-label fw-semibold">Image</label>
               <input
                 type="file"
                 accept="image/*"
-                className="form-control"
+                className={`form-control ${
+                  errors.image ? "is-invalid" : ""
+                }`}
                 onChange={handleImageChange}
               />
+              {errors.image && (
+                <small className="text-danger">{errors.image}</small>
+              )}
 
+              {/* PREVIEW */}
               {preview && (
                 <div className="mt-3 position-relative d-inline-block">
                   <img
@@ -150,50 +148,6 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                 </div>
               )}
             </div>
-
-            {/* Description */}
-            <label className="form-label fw-semibold d-block mb-2">
-              Description
-            </label>
-
-            <Editor
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-              value={formData.description}
-              init={{
-                height: 300,
-                menubar: true,
-                plugins: [
-                  "advlist",
-                  "autolink",
-                  "lists",
-                  "link",
-                  "image",
-                  "charmap",
-                  "preview",
-                  "anchor",
-                  "searchreplace",
-                  "visualblocks",
-                  "code",
-                  "fullscreen",
-                  "insertdatetime",
-                  "media",
-                  "table",
-                  "help",
-                  "wordcount",
-                ],
-                toolbar:
-                  "undo redo | formatselect | bold italic forecolor backcolor | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist | link image media table | code fullscreen",
-                branding: false,
-              }}
-              onEditorChange={(description) =>
-                setFormData((prev) => ({ ...prev, description }))
-              }
-            />
-            {errors.description && (
-              <small className="text-danger">{errors.description}</small>
-            )}
           </div>
 
           {/* FOOTER */}
@@ -201,8 +155,8 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
             <button className="btn btn-secondary" onClick={onClose}>
               Cancel
             </button>
-            <button className="btn btn-success" onClick={handleSave}>
-              Update Research
+            <button className="btn btn-primary" onClick={handleSave}>
+              Add Alliance
             </button>
           </div>
         </div>
@@ -211,4 +165,4 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   );
 };
 
-export default EditResearchModal;
+export default AddPlacementAllianceModal;

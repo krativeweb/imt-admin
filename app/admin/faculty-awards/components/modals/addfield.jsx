@@ -119,7 +119,7 @@ const AddFieldModal = ({ show, onClose, onSave }) => {
               Content
             </label>
             <Editor
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
               value={formData.content}
               init={{
                 height: 300,

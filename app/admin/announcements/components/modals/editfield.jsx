@@ -2,15 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { X } from "lucide-react";
 
-const EditResearchModal = ({ show, onClose, field, onSave }) => {
+const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
-  const [preview, setPreview] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
-    image: null,
     description: "",
   });
 
@@ -21,15 +18,8 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     if (field) {
       setFormData({
         title: field.title || "",
-        image: null, // replace only if new selected
         description: field.description || "",
       });
-
-      if (field.image) {
-        setPreview(
-          `${process.env.NEXT_PUBLIC_API_URL}/${field.image}`
-        );
-      }
     }
   }, [field]);
 
@@ -39,20 +29,9 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setFormData((prev) => ({ ...prev, image: file }));
-    setPreview(URL.createObjectURL(file));
-  };
-
-  const removeImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }));
-    setPreview(null);
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   /* ---------------------------------
@@ -61,11 +40,13 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
 
-    if (!formData.title.trim())
+    if (!formData.title.trim()) {
       newErrors.title = "Title is required";
+    }
 
-    if (!formData.description.trim())
+    if (!formData.description.trim()) {
       newErrors.description = "Description is required";
+    }
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
@@ -89,14 +70,14 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Research In Focus
+              Edit Announcement
             </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
 
           {/* BODY */}
           <div className="modal-body">
-            {/* Title */}
+            {/* TITLE */}
             <div className="mb-3">
               <label className="form-label fw-semibold">Title</label>
               <input
@@ -113,45 +94,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               )}
             </div>
 
-            {/* Image */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Image <span className="text-muted">(optional)</span>
-              </label>
-
-              <input
-                type="file"
-                accept="image/*"
-                className="form-control"
-                onChange={handleImageChange}
-              />
-
-              {preview && (
-                <div className="mt-3 position-relative d-inline-block">
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    style={{
-                      width: "200px",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                      border: "1px solid #ddd",
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                    onClick={removeImage}
-                    style={{ transform: "translate(50%, -50%)" }}
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Description */}
+            {/* DESCRIPTION */}
             <label className="form-label fw-semibold d-block mb-2">
               Description
             </label>
@@ -167,7 +110,6 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                   "autolink",
                   "lists",
                   "link",
-                  "image",
                   "charmap",
                   "preview",
                   "anchor",
@@ -184,13 +126,14 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                 toolbar:
                   "undo redo | formatselect | bold italic forecolor backcolor | " +
                   "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist | link image media table | code fullscreen",
+                  "bullist numlist | link | code fullscreen",
                 branding: false,
               }}
               onEditorChange={(description) =>
                 setFormData((prev) => ({ ...prev, description }))
               }
             />
+
             {errors.description && (
               <small className="text-danger">{errors.description}</small>
             )}
@@ -202,7 +145,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               Cancel
             </button>
             <button className="btn btn-success" onClick={handleSave}>
-              Update Research
+              Update Announcement
             </button>
           </div>
         </div>
@@ -211,4 +154,4 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   );
 };
 
-export default EditResearchModal;
+export default EditAnnouncementModal;

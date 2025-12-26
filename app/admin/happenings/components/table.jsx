@@ -21,7 +21,7 @@ const Table = () => {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/api/research-infocus`);
+      const res = await api.get(`/api/happenings`);
       setData(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching Research In Focus:", error);
@@ -53,24 +53,44 @@ const Table = () => {
   const handleEditSave = async (updatedData) => {
     try {
       const formData = new FormData();
-      if (updatedData.image) formData.append("images", updatedData.image);
+  
+      // text fields
       formData.append("title", updatedData.title);
       formData.append("description", updatedData.description || "");
-
-      await api.put(`/api/research-infocus/${editRow._id}`, formData);
+  
+      // ✅ NEW IMAGES (files)
+      updatedData.images?.forEach((file) => {
+        formData.append("images", file); // ✅ only field multer accepts
+      });
+  
+      // ✅ REMOVED IMAGES (paths, NOT files)
+      updatedData.remove_images?.forEach((img) => {
+        formData.append("remove_images", img);
+      });
+  
+      await api.put(
+        `/api/happenings/${editRow._id}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+  
       fetchNews();
       closeEditModal();
     } catch (err) {
       console.error("Update failed:", err);
     }
   };
+  
+  
 
   /* -----------------------------
         DELETE NEWS
   ------------------------------ */
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/api/research-infocus/${id}`);
+      await api.delete(`/api/happenings/${id}`);
       fetchNews();
     } catch (error) {
       console.error("Delete failed:", error);
@@ -80,20 +100,44 @@ const Table = () => {
   /* -----------------------------
         ADD NEWS
   ------------------------------ */
-  const handleAddSave = async (newData) => {
+  /*const handleAddSave = async (newData) => {
     try {
       const formData = new FormData();
+  
       formData.append("title", newData.title);
-      formData.append("image", newData.image);
       formData.append("description", newData.description || "");
-
-      await api.post(`/api/research-infocus`, formData);
+  
+      newData.images.forEach((file) => {
+        formData.append("images[]", file);
+      });
+  
+      await api.post(`/api/happenings`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+  
+      fetchNews();
+      setShowAddModal(false);
+    } catch (err) {
+      console.error("Add failed:", err);
+    }
+  };*/
+  const handleAddSave = async (formData) => {
+    try {
+      await api.post(`/api/happenings`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
       fetchNews();
       setShowAddModal(false);
     } catch (err) {
       console.error("Add failed:", err);
     }
   };
+
+
+  
 
   /* -----------------------------
         SEARCH FILTER
@@ -105,6 +149,8 @@ const Table = () => {
   /* -----------------------------
         TABLE COLUMNS
   ------------------------------ */
+
+  
   const columns = [
     {
       name: "SL",
@@ -119,13 +165,24 @@ const Table = () => {
     },
     {
       name: "Image",
-      cell: (row) => (
-        <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
-          alt="News"
-          style={{ width: "80px" }}
-        />
-      ),
+      cell: (row) => {
+        const firstImage = row.images?.[0];
+  
+        return firstImage ? (
+          <img
+            src={`${process.env.NEXT_PUBLIC_API_URL}/${firstImage}`}
+            alt={row.title}
+            style={{
+              width: "80px",
+              height: "60px",
+              objectFit: "cover",
+              borderRadius: "4px",
+            }}
+          />
+        ) : (
+          <span className="text-muted">No Image</span>
+        );
+      },
     },
     {
       name: "Action",
@@ -147,7 +204,7 @@ const Table = () => {
       ),
     },
   ];
-
+  
   return (
     <div className="p-2">
       <div className="d-flex justify-content-end mb-2">
@@ -156,7 +213,7 @@ const Table = () => {
           onClick={() => setShowAddModal(true)}
           disabled={loading}
         >
-          <Plus size={18} className="me-2" /> Add Research IN Focus
+          <Plus size={18} className="me-2" /> Add Happening
         </button>
       </div>
 
@@ -180,7 +237,7 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="Research IN Focus List"
+          title="Happenings List"
           columns={columns}
           data={filteredData}
           pagination

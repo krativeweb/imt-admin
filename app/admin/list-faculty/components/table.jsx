@@ -118,8 +118,8 @@ const Table = () => {
       return (
         <div
           style={{
-            width: 70,
-            height: 70,
+            width: 45,
+            height: 45,
             borderRadius: "50%",
             background: "#e9ecef",
             display: "flex",

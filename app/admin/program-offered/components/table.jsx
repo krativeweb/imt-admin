@@ -21,7 +21,7 @@ const Table = () => {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/api/research-infocus`);
+      const res = await api.get(`/api/program-offered`);
       setData(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching Research In Focus:", error);
@@ -57,7 +57,7 @@ const Table = () => {
       formData.append("title", updatedData.title);
       formData.append("description", updatedData.description || "");
 
-      await api.put(`/api/research-infocus/${editRow._id}`, formData);
+      await api.put(`/api/program-offered/${editRow._id}`, formData);
       fetchNews();
       closeEditModal();
     } catch (err) {
@@ -70,7 +70,7 @@ const Table = () => {
   ------------------------------ */
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/api/research-infocus/${id}`);
+      await api.delete(`/api/program-offered/${id}`);
       fetchNews();
     } catch (error) {
       console.error("Delete failed:", error);
@@ -87,7 +87,7 @@ const Table = () => {
       formData.append("image", newData.image);
       formData.append("description", newData.description || "");
 
-      await api.post(`/api/research-infocus`, formData);
+      await api.post(`/api/program-offered`, formData);
       fetchNews();
       setShowAddModal(false);
     } catch (err) {
@@ -156,7 +156,7 @@ const Table = () => {
           onClick={() => setShowAddModal(true)}
           disabled={loading}
         >
-          <Plus size={18} className="me-2" /> Add Research IN Focus
+          <Plus size={18} className="me-2" /> Add Programs Offered
         </button>
       </div>
 
@@ -180,7 +180,7 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="Research IN Focus List"
+          title="Programs Offered List"
           columns={columns}
           data={filteredData}
           pagination

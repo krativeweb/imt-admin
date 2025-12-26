@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil, Trash2, Plus } from "lucide-react";
@@ -6,32 +7,53 @@ import EditFieldModal from "./modals/editfield";
 import AddFieldModal from "./modals/addfield";
 import api from "../../lib/api";
 
+const formatDate = (date) => {
+  if (!date) return "";
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+/* ---------------------------------
+   TIME FORMAT HELPER
+--------------------------------- */
+const formatTime = (time) => {
+  if (!time) return "";
+  const [h, m] = time.split(":");
+  const hour = Number(h);
+  const suffix = hour >= 12 ? "PM" : "AM";
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${m} ${suffix}`;
+};
+
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true); // ✅ loader
+  const [loading, setLoading] = useState(true);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
   /* -----------------------------
-        FETCH NEWS DATA
+        FETCH EVENTS
   ------------------------------ */
-  const fetchNews = async () => {
+  const fetchEvents = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/api/research-infocus`);
+      const res = await api.get("/api/events");
       setData(res.data?.data || []);
     } catch (error) {
-      console.error("Error fetching Research In Focus:", error);
+      console.error("Error fetching events:", error);
     } finally {
-      setLoading(false); // ✅ stop loader
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchNews();
+    fetchEvents();
   }, []);
 
   /* -----------------------------
@@ -48,17 +70,12 @@ const Table = () => {
   };
 
   /* -----------------------------
-        SAVE EDIT NEWS
+        SAVE EDIT EVENT
   ------------------------------ */
   const handleEditSave = async (updatedData) => {
     try {
-      const formData = new FormData();
-      if (updatedData.image) formData.append("images", updatedData.image);
-      formData.append("title", updatedData.title);
-      formData.append("description", updatedData.description || "");
-
-      await api.put(`/api/research-infocus/${editRow._id}`, formData);
-      fetchNews();
+      await api.put(`/api/events/${editRow._id}`, updatedData);
+      fetchEvents();
       closeEditModal();
     } catch (err) {
       console.error("Update failed:", err);
@@ -66,29 +83,24 @@ const Table = () => {
   };
 
   /* -----------------------------
-        DELETE NEWS
+        DELETE EVENT
   ------------------------------ */
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/api/research-infocus/${id}`);
-      fetchNews();
+      await api.delete(`/api/events/${id}`);
+      fetchEvents();
     } catch (error) {
       console.error("Delete failed:", error);
     }
   };
 
   /* -----------------------------
-        ADD NEWS
+        ADD EVENT
   ------------------------------ */
   const handleAddSave = async (newData) => {
     try {
-      const formData = new FormData();
-      formData.append("title", newData.title);
-      formData.append("image", newData.image);
-      formData.append("description", newData.description || "");
-
-      await api.post(`/api/research-infocus`, formData);
-      fetchNews();
+      await api.post("/api/events", newData);
+      fetchEvents();
       setShowAddModal(false);
     } catch (err) {
       console.error("Add failed:", err);
@@ -98,8 +110,11 @@ const Table = () => {
   /* -----------------------------
         SEARCH FILTER
   ------------------------------ */
-  const filteredData = data.filter((item) =>
-    (item.content || "").toLowerCase().includes(search.toLowerCase())
+  const filteredData = data.filter(
+    (item) =>
+      item.event_title?.toLowerCase().includes(search.toLowerCase()) ||
+      item.event_place?.toLowerCase().includes(search.toLowerCase()) ||
+      item.event_time?.toLowerCase().includes(search.toLowerCase())
   );
 
   /* -----------------------------
@@ -112,20 +127,27 @@ const Table = () => {
       width: "70px",
     },
     {
-      name: "Title",
-      selector: (row) => row.title,
+      name: "Event Date",
+      selector: (row) => formatDate(row.event_date),
+      sortable: true,
+    },
+    {
+      name: "Event Time",
+      selector: (row) => formatTime(row.event_time),
+      sortable: true,
+      width: "130px",
+    },
+    {
+      name: "Event Title",
+      selector: (row) => row.event_title,
       sortable: true,
       wrap: true,
     },
     {
-      name: "Image",
-      cell: (row) => (
-        <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
-          alt="News"
-          style={{ width: "80px" }}
-        />
-      ),
+      name: "Event Place",
+      selector: (row) => row.event_place,
+      sortable: true,
+      wrap: true,
     },
     {
       name: "Action",
@@ -156,31 +178,20 @@ const Table = () => {
           onClick={() => setShowAddModal(true)}
           disabled={loading}
         >
-          <Plus size={18} className="me-2" /> Add Research IN Focus
+          <Plus size={18} className="me-2" /> Add Event
         </button>
       </div>
 
       {loading ? (
-        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "300px" }}
         >
-          <div
-            className="spinner-border"
-            role="status"
-            style={{
-              width: "3rem",
-              height: "3rem",
-              color: "#D4AA2D",
-            }}
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <div className="spinner-border" role="status" />
         </div>
       ) : (
         <DataTable
-          title="Research IN Focus List"
+          title="Events List"
           columns={columns}
           data={filteredData}
           pagination
@@ -190,8 +201,8 @@ const Table = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search News Content..."
-              style={{ width: "250px" }}
+              placeholder="Search by title, place, or time..."
+              style={{ width: "260px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

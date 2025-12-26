@@ -1,17 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
 
-const EditResearchModal = ({ show, onClose, field, onSave }) => {
+const EditInternationalAssociationModal = ({
+  show,
+  onClose,
+  field,
+  onSave,
+}) => {
   const [errors, setErrors] = useState({});
   const [preview, setPreview] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
     image: null,
-    description: "",
   });
 
   /* ---------------------------------
@@ -21,8 +24,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     if (field) {
       setFormData({
         title: field.title || "",
-        image: null, // replace only if new selected
-        description: field.description || "",
+        image: null, // only if replaced
       });
 
       if (field.image) {
@@ -39,7 +41,9 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   const handleImageChange = (e) => {
@@ -61,11 +65,9 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
 
-    if (!formData.title.trim())
+    if (!formData.title.trim()) {
       newErrors.title = "Title is required";
-
-    if (!formData.description.trim())
-      newErrors.description = "Description is required";
+    }
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
@@ -84,19 +86,19 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
       tabIndex="-1"
       style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
     >
-      <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div className="modal-dialog modal-lg modal-dialog-centered">
         <div className="modal-content">
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Research In Focus
+              Edit International Association
             </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
 
           {/* BODY */}
           <div className="modal-body">
-            {/* Title */}
+            {/* TITLE */}
             <div className="mb-3">
               <label className="form-label fw-semibold">Title</label>
               <input
@@ -113,7 +115,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               )}
             </div>
 
-            {/* Image */}
+            {/* IMAGE */}
             <div className="mb-3">
               <label className="form-label fw-semibold">
                 Image <span className="text-muted">(optional)</span>
@@ -150,50 +152,6 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                 </div>
               )}
             </div>
-
-            {/* Description */}
-            <label className="form-label fw-semibold d-block mb-2">
-              Description
-            </label>
-
-            <Editor
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-              value={formData.description}
-              init={{
-                height: 300,
-                menubar: true,
-                plugins: [
-                  "advlist",
-                  "autolink",
-                  "lists",
-                  "link",
-                  "image",
-                  "charmap",
-                  "preview",
-                  "anchor",
-                  "searchreplace",
-                  "visualblocks",
-                  "code",
-                  "fullscreen",
-                  "insertdatetime",
-                  "media",
-                  "table",
-                  "help",
-                  "wordcount",
-                ],
-                toolbar:
-                  "undo redo | formatselect | bold italic forecolor backcolor | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist | link image media table | code fullscreen",
-                branding: false,
-              }}
-              onEditorChange={(description) =>
-                setFormData((prev) => ({ ...prev, description }))
-              }
-            />
-            {errors.description && (
-              <small className="text-danger">{errors.description}</small>
-            )}
           </div>
 
           {/* FOOTER */}
@@ -202,7 +160,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               Cancel
             </button>
             <button className="btn btn-success" onClick={handleSave}>
-              Update Research
+              Update Association
             </button>
           </div>
         </div>
@@ -211,4 +169,4 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   );
 };
 
-export default EditResearchModal;
+export default EditInternationalAssociationModal;

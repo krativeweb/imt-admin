@@ -89,7 +89,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Research In Focus
+              Edit Program Offered
             </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>

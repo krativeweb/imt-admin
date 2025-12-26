@@ -9,29 +9,29 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true); // ✅ loader
+  const [loading, setLoading] = useState(true);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
   /* -----------------------------
-        FETCH NEWS DATA
+        FETCH INTERNATIONAL ASSOCIATION
   ------------------------------ */
-  const fetchNews = async () => {
+  const fetchAssociations = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/api/research-infocus`);
+      const res = await api.get("/api/international-association");
       setData(res.data?.data || []);
     } catch (error) {
-      console.error("Error fetching Research In Focus:", error);
+      console.error("Error fetching International Association:", error);
     } finally {
-      setLoading(false); // ✅ stop loader
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchNews();
+    fetchAssociations();
   }, []);
 
   /* -----------------------------
@@ -48,17 +48,22 @@ const Table = () => {
   };
 
   /* -----------------------------
-        SAVE EDIT NEWS
+        SAVE EDIT
   ------------------------------ */
   const handleEditSave = async (updatedData) => {
     try {
       const formData = new FormData();
-      if (updatedData.image) formData.append("images", updatedData.image);
       formData.append("title", updatedData.title);
-      formData.append("description", updatedData.description || "");
+      if (updatedData.image) {
+        formData.append("image", updatedData.image);
+      }
 
-      await api.put(`/api/research-infocus/${editRow._id}`, formData);
-      fetchNews();
+      await api.put(
+        `/api/international-association/${editRow._id}`,
+        formData
+      );
+
+      fetchAssociations();
       closeEditModal();
     } catch (err) {
       console.error("Update failed:", err);
@@ -66,29 +71,28 @@ const Table = () => {
   };
 
   /* -----------------------------
-        DELETE NEWS
+        DELETE
   ------------------------------ */
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/api/research-infocus/${id}`);
-      fetchNews();
+      await api.delete(`/api/international-association/${id}`);
+      fetchAssociations();
     } catch (error) {
       console.error("Delete failed:", error);
     }
   };
 
   /* -----------------------------
-        ADD NEWS
+        ADD
   ------------------------------ */
   const handleAddSave = async (newData) => {
     try {
       const formData = new FormData();
       formData.append("title", newData.title);
       formData.append("image", newData.image);
-      formData.append("description", newData.description || "");
 
-      await api.post(`/api/research-infocus`, formData);
-      fetchNews();
+      await api.post("/api/international-association", formData);
+      fetchAssociations();
       setShowAddModal(false);
     } catch (err) {
       console.error("Add failed:", err);
@@ -99,7 +103,7 @@ const Table = () => {
         SEARCH FILTER
   ------------------------------ */
   const filteredData = data.filter((item) =>
-    (item.content || "").toLowerCase().includes(search.toLowerCase())
+    item.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   /* -----------------------------
@@ -122,8 +126,13 @@ const Table = () => {
       cell: (row) => (
         <img
           src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
-          alt="News"
-          style={{ width: "80px" }}
+          alt={row.title}
+          style={{
+            width: "80px",
+            height: "50px",
+            objectFit: "cover",
+            borderRadius: "4px",
+          }}
         />
       ),
     },
@@ -156,31 +165,20 @@ const Table = () => {
           onClick={() => setShowAddModal(true)}
           disabled={loading}
         >
-          <Plus size={18} className="me-2" /> Add Research IN Focus
+          <Plus size={18} className="me-2" /> Add International Association
         </button>
       </div>
 
       {loading ? (
-        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "300px" }}
         >
-          <div
-            className="spinner-border"
-            role="status"
-            style={{
-              width: "3rem",
-              height: "3rem",
-              color: "#D4AA2D",
-            }}
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <div className="spinner-border" role="status" />
         </div>
       ) : (
         <DataTable
-          title="Research IN Focus List"
+          title="International Association List"
           columns={columns}
           data={filteredData}
           pagination
@@ -190,7 +188,7 @@ const Table = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search News Content..."
+              placeholder="Search by title..."
               style={{ width: "250px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}

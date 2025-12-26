@@ -136,8 +136,44 @@ module.exports = [
         icon: "la-question-circle",
         routePath: "/admin/research-infocus",
       },
-
-     
+      {
+        id: "10-5",
+        name: "Manage Program Offered ",
+        icon: "la-question-circle",
+        routePath: "/admin/program-offered",
+      },
+      {
+        id: "10-6",
+        name: "Manage Happenings ",
+        icon: "la-question-circle",
+        routePath: "/admin/happenings",
+      },
+      {
+        id: "10-7",
+        name: "Manage Events",
+        icon: "la-question-circle",
+        routePath: "/admin/events",
+      },
+      {
+        id: "10-8",
+        name: "Manage Announcements",
+        icon: "la-question-circle",
+        routePath: "/admin/announcements",
+      },
+      {
+        id: "10-9",
+        name: "Manage International Association",
+        icon: "la-question-circle",
+        routePath: "/admin/international-association",
+      },
+      {
+        id: "10-10",
+        name: "Manage Placemen Alliance",
+        icon: "la-question-circle",
+        routePath: "/admin/placement-alliance",
+      },
+      
+      
     ],
   },
 

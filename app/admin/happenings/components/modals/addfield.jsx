@@ -6,13 +6,15 @@ import { X } from "lucide-react";
 
 const AddResearchModal = ({ show, onClose, onSave }) => {
   const [errors, setErrors] = useState({});
-  const [preview, setPreview] = useState(null);
+  const [previews, setPreviews] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
-    image: null,
+    images: [],
     description: "",
   });
+
+  
 
   /* ---------------------------------
      INPUT HANDLERS
@@ -30,49 +32,103 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
      IMAGE HANDLER
   --------------------------------- */
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setFormData((prev) => ({ ...prev, image: file }));
-    setPreview(URL.createObjectURL(file));
-
-    if (errors.image) {
-      setErrors((prev) => ({ ...prev, image: null }));
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+  
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+  
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...files],
+    }));
+  
+    setPreviews((prev) => [...prev, ...newPreviews]);
+  
+    if (errors.images) {
+      setErrors((prev) => ({ ...prev, images: null }));
     }
   };
+  
 
-  const removeImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }));
-    setPreview(null);
+  const removeImage = (index) => {
+    setFormData((prev) => {
+      const imgs = [...prev.images];
+      imgs.splice(index, 1);
+      return { ...prev, images: imgs };
+    });
+  
+    setPreviews((prev) => {
+      const p = [...prev];
+      URL.revokeObjectURL(p[index]);
+      p.splice(index, 1);
+      return p;
+    });
   };
+  
 
   /* ---------------------------------
      SAVE HANDLER
   --------------------------------- */
-  const handleSave = () => {
+  /*const handleSave = () => {
     const newErrors = {};
-
+  
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.image) newErrors.image = "Image is required";
+    if (!formData.images.length)
+      newErrors.images = "At least one image is required";
     if (!formData.description.trim())
       newErrors.description = "Description is required";
-
-    if (Object.keys(newErrors).length > 0) {
+  
+    if (Object.keys(newErrors).length) {
       setErrors(newErrors);
       return;
     }
-
-    onSave(formData);
-
-    setFormData({
-      title: "",
-      image: null,
-      description: "",
-    });
-    setPreview(null);
+  
+    const fd = new FormData();
+    fd.append("title", formData.title);
+    fd.append("description", formData.description);
+  
+    formData.images.forEach((file) =>
+      fd.append("images[]", file)
+    );
+  
+    onSave(fd);
+  
+    setFormData({ title: "", images: [], description: "" });
+    setPreviews([]);
+    onClose();
+  };*/
+  
+  const handleSave = () => {
+    const newErrors = {};
+  
+    if (!formData.title.trim()) newErrors.title = "Title is required";
+    if (!formData.images.length)
+      newErrors.images = "At least one image is required";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required";
+  
+    if (Object.keys(newErrors).length) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    const fd = new FormData();
+    fd.append("title", formData.title);
+    fd.append("description", formData.description);
+  
+    // ✅ CORRECT FIELD NAME
+    formData.images.forEach((file) =>
+      fd.append("images", file)
+    );
+  
+    onSave(fd);
+  
+    setFormData({ title: "", images: [], description: "" });
+    setPreviews([]);
     onClose();
   };
 
+  
   if (!show) return null;
 
   return (
@@ -85,7 +141,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
         <div className="modal-content">
           {/* HEADER */}
           <div className="modal-header">
-            <h5 className="modal-title fw-bold">Add Research in Focus</h5>
+            <h5 className="modal-title fw-bold">Add Happening</h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
 
@@ -108,42 +164,52 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
 
             {/* IMAGE */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                className={`form-control ${errors.image ? "is-invalid" : ""}`}
-                onChange={handleImageChange}
-              />
-              {errors.image && (
-                <small className="text-danger">{errors.image}</small>
-              )}
+  <label className="form-label fw-semibold">
+    Happenings Images Upload
+  </label>
 
-              {/* IMAGE PREVIEW */}
-              {preview && (
-                <div className="mt-3 position-relative d-inline-block">
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    style={{
-                      width: "200px",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                      border: "1px solid #ddd",
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                    onClick={removeImage}
-                    style={{ transform: "translate(50%, -50%)" }}
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              )}
-            </div>
+  <input
+    type="file"
+    multiple
+    accept="image/*"
+    className={`form-control ${errors.images ? "is-invalid" : ""}`}
+    onChange={handleImageChange}
+  />
+
+  {errors.images && (
+    <small className="text-danger">{errors.images}</small>
+  )}
+
+  {/* PREVIEW GRID */}
+  <div className="d-flex flex-wrap gap-3 mt-3">
+    {previews.map((src, index) => (
+      <div key={index} className="position-relative">
+        <img
+          src={src}
+          alt="Preview"
+          style={{
+            width: "200px",
+            height: "120px",
+            objectFit: "cover",
+            borderRadius: "6px",
+            border: "1px solid #ddd",
+          }}
+        />
+
+        <button
+          type="button"
+          className="btn btn-sm btn-danger position-absolute top-0 end-0"
+          onClick={() => removeImage(index)}
+          style={{ transform: "translate(50%, -50%)" }}
+        >
+          <X size={14} />
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
+
+
 
             {/* DESCRIPTION */}
             <label className="form-label fw-semibold d-block mb-2">
