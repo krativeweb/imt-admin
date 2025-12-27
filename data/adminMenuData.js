@@ -54,6 +54,11 @@ module.exports = [
       },
       {
         id: "7-2",
+        name: "Faculty Page Details Seo Settings",
+        routePath: "/admin/faculty-details-seo-settings",
+      },
+      {
+        id: "7-3",
         name: "List Faculty",
         routePath: "/admin/list-faculty",
       },
