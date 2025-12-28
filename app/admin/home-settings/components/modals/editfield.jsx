@@ -12,7 +12,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     meta_description: "",
     meta_keywords: "",
     meta_canonical: "",
-    banner_image: "",
+    banner_video: "",
     banner_text: "",
   });
 
@@ -28,7 +28,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         meta_description: field.meta_description || "",
         meta_keywords: field.meta_keywords || "",
         meta_canonical: field.meta_canonical || "",
-        banner_image: field.banner_image || "",
+        banner_video: field.banner_video || "",
         banner_text: field.banner_text || "",
       });
     }
@@ -49,6 +49,15 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     const file = e.target.files[0];
     if (file) {
       setFormData((prev) => ({ ...prev, banner_image: file }));
+    }
+  };
+/* ---------------------------------
+     BANNER IMAGE Video
+  --------------------------------- */
+  const handleBannerVideoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData((prev) => ({ ...prev, banner_video: file }));
     }
   };
 
@@ -167,29 +176,31 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
 
             <hr className="my-4" />
 
-            {/* BANNER IMAGE */}
+            
+            {/* BANNER VIDEO */}
             <div className="mb-4">
-              <label className="form-label fw-semibold">Banner Image</label>
+              <label className="form-label fw-semibold">Banner Video</label>
               <input
                 type="file"
-                accept="image/*"
+                accept="video/*"
                 className="form-control"
-                onChange={handleBannerImageUpload}
+                onChange={handleBannerVideoUpload}
               />
 
-              {formData.banner_image && (
-                <img
+              {formData.banner_video && (
+                <video
+                  controls
+                  className="mt-3 rounded border"
+                  style={{ maxHeight: "200px", width: "100%" }}
                   src={
-                    typeof formData.banner_image === "string"
-                      ? `${process.env.NEXT_PUBLIC_API_URL}/${formData.banner_image}`
-                      : URL.createObjectURL(formData.banner_image)
+                    typeof formData.banner_video === "string"
+                      ? `${process.env.NEXT_PUBLIC_API_URL}/${formData.banner_video}`
+                      : URL.createObjectURL(formData.banner_video)
                   }
-                  alt="Banner Preview"
-                  className="img-fluid rounded mt-3 border"
-                  style={{ maxHeight: "120px" }}
                 />
               )}
             </div>
+
 
             {/* BANNER TEXT */}
             <div className="mb-4">

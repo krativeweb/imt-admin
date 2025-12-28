@@ -96,25 +96,20 @@ const Table = () => {
       center: true,
     },
     {
-      name: "Banner Image",
+      name: "Banner Video",
       center: true,
-      width: "150px",
+      width: "200px",
       cell: (row) => {
-        if (!row.banner_image) {
-          return <span className="text-muted">No Image</span>;
+        if (!row.banner_video) {
+          return <span className="text-muted">No Video</span>;
         }
-
-        // normalize path (windows/linux safe)
-        const imagePath = row.banner_image;
-
-        const finalUrl = `${baseURL}/${imagePath}`;
-
+    
         return (
-          <img
-            src={finalUrl}
-            alt={row.page_title}
-            width="70"
-            height="40"
+          <video
+            src={`${baseURL}/${row.banner_video}`}
+            width="120"
+            height="70"
+            controls
             style={{
               objectFit: "cover",
               borderRadius: "6px",
