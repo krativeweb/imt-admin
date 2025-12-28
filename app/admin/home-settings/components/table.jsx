@@ -26,8 +26,8 @@ const Table = () => {
       setLoading(true);
       const res = await api.get("/api/home-seo");
 
-      const seoData = res.data?.data; // object
-      setData(seoData ? [seoData] : []); // 👈 wrap in array
+      const seoData = res.data; // ✅ direct object
+      setData(seoData ? [seoData] : []);
     } catch (error) {
       console.error("Error fetching home SEO:", error);
     } finally {
