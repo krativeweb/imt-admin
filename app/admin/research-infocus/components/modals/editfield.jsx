@@ -7,29 +7,68 @@ import { X } from "lucide-react";
 const EditResearchModal = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
   const [preview, setPreview] = useState(null);
+  const [detailsPreview, setDetailsPreview] = useState(null);
 
   const [formData, setFormData] = useState({
-    title: "",
+    /* BASIC */
+    name: "",
+    home_title: "",
+    details_page_title: "",
+    sub_title: "",
+
+    /* CONTENT */
+    short_description: "",
+    main_description: "",
     image: null,
-    description: "",
+    details_banner_image: null,
+
+    /* SEO */
+    page_title: "",
+    page_slug: "",
+    meta_title: "",
+    meta_keywords: "",
+    meta_description: "",
+    meta_canonical: "",
+
+    /* BANNER */
+    banner_text: "",
   });
 
   /* ---------------------------------
      LOAD EXISTING DATA
   --------------------------------- */
   useEffect(() => {
-    if (field) {
-      setFormData({
-        title: field.title || "",
-        image: null, // replace only if new selected
-        description: field.description || "",
-      });
+    if (!field) return;
 
-      if (field.image) {
-        setPreview(
-          `${process.env.NEXT_PUBLIC_API_URL}/${field.image}`
-        );
-      }
+    setFormData({
+      name: field.name || "",
+      home_title: field.home_title || "",
+      details_page_title: field.details_page_title || "",
+      sub_title: field.sub_title || "",
+
+      short_description: field.short_description || "",
+      main_description: field.main_description || "",
+      image: null,
+      details_banner_image: null,
+
+      page_title: field.page_title || "",
+      page_slug: field.page_slug || "",
+      meta_title: field.meta_title || "",
+      meta_keywords: field.meta_keywords || "",
+      meta_description: field.meta_description || "",
+      meta_canonical: field.meta_canonical || "",
+
+      banner_text: field.banner_text || "",
+    });
+
+    if (field.image) {
+      setPreview(`${process.env.NEXT_PUBLIC_API_URL}/${field.image}`);
+    }
+
+    if (field.details_banner_image) {
+      setDetailsPreview(
+        `${process.env.NEXT_PUBLIC_API_URL}/${field.details_banner_image}`
+      );
     }
   }, [field]);
 
@@ -38,112 +77,256 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   --------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+    setFormData((p) => ({ ...p, [name]: value }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    setFormData((prev) => ({ ...prev, image: file }));
+    setFormData((p) => ({ ...p, image: file }));
     setPreview(URL.createObjectURL(file));
   };
 
+  const handleDetailsImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setFormData((p) => ({ ...p, details_banner_image: file }));
+    setDetailsPreview(URL.createObjectURL(file));
+  };
+
   const removeImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }));
+    setFormData((p) => ({ ...p, image: null }));
     setPreview(null);
   };
 
+  const removeDetailsImage = () => {
+    setFormData((p) => ({ ...p, details_banner_image: null }));
+    setDetailsPreview(null);
+  };
+
   /* ---------------------------------
-     SAVE HANDLER
+     SAVE
   --------------------------------- */
   const handleSave = () => {
-    const newErrors = {};
+    const errs = {};
+    if (!formData.name.trim()) errs.name = "Name is required";
+    if (!formData.home_title.trim())
+      errs.home_title = "Home title is required";
+    if (!formData.page_title.trim())
+      errs.page_title = "Page title is required";
 
-    if (!formData.title.trim())
-      newErrors.title = "Title is required";
-
-    if (!formData.description.trim())
-      newErrors.description = "Description is required";
-
-    if (Object.keys(newErrors).length) {
-      setErrors(newErrors);
+    if (Object.keys(errs).length) {
+      setErrors(errs);
       return;
     }
 
-    onSave(formData);
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== null && value !== "") {
+        data.append(key, value);
+      }
+    });
+
+    onSave(data);
     onClose();
   };
 
   if (!show) return null;
 
   return (
-    <div
-      className="modal fade show d-block"
-      tabIndex="-1"
-      style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
-    >
+    <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,.6)" }}>
       <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
+
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Research In Focus
+              Edit Research – Content & SEO
             </h5>
-            <button className="btn-close" onClick={onClose}></button>
+            <button className="btn-close" onClick={onClose} />
           </div>
 
           {/* BODY */}
           <div className="modal-body">
-            {/* Title */}
+
+            {/* NAME */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Title</label>
+              <label className="fw-semibold">Name</label>
               <input
-                type="text"
-                name="title"
-                className={`form-control ${
-                  errors.title ? "is-invalid" : ""
-                }`}
-                value={formData.title}
+                name="name"
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                value={formData.name}
                 onChange={handleChange}
               />
-              {errors.title && (
-                <small className="text-danger">{errors.title}</small>
-              )}
             </div>
 
-            {/* Image */}
+            {/* HOME TITLE */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Image <span className="text-muted">(optional)</span>
-              </label>
-
+              <label className="fw-semibold">Home Title</label>
               <input
-                type="file"
-                accept="image/*"
-                className="form-control"
-                onChange={handleImageChange}
+                name="home_title"
+                className={`form-control ${errors.home_title ? "is-invalid" : ""}`}
+                value={formData.home_title}
+                onChange={handleChange}
               />
+            </div>
 
+            {/* DETAILS PAGE TITLE (EDITOR) ✅ */}
+            <div className="mb-4">
+              <label className="fw-semibold">Details Page Title</label>
+              <Editor
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+                value={formData.details_page_title}
+                onEditorChange={(v) =>
+                  setFormData((p) => ({ ...p, details_page_title: v }))
+                }
+                init={{
+                  height: 300,
+                  menubar: true,
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | bold italic forecolor | " +
+                    "alignleft aligncenter alignright | bullist numlist | " +
+                    "link image media table | code fullscreen",
+                  branding: false,
+                }}
+              />
+            </div>
+
+            {/* SUB TITLE */}
+            <div className="mb-3">
+  <label className="fw-semibold">Sub Title</label>
+
+  <Editor
+    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+    value={formData.sub_title || ""}
+    onEditorChange={(content) =>
+      setFormData((prev) => ({ ...prev, sub_title: content }))
+    }
+    init={{
+      height: 300,
+      menubar: true,
+      plugins: [
+        "advlist",
+        "autolink",
+        "lists",
+        "link",
+        "image",
+        "charmap",
+        "preview",
+        "anchor",
+        "searchreplace",
+        "visualblocks",
+        "code",
+        "fullscreen",
+        "insertdatetime",
+        "media",
+        "table",
+        "help",
+        "wordcount",
+      ],
+      toolbar:
+        "undo redo | formatselect | bold italic forecolor | " +
+        "alignleft aligncenter alignright | bullist numlist | " +
+        "link image media table | code fullscreen",
+      branding: false,
+    }}
+  />
+</div>
+
+
+            <hr />
+
+            {/* SEO SECTION */}
+            <div className="row g-3 mb-4">
+              <div className="col-md-6">
+                <label className="fw-semibold">Page Title</label>
+                <input
+                  name="page_title"
+                  className={`form-control ${errors.page_title ? "is-invalid" : ""}`}
+                  value={formData.page_title}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="fw-semibold">Page Slug</label>
+                <input className="form-control" value={formData.page_slug} readOnly />
+              </div>
+
+              <div className="col-md-6">
+                <label className="fw-semibold">Meta Title</label>
+                <input
+                  name="meta_title"
+                  className="form-control"
+                  value={formData.meta_title}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="fw-semibold">Meta Keywords</label>
+                <input
+                  name="meta_keywords"
+                  className="form-control"
+                  value={formData.meta_keywords}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="col-12">
+                <label className="fw-semibold">Meta Description</label>
+                <textarea
+                  name="meta_description"
+                  rows={3}
+                  className="form-control"
+                  value={formData.meta_description}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="col-12">
+                <label className="fw-semibold">Canonical URL</label>
+                <input
+                  name="meta_canonical"
+                  type="url"
+                  className="form-control"
+                  value={formData.meta_canonical}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <hr />
+
+            {/* IMAGE */}
+            <div className="mb-3">
+              <label className="fw-semibold">Image</label>
+              <input type="file" className="form-control" onChange={handleImageChange} />
               {preview && (
                 <div className="mt-3 position-relative d-inline-block">
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    style={{
-                      width: "200px",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                      border: "1px solid #ddd",
-                    }}
-                  />
+                  <img src={preview} style={{ width: 200, height: 120, objectFit: "cover" }} />
                   <button
-                    type="button"
-                    className="btn btn-sm btn-danger position-absolute top-0 end-0"
+                    className="btn btn-danger btn-sm position-absolute top-0 end-0"
                     onClick={removeImage}
-                    style={{ transform: "translate(50%, -50%)" }}
                   >
                     <X size={14} />
                   </button>
@@ -151,14 +334,31 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               )}
             </div>
 
-            {/* Description */}
-            <label className="form-label fw-semibold d-block mb-2">
-              Description
-            </label>
+            {/* DETAILS PAGE BANNER IMAGE */}
+            <div className="mb-3">
+              <label className="fw-semibold">Details Page Banner Image</label>
+              <input type="file" className="form-control" onChange={handleDetailsImageChange} />
+              {detailsPreview && (
+                <div className="mt-3 position-relative d-inline-block">
+                  <img src={detailsPreview} style={{ width: 200, height: 120, objectFit: "cover" }} />
+                  <button
+                    className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onClick={removeDetailsImage}
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
 
+            {/* BANNER TEXT */}
+            <label className="fw-semibold">Banner Text</label>
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-              value={formData.description}
+              value={formData.banner_text}
+              onEditorChange={(v) =>
+                setFormData((p) => ({ ...p, banner_text: v }))
+              }
               init={{
                 height: 300,
                 menubar: true,
@@ -182,18 +382,89 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                   "wordcount",
                 ],
                 toolbar:
-                  "undo redo | formatselect | bold italic forecolor backcolor | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist | link image media table | code fullscreen",
+                  "undo redo | formatselect | bold italic forecolor | " +
+                  "alignleft aligncenter alignright | bullist numlist | " +
+                  "link image media table | code fullscreen",
                 branding: false,
               }}
-              onEditorChange={(description) =>
-                setFormData((prev) => ({ ...prev, description }))
-              }
             />
-            {errors.description && (
-              <small className="text-danger">{errors.description}</small>
-            )}
+
+            {/* SHORT DESCRIPTION */}
+            <label className="fw-semibold mt-4">Short Description</label>
+            <Editor
+              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+              value={formData.short_description}
+              onEditorChange={(v) =>
+                setFormData((p) => ({ ...p, short_description: v }))
+              }
+              init={{
+                height: 300,
+                menubar: true,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic forecolor | " +
+                  "alignleft aligncenter alignright | bullist numlist | " +
+                  "link image media table | code fullscreen",
+                branding: false,
+              }}
+            />
+
+            {/* MAIN DESCRIPTION */}
+            <label className="fw-semibold mt-4">Main Description</label>
+            <Editor
+              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+              value={formData.main_description}
+              onEditorChange={(v) =>
+                setFormData((p) => ({ ...p, main_description: v }))
+              }
+              init={{
+                height: 300,
+                menubar: true,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic forecolor | " +
+                  "alignleft aligncenter alignright | bullist numlist | " +
+                  "link image media table | code fullscreen",
+                branding: false,
+              }}
+            />
+
           </div>
 
           {/* FOOTER */}
@@ -205,6 +476,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               Update Research
             </button>
           </div>
+
         </div>
       </div>
     </div>
