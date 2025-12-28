@@ -53,7 +53,7 @@ const Table = () => {
   const handleEditSave = async (updatedData) => {
     try {
       const formData = new FormData();
-      if (updatedData.image) formData.append("images", updatedData.image);
+      if (updatedData.image) formData.append("image", updatedData.image);
       formData.append("title", updatedData.title);
       formData.append("description", updatedData.description || "");
 
