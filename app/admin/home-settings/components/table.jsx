@@ -26,8 +26,8 @@ const Table = () => {
       setLoading(true);
       const res = await api.get("/api/home-seo");
 
-      // backend returns { success, data }
-      setData(res.data?.data || []);
+      const seoData = res.data?.data; // object
+      setData(seoData ? [seoData] : []); // 👈 wrap in array
     } catch (error) {
       console.error("Error fetching home SEO:", error);
     } finally {
@@ -103,7 +103,7 @@ const Table = () => {
         if (!row.banner_video) {
           return <span className="text-muted">No Video</span>;
         }
-    
+
         return (
           <video
             src={`${baseURL}/${row.banner_video}`}
