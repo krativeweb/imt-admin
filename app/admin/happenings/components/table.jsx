@@ -58,23 +58,19 @@ const Table = () => {
       formData.append("title", updatedData.title);
       formData.append("description", updatedData.description || "");
   
-      // ✅ NEW IMAGES (files)
-      updatedData.images?.forEach((file) => {
-        formData.append("images", file); // ✅ only field multer accepts
+      // ✅ NEW IMAGES (FILES)
+      updatedData.new_images?.forEach((file) => {
+        formData.append("images", file); // multer key
       });
   
-      // ✅ REMOVED IMAGES (paths, NOT files)
+      // ✅ REMOVED IMAGES (PATHS)
       updatedData.remove_images?.forEach((img) => {
         formData.append("remove_images", img);
       });
   
-      await api.put(
-        `/api/happenings/${editRow._id}`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      await api.put(`/api/happenings/${editRow._id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
   
       fetchNews();
       closeEditModal();
@@ -82,6 +78,7 @@ const Table = () => {
       console.error("Update failed:", err);
     }
   };
+  
   
   
 
