@@ -7,7 +7,7 @@ import CopyrightFooter from "../../../components/admin/CopyrightFooter";
 
 import { useState } from "react";
 import Table from "./components/table";
-const MandatoryDisclosure = () => {
+const MandatoryDisclosure = () => { 
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [isCsvModalOpen, setIsCsvModalOpen] = useState(false);
    const openModalRH = () => {
