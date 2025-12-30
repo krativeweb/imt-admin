@@ -177,6 +177,12 @@ module.exports = [
         icon: "la-question-circle",
         routePath: "/admin/placement-alliance",
       },
+      {
+        id: "10-11",
+        name: "Manage New-Announcement",
+        icon: "la-question-circle",
+        routePath: "/admin/new-annoucement",
+      },
       
       
     ],

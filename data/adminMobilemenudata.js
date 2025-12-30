@@ -63,7 +63,7 @@ module.exports = [
         routePath: "/admin/faculty-details-seo-settings",
       },
       {
-        id: "7-2",
+        id: "7-3",
         name: "List Faculty",
         routePath: "/admin/list-faculty",
       },
@@ -181,6 +181,12 @@ module.exports = [
         name: "Manage Placemen Alliance",
         icon: "la-question-circle",
         routePath: "/admin/placement-alliance",
+      },
+      {
+        id: "10-11",
+        name: "Manage New-Announcement",
+        icon: "la-question-circle",
+        routePath: "/admin/new-annoucement",
       },
     ],
   },
