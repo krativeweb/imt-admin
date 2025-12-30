@@ -184,7 +184,7 @@ module.exports = [
         routePath: "/admin/new-annoucement",
       },
       
-      
+       
     ],
   },
 
