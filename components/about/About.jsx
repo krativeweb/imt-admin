@@ -44,7 +44,7 @@ const About = () => {
           <span className="title">300k+ Employers</span>
           <figure className="image">
             <Image
-              width={234}
+              width={234} 
               height={61}
               layout="responsive"
               src="/images/resource/multi-logo.png"
