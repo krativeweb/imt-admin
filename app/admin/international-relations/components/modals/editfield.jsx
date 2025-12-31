@@ -520,7 +520,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
     valid_elements: "*[*]",
     extended_valid_elements: "*[*]",
     valid_children: "+div[div|h2|p|ul|li|span|a]",
-
+    sandbox_iframes: false,
     content_css: [
       "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
     ],
