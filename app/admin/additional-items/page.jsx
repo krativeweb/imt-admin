@@ -5,7 +5,7 @@ import ListAdditionalItems from "@/components/admin/admin-dashboard/additional-I
 const index = () => {
   return (
     <>
-      <ListAdditionalItems />
+      <ListAdditionalItems /> 
     </>
   );
 };
