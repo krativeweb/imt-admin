@@ -188,6 +188,12 @@ module.exports = [
         icon: "la-question-circle",
         routePath: "/admin/new-annoucement",
       },
+      {
+        id: "10-12",
+        name: "Manage Home-Connect",
+        icon: "la-question-circle",
+        routePath: "/admin/home-connect",
+      },
     ],
   },
 ];
