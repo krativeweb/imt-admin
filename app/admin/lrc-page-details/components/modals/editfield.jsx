@@ -252,12 +252,70 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             <div className="mb-4">
               <label className="form-label fw-semibold">Resources</label>
               <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-                value={formData.resources}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, resources: content }))
-                }
-                init={editorConfig}
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+                value={formData.page_content}
+                init={{
+                  height: 500,
+                  menubar: true,
+              
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                  ],
+              
+                  toolbar:
+                    "undo redo | formatselect | fontselect fontsizeselect | " +
+                    "bold italic forecolor backcolor | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | link image media table | " +
+                    "code | fullscreen | help",
+              
+                  branding: false,
+                  resize: true,
+              
+                  /* ✅ CRITICAL FIXES */
+                  verify_html: false,
+                  cleanup: false,
+                  cleanup_on_startup: false,
+                  forced_root_block: false,
+                  remove_empty: false,
+              
+                  valid_elements: "*[*]",
+                  extended_valid_elements: "*[*]",
+                  valid_children: "+div[div|h2|p|ul|li|span|a]",
+                  sandbox_iframes: false,
+                  content_css: [
+                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+                  ],
+              
+                  content_style: `
+                    body {
+                      font-family: Helvetica, Arial, sans-serif;
+                      font-size: 14px;
+                    }
+                  `,
+                }}
+                onEditorChange={(content) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    page_content: content,
+                  }));
+                }}
               />
             </div>
           </div>
