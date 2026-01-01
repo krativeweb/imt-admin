@@ -13,7 +13,7 @@ const AppSection2 = () => {
       icon: "icon-contact",
       title: "Search on the go",
       text: `Search through millions of jobs and find the right fit. Simply swipe right to apply.`,
-    },
+    }, 
     {
       id: 3,
       icon: "icon-doc",
