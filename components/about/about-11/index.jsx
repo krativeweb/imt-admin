@@ -4,7 +4,7 @@ import ImageBox from "./ImageBox";
 const index = () => {
   return (
     <>
-      {/* <!-- About Section --> */}
+      {/* <!-- About Section --> */} 
       <section className="about-section -type-2 layout-pt-120 layout-pb-120">
         <div className="auto-container">
           <div className="row justify-content-between align-items-center">
