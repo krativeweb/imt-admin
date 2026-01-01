@@ -332,11 +332,65 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                   "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
                 ],
             
-                content_style: `
-                  body {
-                    font-family: Helvetica, Arial, sans-serif;
-                    font-size: 14px;
-                  }
+                    content_style: `
+      body {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      /* Always show all tab content inside editor */
+      .tab-pane {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .fade {
+        opacity: 1 !important;
+      }
+
+      /* Disable clicking tabs inside editor */
+      .nav-tabs,
+      .nav-pills {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      /* Bootstrap tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        vertical-align: middle;
+      }
+
+      /* Cards */
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 16px;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        padding: 4px 10px;
+        font-size: 13px;
+        border-radius: 4px;
+      }
+
+      .btn-warning {
+        background-color: #ffc107;
+        color: #000;
+      }
+    `,
+
                 `,
               }}
               onEditorChange={(content) => {
