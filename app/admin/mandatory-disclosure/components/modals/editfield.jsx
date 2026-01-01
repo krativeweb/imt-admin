@@ -390,8 +390,6 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         color: #000;
       }
     `,
-
-                `,
               }}
               onEditorChange={(content) => {
                 setFormData((prev) => ({
