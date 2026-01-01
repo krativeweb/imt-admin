@@ -27,7 +27,7 @@ const About10 = () => {
                     lectus. Nunc mattis, lectus eu lacinia pre tium, nisl nisi
                     interdum tortor.
                   </div>
-                </div>
+                </div> 
                 <a href="#" className="theme-btn -blue-outline mt-56 md:mt-16">
                   All Services
                 </a>
