@@ -289,7 +289,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                 </label>
 
                 <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
                   value={formData.banner_text || ""}
                   onEditorChange={(content) =>
                     setFormData((prev) => ({ ...prev, banner_text: content }))
@@ -474,7 +474,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                     Page Content
                   </label>
                  <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
   value={formData.page_content}
   init={{
     height: 500,
