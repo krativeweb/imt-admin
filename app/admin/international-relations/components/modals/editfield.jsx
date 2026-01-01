@@ -15,6 +15,10 @@ const pageConfig = {
     label: "Add Photo Gallery Images",
     url: "/admin/photo-gallery",
   },
+  "int-association-gallery": {
+    label: "Add International  Gallery Images",
+    url: "/admin/int-association-gallery",
+  },
   "news": {
     label: "Add News Articles",
     url: "/admin/news",
@@ -337,7 +341,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                 )}
               </div>
             </div>
-
+            {/*
             {formData.page_slug === "international-associations" && (
               <>
                 <hr className="my-4" />
@@ -354,9 +358,9 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                     onChange={handleGalleryUpload}
                   />
 
-                  {/* Super Compact Grid */}
+                  
                   <div className="row g-2">
-                    {/* Existing Images */}
+                    
                     {formData.gallery_images?.map((img, i) => {
                       const finalUrl =
                         img.startsWith("http") || img.startsWith("blob:")
@@ -401,7 +405,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                       );
                     })}
 
-                    {/* New Uploads */}
+                    
                     {formData.new_gallery_images?.map((file, i) => (
                       <div
                         key={`new-${i}`}
@@ -448,7 +452,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                     ))}
                   </div>
 
-                  {/* Count */}
+               
                   {formData.gallery_images?.length +
                     formData.new_gallery_images?.length >
                     0 && (
@@ -463,7 +467,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                   )}
                 </div>
               </>
-            )}
+            )} */}
 
             <hr className="my-4" />
             {formData.page_slug !== "international-associations" &&
