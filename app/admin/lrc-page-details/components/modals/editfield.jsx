@@ -13,6 +13,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     meta_keywords: "",
     meta_canonical: "",
     banner_image: "",
+    banner_text: "",
     about_lrc: "",
     resources: "",
   });
@@ -30,6 +31,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         meta_keywords: field.meta_keywords || "",
         meta_canonical: field.meta_canonical || "",
         banner_image: field.banner_image || "",
+        banner_text: field.banner_text || "",
         about_lrc: field.about_lrc || "",
         resources: field.resources || "",
       });
@@ -131,7 +133,6 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 <label className="form-label fw-semibold">Page Title</label>
                 <input
                   type="text"
-                  name="page_title"
                   className="form-control"
                   value={formData.page_title}
                   readOnly
@@ -142,7 +143,6 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 <label className="form-label fw-semibold">Page Slug</label>
                 <input
                   type="text"
-                  name="page_slug"
                   className="form-control"
                   value={formData.page_slug}
                   readOnly
@@ -235,6 +235,21 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
 
             <hr className="my-4" />
 
+            {/* BANNER TEXT */}
+            <div className="mb-4">
+              <label className="form-label fw-semibold">Banner Text</label>
+              <Editor
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                value={formData.banner_text}
+                onEditorChange={(content) =>
+                  setFormData((prev) => ({ ...prev, banner_text: content }))
+                }
+                init={editorConfig}
+              />
+            </div>
+
+            <hr className="my-4" />
+
             {/* ABOUT LRC */}
             <div className="mb-4">
               <label className="form-label fw-semibold">About LRC</label>
@@ -252,70 +267,12 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             <div className="mb-4">
               <label className="form-label fw-semibold">Resources</label>
               <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.page_content}
-                init={{
-                  height: 500,
-                  menubar: true,
-              
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-              
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code | fullscreen | help",
-              
-                  branding: false,
-                  resize: true,
-              
-                  /* ✅ CRITICAL FIXES */
-                  verify_html: false,
-                  cleanup: false,
-                  cleanup_on_startup: false,
-                  forced_root_block: false,
-                  remove_empty: false,
-              
-                  valid_elements: "*[*]",
-                  extended_valid_elements: "*[*]",
-                  valid_children: "+div[div|h2|p|ul|li|span|a]",
-                  sandbox_iframes: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-              
-                  content_style: `
-                    body {
-                      font-family: Helvetica, Arial, sans-serif;
-                      font-size: 14px;
-                    }
-                  `,
-                }}
-                onEditorChange={(content) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    page_content: content,
-                  }));
-                }}
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                value={formData.resources}
+                onEditorChange={(content) =>
+                  setFormData((prev) => ({ ...prev, resources: content }))
+                }
+                init={editorConfig}
               />
             </div>
           </div>

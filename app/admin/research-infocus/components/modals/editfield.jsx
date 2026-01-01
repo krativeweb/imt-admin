@@ -390,7 +390,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
             />
 
             {/* SHORT DESCRIPTION */}
-            <label className="fw-semibold mt-4">Short Description</label>
+            {/*<label className="fw-semibold mt-4">Short Description</label>
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
               value={formData.short_description}
@@ -425,7 +425,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                   "link image media table | code fullscreen",
                 branding: false,
               }}
-            />
+            />*/}
 
             {/* MAIN DESCRIPTION */}
             <label className="fw-semibold mt-4">Main Description</label>
