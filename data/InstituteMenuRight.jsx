@@ -6,7 +6,7 @@ module.exports = [
     routePath: "changepassword",
     active: "active",
   },
-  {
+  { 
     id: 2,
     name: "Settings",
     icon: "la-user-tie",
