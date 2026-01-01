@@ -15,7 +15,7 @@ const pageConfig = {
     label: "Add Photo Gallery Images",
     url: "/admin/photo-gallery",
   },
-  "int-association-gallery": {
+  "international-associations": {
     label: "Add International  Gallery Images",
     url: "/admin/imt-association-gallery",
   },
