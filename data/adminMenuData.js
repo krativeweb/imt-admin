@@ -140,77 +140,98 @@ module.exports = [
 
   {
     id: 11,
-    name: "Manage Home-Settings",
+    name: "Manage Research",
     icon: "la-book",
     children: [
       {
         id: "11-1",
+        name: "Research Publication",
+        icon: "la-file-signature",
+        routePath: "/admin/research-publication",
+      },
+      {
+        id: "11-2",
+        name: "Sponsored Research & Advisory Services",
+        icon: "la-file-signature",
+        routePath: "/admin/sponsoredresearch-advisoryservices",
+      },
+      
+    ],
+  },
+
+  {
+    id: 12,
+    name: "Manage Home-Settings",
+    icon: "la-book",
+    children: [
+      {
+        id: "12-1",
         name: "Page Seo Settings",
         icon: "la-file-signature",
         routePath: "/admin/home-settings",
       },
       {
-        id: "11-2",
+        id: "12-2",
         name: "About Us settings",
         icon: "la-question-circle",
         routePath: "/admin/about-us",
       },
       {
-        id: "11-3",
+        id: "12-3",
         name: "Manage Usp Section",
         icon: "la-question-circle",
         routePath: "/admin/usp-section",
       },
       {
-        id: "11-4",
+        id: "12-4",
         name: "Manage Research Section",
         icon: "la-question-circle",
         routePath: "/admin/research-infocus",
       },
       {
-        id: "11-5",
+        id: "12-5",
         name: "Manage Program Offered ",
         icon: "la-question-circle",
         routePath: "/admin/program-offered",
       },
       {
-        id: "11-6",
+        id: "12-6",
         name: "Manage Happenings ",
         icon: "la-question-circle",
         routePath: "/admin/happenings",
       },
       {
-        id: "11-7",
+        id: "12-7",
         name: "Manage Events",
         icon: "la-question-circle",
         routePath: "/admin/events",
       },
       {
-        id: "11-8",
+        id: "12-8",
         name: "Manage Announcements",
         icon: "la-question-circle",
         routePath: "/admin/announcements",
       },
       {
-        id: "11-9",
+        id: "12-9",
         name: "Manage International Association",
         icon: "la-question-circle",
         routePath: "/admin/international-association",
       },
       {
-        id: "11-10",
+        id: "12-10",
         name: "Manage Placemen Alliance",
         icon: "la-question-circle",
         routePath: "/admin/placement-alliance",
       },
       {
-        id: "11-11",
+        id: "12-11",
         name: "Manage New-Announcement",
         icon: "la-question-circle",
         routePath: "/admin/new-annoucement",
       },
       {
-        id: "11-12",
+        id: "12-12",
         name: "Manage Home-Connect",
         icon: "la-question-circle",
         routePath: "/admin/home-connect",
