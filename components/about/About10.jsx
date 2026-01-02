@@ -9,7 +9,7 @@ const About10 = () => {
           <div className="row grid-base justify-content-between align-items-center">
             <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
               <div className="row icon-side-row wow fadeInRight">
-                <AboutBlock />
+                <AboutBlock /> 
               </div>
             </div>
             {/* End .col */}
