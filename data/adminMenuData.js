@@ -176,6 +176,12 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/research-journal-publication",
       },
+      {
+        id: "12-3",
+        name: "Cases Publication",
+        icon: "la-file-signature",
+        routePath: "/admin/research-cases-publication",
+      },
 
 
       
