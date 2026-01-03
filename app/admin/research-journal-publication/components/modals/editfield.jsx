@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { Editor } from "@tinymce/tinymce-react";
 
 const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
@@ -224,17 +225,85 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
 
             {/* ABSTRACT */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Abstract</label>
-              <textarea
-                name="abstract"
-                rows="4"
-                className={`form-control ${
-                  errors.abstract ? "is-invalid" : ""
-                }`}
-                value={formData.abstract}
-                onChange={handleChange}
-              />
-            </div>
+  <label className="form-label fw-semibold">Abstract</label>
+
+  <Editor
+    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+    value={formData.abstract}
+    init={{
+      height: 300,
+      menubar: true,
+
+      plugins: [
+        "advlist",
+        "autolink",
+        "lists",
+        "link",
+        "image",
+        "charmap",
+        "preview",
+        "anchor",
+        "searchreplace",
+        "visualblocks",
+        "code",
+        "fullscreen",
+        "insertdatetime",
+        "media",
+        "table",
+        "help",
+        "wordcount",
+      ],
+
+      toolbar:
+        "undo redo | formatselect | fontselect fontsizeselect | " +
+        "bold italic forecolor backcolor | " +
+        "alignleft aligncenter alignright alignjustify | " +
+        "bullist numlist outdent indent | link image media table | " +
+        "code | fullscreen | help",
+
+      branding: false,
+      resize: true,
+
+      /* ✅ CRITICAL FIXES */
+      verify_html: false,
+      cleanup: false,
+      cleanup_on_startup: false,
+      forced_root_block: false,
+      remove_empty: false,
+
+      valid_elements: "*[*]",
+      extended_valid_elements: "*[*]",
+      valid_children: "+div[div|h2|p|ul|li|span|a]",
+      sandbox_iframes: false,
+
+      content_css: [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+      ],
+
+      /* ✅ MUST be a template string */
+      content_style: `
+        body {
+          font-family: 'Inter', sans-serif;
+          font-size: 14px;
+          padding: 10px;
+        }
+      `,
+    }}
+    onEditorChange={(content) => {
+      setFormData((prev) => ({
+        ...prev,
+        abstract: content,
+      }));
+    }}
+  />
+
+  {errors.abstract && (
+    <div className="invalid-feedback d-block">
+      {errors.abstract}
+    </div>
+  )}
+</div>
+
 
             {/* IMAGE */}
             <div className="mb-3">

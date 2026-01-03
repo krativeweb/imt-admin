@@ -173,23 +173,7 @@ const Table = () => {
       grow: 2,
     },
 
-    {
-      name: "Authors",
-      selector: (row) => row.authors,
-      wrap: true,
-    },
-
-    {
-      name: "Publisher",
-      selector: (row) => row.publisher,
-      wrap: true,
-    },
-
-    {
-      name: "Reference",
-      selector: (row) => row.reference,
-      wrap: true,
-    },
+     
 
     {
       name: "URL",
