@@ -105,6 +105,9 @@ const editorConfig = {
     "bullist numlist outdent indent | link image media table | " +
     "code fullscreen help",
   branding: false,
+  content_css: [
+    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  ],
   content_style: `
     body {
       font-family: 'Inter', sans-serif;
