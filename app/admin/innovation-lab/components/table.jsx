@@ -18,20 +18,15 @@ const Table = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* ---------------------------------
-     FETCH CENTRE FOR SUSTAINABILITY & CSR
+     FETCH INNOVATION LAB PAGE
   --------------------------------- */
   const fetchPages = async () => {
     try {
       setLoading(true);
-      const res = await api.get(
-        "/api/centre-sustainability-csr"
-      );
+      const res = await api.get("/api/innovation-lab");
       setData(res.data || []);
     } catch (error) {
-      console.error(
-        "Error fetching Centre for Sustainability & CSR:",
-        error
-      );
+      console.error("Error fetching Innovation Lab page:", error);
     } finally {
       setLoading(false);
     }
@@ -60,10 +55,9 @@ const Table = () => {
   const handleEditSave = async (updatedData) => {
     try {
       await api.put(
-        `/api/centre-sustainability-csr/${editRow._id}`,
+        `/api/innovation-lab/${editRow._id}`,
         updatedData
       );
-
       await fetchPages();
       closeEditModal();
     } catch (err) {
@@ -82,7 +76,7 @@ const Table = () => {
       item.about_details
         ?.toLowerCase()
         .includes(search.toLowerCase()) ||
-      item.news_events
+      item.startup_accelerator_program
         ?.toLowerCase()
         .includes(search.toLowerCase())
   );
@@ -109,7 +103,7 @@ const Table = () => {
       center: true,
     },
     {
-      name: "News & Events",
+      name: "Start-up Accelerator Program",
       selector: () => "Content Available",
       center: true,
     },
@@ -148,7 +142,7 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="Centre for Sustainability & CSR"
+          title="Innovation Lab"
           columns={columns}
           data={filteredData}
           highlightOnHover
@@ -165,8 +159,8 @@ const Table = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search page title, about or news..."
-              style={{ width: "320px" }}
+              placeholder="Search page title or content..."
+              style={{ width: "350px" }}
               value={search}
               onChange={(e) =>
                 setSearch(e.target.value)
