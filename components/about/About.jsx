@@ -8,7 +8,7 @@ const About = () => {
         <div className="inner-column " data-aos="fade-left"> 
           <div className="sec-title">
             <h2>Millions of Jobs. Find the one that suits you.</h2> 
-            <div className="text">
+            <div className="text"> 
               Search all the open positions on the web. Get your own
               personalized salary estimate. Read reviews on over 600,000
               companies worldwide.
