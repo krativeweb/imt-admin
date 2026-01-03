@@ -17,15 +17,18 @@ const Table = () => {
   const [showAddModal, setShowAddModal] = useState(false);
 
   /* -----------------------------
-        FETCH MEMBERS
+        FETCH ADVISORY COUNCIL (CSR)
   ------------------------------ */
   const fetchMembers = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/advisory-council");
+      const res = await api.get("/api/advisory-council-csr");
       setData(res.data.data || []);
     } catch (error) {
-      console.error("Error fetching members:", error);
+      console.error(
+        "Error fetching Advisory Council of CSR:",
+        error
+      );
     } finally {
       setLoading(false);
     }
@@ -49,7 +52,7 @@ const Table = () => {
   };
 
   /* -----------------------------
-        ADD MEMBER
+        ADD MEMBER (CSR)
   ------------------------------ */
   const handleAddSave = async (newData) => {
     try {
@@ -60,7 +63,7 @@ const Table = () => {
       formData.append("role_expertise", newData.role_expertise);
       formData.append("image", newData.image);
 
-      await api.post("/api/advisory-council", formData);
+      await api.post("/api/advisory-council-csr", formData);
       fetchMembers();
       setShowAddModal(false);
     } catch (err) {
@@ -69,7 +72,7 @@ const Table = () => {
   };
 
   /* -----------------------------
-        EDIT MEMBER
+        EDIT MEMBER (CSR)
   ------------------------------ */
   const handleEditSave = async (updatedData) => {
     try {
@@ -84,7 +87,7 @@ const Table = () => {
       }
 
       await api.put(
-        `/api/advisory-council/${editRow._id}`,
+        `/api/advisory-council-csr/${editRow._id}`,
         formData
       );
 
@@ -96,13 +99,13 @@ const Table = () => {
   };
 
   /* -----------------------------
-        DELETE MEMBER
+        DELETE MEMBER (CSR)
   ------------------------------ */
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this member?")) return;
 
     try {
-      await api.delete(`/api/advisory-council/${id}`);
+      await api.delete(`/api/advisory-council-csr/${id}`);
       fetchMembers();
     } catch (error) {
       console.error("Delete failed:", error);
@@ -189,7 +192,7 @@ const Table = () => {
           onClick={() => setShowAddModal(true)}
         >
           <Plus size={18} className="me-2" />
-          Add Member
+          Add  Member (CSR)
         </button>
       </div>
 

@@ -358,7 +358,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 className="btn btn-primary"
                 onClick={handleAddPeople}
               >
-                Add Advisory Council
+                Add Advisory Council & Affilated Faculty 
               </button>
 
               <button

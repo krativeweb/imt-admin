@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 const pageActions = {
   "centre-digital-transformation": {
     label: "Add Advisory Council",
-    url: "/admin/advisory-council",
+    url: "/admin/advisory-council-csr",
   },
 };
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
@@ -27,7 +27,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
   });
 
   const handleAddPeople = () => {
-    router.push("/admin/advisory-council");
+    router.push("/admin/advisory-council-csr");
   };
   /* ---------------------------------
      LOAD EXISTING DATA
@@ -436,7 +436,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
           <div className="modal-footer">
             {formData.page_slug === "centre-csr" && (
               <button className="btn btn-primary" onClick={handleAddPeople}>
-                Add Advisory Council
+               Add Advisory Council & Affilated Faculty 
               </button>
             )}
 
