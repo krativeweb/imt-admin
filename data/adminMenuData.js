@@ -161,23 +161,49 @@ module.exports = [
 
   {
     id: 12,
-    name: "Manage Center & Labs",
+    name: "Manage Research Archive",
     icon: "la-book",
     children: [
       {
         id: "12-1",
+        name: "Research Archive SEO",
+        icon: "la-file-signature",
+        routePath: "/admin/research-archive-seo",
+      },
+      {
+        id: "12-2",
+        name: "Journal Publication",
+        icon: "la-file-signature",
+        routePath: "/admin/research-journal-publication",
+      },
+
+
+      
+    ],
+  },
+
+
+  
+
+  {
+    id: 13,
+    name: "Manage Center & Labs",
+    icon: "la-book",
+    children: [
+      {
+        id: "13-1",
         name: "Centre For Digital Transformation",
         icon: "la-file-signature",
         routePath: "/admin/centre-digital-transformation",
       },
       {
-        id: "12-2",
+        id: "13-2",
         name: "Centre For Sustainability & CSR",
         icon: "la-file-signature",
         routePath: "/admin/centre-sustainability-csr",
       },
       {
-        id: "12-3",
+        id: "13-3",
         name: "Innovation Lab",
         icon: "la-file-signature",
         routePath: "/admin/innovation-lab",
@@ -188,78 +214,78 @@ module.exports = [
   },
 
   {
-    id: 13,
+    id: 14,
     name: "Manage Home-Settings",
     icon: "la-book",
     children: [
       {
-        id: "13-1",
+        id: "14-1",
         name: "Page Seo Settings",
         icon: "la-file-signature",
         routePath: "/admin/home-settings",
       },
       {
-        id: "13-2",
+        id: "14-2",
         name: "About Us settings",
         icon: "la-question-circle",
         routePath: "/admin/about-us",
       },
       {
-        id: "13-3",
+        id: "14-3",
         name: "Manage Usp Section",
         icon: "la-question-circle",
         routePath: "/admin/usp-section",
       },
       {
-        id: "13-4",
+        id: "14-4",
         name: "Manage Research Section",
         icon: "la-question-circle",
         routePath: "/admin/research-infocus",
       },
       {
-        id: "13-5",
+        id: "14-5",
         name: "Manage Program Offered ",
         icon: "la-question-circle",
         routePath: "/admin/program-offered",
       },
       {
-        id: "13-6",
+        id: "14-6",
         name: "Manage Happenings ",
         icon: "la-question-circle",
         routePath: "/admin/happenings",
       },
       {
-        id: "13-7",
+        id: "14-7",
         name: "Manage Events",
         icon: "la-question-circle",
         routePath: "/admin/events",
       },
       {
-        id: "13-8",
+        id: "14-8",
         name: "Manage Announcements",
         icon: "la-question-circle",
         routePath: "/admin/announcements",
       },
       {
-        id: "13-9",
+        id: "14-9",
         name: "Manage International Association",
         icon: "la-question-circle",
         routePath: "/admin/international-association",
       },
       {
-        id: "13-10",
+        id: "14-10",
         name: "Manage Placemen Alliance",
         icon: "la-question-circle",
         routePath: "/admin/placement-alliance",
       },
       {
-        id: "13-11",
+        id: "14-11",
         name: "Manage New-Announcement",
         icon: "la-question-circle",
         routePath: "/admin/new-annoucement",
       },
       {
-        id: "13-12",
+        id: "14-12",
         name: "Manage Home-Connect",
         icon: "la-question-circle",
         routePath: "/admin/home-connect",

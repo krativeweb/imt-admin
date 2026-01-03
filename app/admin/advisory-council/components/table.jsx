@@ -10,6 +10,7 @@ import api from "../../lib/api";
 
 const Table = () => {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState(""); // ✅ SEARCH STATE
   const [loading, setLoading] = useState(true);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -110,6 +111,20 @@ const Table = () => {
   };
 
   /* -----------------------------
+        SEARCH FILTER
+  ------------------------------ */
+  const filteredData = data.filter((item) =>
+    (
+      item.name +
+      item.designation +
+      item.role_expertise +
+      item.type
+    )
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  /* -----------------------------
         TABLE COLUMNS
   ------------------------------ */
   const columns = [
@@ -122,6 +137,7 @@ const Table = () => {
     {
       name: "Image",
       center: true,
+      width: "100px",
       cell: (row) => (
         <img
           src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
@@ -201,10 +217,21 @@ const Table = () => {
         <DataTable
           title="Members List"
           columns={columns}
-          data={data}
+          data={filteredData}
           pagination
           highlightOnHover
           striped
+          subHeader
+          subHeaderComponent={
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search by name, designation, role or type..."
+              style={{ width: "300px" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          }
         />
       )}
 
