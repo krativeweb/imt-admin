@@ -177,13 +177,29 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             {/* BANNER IMAGE */}
             <div className="mb-4">
               <label className="form-label fw-semibold">Banner Image</label>
+
               <input
                 type="file"
                 accept="image/*"
                 className="form-control"
                 onChange={handleImageUpload}
               />
+
+              {/* ✅ SHOW PREVIEW AFTER UPLOAD */}
+              {formData.banner_image && (
+                <img
+                  src={
+                    typeof formData.banner_image === "string"
+                      ? `${process.env.NEXT_PUBLIC_API_URL}${formData.banner_image}`
+                      : URL.createObjectURL(formData.banner_image)
+                  }
+                  alt="Banner Preview"
+                  className="img-fluid rounded mt-3 border"
+                  style={{ maxHeight: "120px" }}
+                />
+              )}
             </div>
+
 
             {/* BANNER TEXT */}
             <div className="mb-4">
