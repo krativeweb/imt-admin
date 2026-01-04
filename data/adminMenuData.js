@@ -182,7 +182,31 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/research-cases-publication",
       },
-
+      {
+        id: "12-4",
+        name: "Conference Proceeding",
+        icon: "la-file-signature",
+        routePath: "/admin/research-conference-proceeding",
+      },
+      {
+        id: "12-5",
+        name: "News Article",
+        icon: "la-file-signature",
+        routePath: "/admin/research-news-article",
+      },
+      {
+        id: "12-6",
+        name: "Books",
+        icon: "la-file-signature",
+        routePath: "/admin/research-books",
+      },
+      {
+        id: "12-7",
+        name: "Magazines",
+        icon: "la-file-signature",
+        routePath: "/admin/research-magazines",
+      },
+      
 
       
     ],

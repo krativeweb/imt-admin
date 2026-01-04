@@ -211,7 +211,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             {/* ✅ SPONSORED RESEARCH */}
             <div className="mb-4">
               <label className="form-label fw-semibold">
-                Sponsored Research
+              Sponsored Research & Advisory Services
               </label>
               <Editor
   apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
@@ -336,7 +336,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             </div>
 
             {/* ✅ ADVISORY SERVICES */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="form-label fw-semibold">
                 Advisory Services
               </label>
@@ -377,7 +377,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     branding: false,
     resize: true,
 
-    /* ✅ CRITICAL FIXES */
+   
     verify_html: false,
     cleanup: false,
     cleanup_on_startup: false,
@@ -400,7 +400,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         padding: 10px;
       }
 
-      /* Always show all content */
+     
       .tab-pane {
         display: block !important;
         opacity: 1 !important;
@@ -411,14 +411,13 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         opacity: 1 !important;
       }
 
-      /* Disable clickable tabs inside editor */
+      
       .nav-tabs,
       .nav-pills {
         pointer-events: none;
         opacity: 0.7;
       }
 
-      /* Bootstrap tables */
       table {
         width: 100%;
         border-collapse: collapse;
@@ -430,7 +429,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         vertical-align: middle;
       }
 
-      /* Cards */
+     
       .card {
         border: 1px solid #ddd;
         border-radius: 6px;
@@ -438,7 +437,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         margin-bottom: 16px;
       }
 
-      /* Buttons */
+   
       .btn {
         display: inline-block;
         padding: 4px 10px;
@@ -460,7 +459,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
   }
 />
 
-            </div>
+            </div>*/}
           </div>
 
           {/* FOOTER */}
