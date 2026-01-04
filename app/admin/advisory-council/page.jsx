@@ -98,7 +98,7 @@ const MandatoryDisclosure = () => {
         <AddCsvModal show={openCsvModal} onClose={closeModalCsv} />
       )}
     </>
-  );
+  ); 
 };
 
 export default MandatoryDisclosure;
