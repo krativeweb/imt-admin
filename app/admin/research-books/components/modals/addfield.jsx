@@ -92,7 +92,7 @@ const EditResearchBooksModal = ({
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Research Book
+              Add Research Book
             </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
@@ -186,8 +186,8 @@ const EditResearchBooksModal = ({
             <button className="btn btn-secondary" onClick={onClose}>
               Cancel
             </button>
-            <button className="btn btn-success" onClick={handleSave}>
-              Update Book
+            <button className="btn btn-primary" onClick={handleSave}>
+              Add Books
             </button>
           </div>
 
