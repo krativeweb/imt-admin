@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil } from "lucide-react";
@@ -20,30 +19,31 @@ const Table = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* ---------------------------------
-     FETCH ALL FACULTY SEO PAGES
+     FETCH ABOUT PGDM DATA
   --------------------------------- */
   const fetchPages = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/faculty-seo");
-      setData(res.data || []);
+      const res = await api.get("/api/about-pgdm");
+  
+      // 👇 FORCE ARRAY
+      if (res.data?.data) {
+        setData([res.data.data]);
+      } else {
+        setData([]);
+      }
     } catch (error) {
-      console.error("Error fetching pages:", error);
+      console.error("Error fetching PGDM page:", error);
+      setData([]);
     } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchPages();
   }, []);
-
-  /* ---------------------------------
-     RESET PAGE ON SEARCH
-  --------------------------------- */
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [search]);
 
   /* ---------------------------------
      MODAL HANDLERS
@@ -59,23 +59,19 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     UPDATE PAGE (FORMDATA)
+     UPDATE PGDM PAGE
   --------------------------------- */
   const handleEditSave = async (formData) => {
-    if (!editRow?._id) return;
-
     try {
       const res = await api.put(
-        `/api/faculty-seo/${editRow._id}`,
+        `/api/about-pgdm/${editRow._id}`,
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      if (res.data?.data || res.data?.success) {
+      if (res.data) {
         await fetchPages();
         closeEditModal();
       }
@@ -99,9 +95,9 @@ const Table = () => {
   const columns = [
     {
       name: "SL No",
+      selector: (row, index) => index + 1 + currentPage * rowsPerPage,
       width: "80px",
       center: true,
-      cell: (_, index) => index + 1 + currentPage * rowsPerPage,
     },
     {
       name: "Page Title",
@@ -112,25 +108,24 @@ const Table = () => {
     {
       name: "Banner Image",
       center: true,
-      width: "160px",
+      width: "150px",
       cell: (row) => {
         if (!row.banner_image) {
           return <span className="text-muted">No Image</span>;
         }
 
-        const imageUrl = `${baseURL}${row.banner_image}`;
+        const imagePath = row.banner_image
+          .replace(/\\/g, "/")
+          .replace(/^\/+/g, "")
+          .replace(/^uploads\//, "");
 
         return (
           <img
-            src={imageUrl}
+            src={`${baseURL}/uploads/${imagePath}`}
             alt={row.page_title}
-            width="80"
-            height="45"
-            style={{
-              objectFit: "cover",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-            }}
+            width="70"
+            height="40"
+            style={{ objectFit: "cover", borderRadius: "6px" }}
           />
         );
       },
@@ -138,7 +133,6 @@ const Table = () => {
     {
       name: "Action",
       center: true,
-      width: "100px",
       cell: (row) => (
         <Pencil
           size={20}
@@ -153,7 +147,6 @@ const Table = () => {
   return (
     <div className="p-2">
       {loading ? (
-        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "300px" }}
@@ -161,28 +154,20 @@ const Table = () => {
           <div
             className="spinner-border"
             role="status"
-            style={{
-              width: "3rem",
-              height: "3rem",
-              color: "#D4AA2D",
-            }}
+            style={{ width: "3rem", height: "3rem", color: "#D4AA2D" }}
           >
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       ) : (
         <DataTable
-          title="Faculty SEO Settings"
+          title="About PGDM – SEO & Content"
           columns={columns}
           data={filteredData}
           highlightOnHover
           pagination
-          paginationServer={false}
           onChangePage={(page) => setCurrentPage(page - 1)}
-          onChangeRowsPerPage={(newPerPage) => {
-            setRowsPerPage(newPerPage);
-            setCurrentPage(0);
-          }}
+          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
           subHeader
           subHeaderAlign="right"
           subHeaderComponent={
@@ -198,7 +183,6 @@ const Table = () => {
         />
       )}
 
-      {/* EDIT MODAL */}
       {showEditModal && (
         <EditfieldModal
           show={showEditModal}
