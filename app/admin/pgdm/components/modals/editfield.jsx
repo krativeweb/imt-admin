@@ -16,12 +16,12 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     meta_canonical: "",
     banner_image: "",
     banner_text: "",
-    introduction: "",
-    program_uniqueness: "",
-    specializations: "",
-    program_structure: "",
-    academic_calendar: "",
-    placement: "",
+    curriculum: "",
+    key_features: "",
+    program_outcome: "",
+    pedagogy: "",
+    career_opportunities: "",
+    competency_goal: "",
   });
 
   useEffect(() => {
@@ -36,12 +36,12 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         banner_image: field.banner_image || "",
         banner_text: field.banner_text || "",
 
-        introduction: field.introduction || "",
-        program_uniqueness: field.program_uniqueness || "",
-        specializations: field.specializations || "",
-        program_structure: field.program_structure || "",
-        academic_calendar: field.academic_calendar || "",
-        placement: field.placement || "",
+        curriculum: field.curriculum || "",
+        key_features: field.key_features || "",
+        program_outcome: field.program_outcome || "",
+        pedagogy: field.pedagogy || "",
+        career_opportunities: field.career_opportunities || "",
+        competency_goal: field.competency_goal || "",
       });
     }
   }, [field]);
@@ -249,15 +249,15 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 }}
               />
             </div>
-                  {/* Introduction TEXT */}
+                  {/* Curriculum TEXT */}
               <div className="mb-4">
-              <label className="form-label fw-semibold">Introduction</label>
+              <label className="form-label fw-semibold">Curriculum</label>
 
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.introduction || ""}
+                value={formData.curriculum || ""}
                 onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, introduction: content }))
+                  setFormData((prev) => ({ ...prev, curriculum: content }))
                 }
                 init={{
                   height: 300,
@@ -361,15 +361,15 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 }}
               />
             </div>
-                {/* Program Uniqueness TEXT */}
+                {/* Key Features TEXT */}
                 <div className="mb-4">
-              <label className="form-label fw-semibold">Program Uniqueness</label>
+              <label className="form-label fw-semibold">Key Features</label>
 
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.program_uniqueness || ""}
+                value={formData.key_features || ""}
                 onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, program_uniqueness: content }))
+                  setFormData((prev) => ({ ...prev, key_features: content }))
                 }
                 init={{
                   height: 300,
@@ -473,15 +473,15 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 }}
               />
             </div>
-              {/* Specializations TEXT */}
+              {/* Program Outcome TEXT */}
               <div className="mb-4">
-              <label className="form-label fw-semibold">Specializations</label>
+              <label className="form-label fw-semibold">Program Outcome</label>
 
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.specializations || ""}
+                value={formData.program_outcome || ""}
                 onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, specializations: content }))
+                  setFormData((prev) => ({ ...prev, program_outcome: content }))
                 }
                 init={{
                   height: 300,
@@ -585,127 +585,117 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 }}
               />
             </div>
-            {/* Program Structure TEXT */}
+            {/* Pedagogy Structure TEXT */}
             <div className="mb-4">
-              <label className="form-label fw-semibold">Program Structure</label>
+  <label className="form-label fw-semibold">Pedagogy</label>
 
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.program_structure || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, specialprogram_structureizations: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
-            </div>
-             {/* Academic Calendar TEXT */}
+  <Editor
+    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+    value={formData.pedagogy || ""}
+    onEditorChange={(content) =>
+      setFormData((prev) => ({
+        ...prev,
+        pedagogy: content,   // ✅ FIXED KEY
+      }))
+    }
+    init={{
+      height: 300,
+      menubar: true,
+      plugins: [
+        "advlist",
+        "autolink",
+        "lists",
+        "link",
+        "image",
+        "charmap",
+        "preview",
+        "anchor",
+        "searchreplace",
+        "visualblocks",
+        "code",
+        "fullscreen",
+        "insertdatetime",
+        "media",
+        "table",
+        "help",
+        "wordcount",
+      ],
+      toolbar:
+        "undo redo | formatselect | fontselect fontsizeselect | " +
+        "bold italic forecolor backcolor | " +
+        "alignleft aligncenter alignright alignjustify | " +
+        "bullist numlist outdent indent | link image media table | " +
+        "code fullscreen help",
+      branding: false,
+      content_css: [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+      ],
+      content_style: `
+        body {
+          font-family: 'Inter', sans-serif;
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        .tab-pane {
+          display: block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        .fade {
+          opacity: 1 !important;
+        }
+
+        .nav-tabs,
+        .nav-pills {
+          pointer-events: none;
+          opacity: 0.7;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        th, td {
+          border: 1px solid #dee2e6;
+          padding: 8px;
+          vertical-align: middle;
+        }
+
+        .card {
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          padding: 12px;
+          margin-bottom: 16px;
+        }
+
+        .btn {
+          display: inline-block;
+          padding: 4px 10px;
+          font-size: 13px;
+          border-radius: 4px;
+        }
+
+        .btn-warning {
+          background-color: #ffc107;
+          color: #000;
+        }
+      `,
+    }}
+  />
+</div>
+
+             {/* Career Opportunities TEXT */}
              <div className="mb-4">
-              <label className="form-label fw-semibold">Academic Calendar</label>
+              <label className="form-label fw-semibold">Career Opportunities</label>
 
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.academic_calendar || ""}
+                value={formData.career_opportunities || ""}
                 onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, academic_calendar: content }))
+                  setFormData((prev) => ({ ...prev, career_opportunities: content }))
                 }
                 init={{
                   height: 300,
@@ -809,15 +799,15 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 }}
               />
             </div>
-               {/* Placement TEXT */}
+               {/* Competency Goal TEXT */}
                <div className="mb-4">
-              <label className="form-label fw-semibold">Placement</label>
+              <label className="form-label fw-semibold">Competency Goal</label>
 
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.placement || ""}
+                value={formData.competency_goal || ""}
                 onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, placement: content }))
+                  setFormData((prev) => ({ ...prev, competency_goal: content }))
                 }
                 init={{
                   height: 300,

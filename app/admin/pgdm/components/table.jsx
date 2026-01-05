@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil } from "lucide-react";
@@ -19,31 +20,35 @@ const Table = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* ---------------------------------
-     FETCH ABOUT PGDM DATA
+     FETCH PGDM GENERAL DATA
   --------------------------------- */
   const fetchPages = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/about-pgdm");
-  
-      // 👇 FORCE ARRAY
-      if (res.data?.data) {
-        setData([res.data.data]);
-      } else {
-        setData([]);
-      }
+
+      // 🔥 PGDM GENERAL API
+      const res = await api.get("/api/pgdm-general");
+
+      // backend returns array
+      setData(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.error("Error fetching PGDM page:", error);
+      console.error("Error fetching PGDM General:", error);
       setData([]);
     } finally {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchPages();
   }, []);
+
+  /* ---------------------------------
+     RESET PAGE ON SEARCH
+  --------------------------------- */
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [search]);
 
   /* ---------------------------------
      MODAL HANDLERS
@@ -59,19 +64,21 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     UPDATE PGDM PAGE
+     UPDATE PGDM GENERAL (FORMDATA)
   --------------------------------- */
   const handleEditSave = async (formData) => {
+    if (!editRow?._id) return;
+
     try {
       const res = await api.put(
-        `/api/about-pgdm/${editRow._id}`,
+        `/api/pgdm-general/${editRow._id}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      if (res.data) {
+      if (res.data?.success || res.data?.data) {
         await fetchPages();
         closeEditModal();
       }
@@ -81,12 +88,10 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     SEARCH FILTER
+     SEARCH FILTER (ONLY PAGE TITLE)
   --------------------------------- */
-  const filteredData = data.filter(
-    (item) =>
-      item.page_title?.toLowerCase().includes(search.toLowerCase()) ||
-      item.banner_text?.toLowerCase().includes(search.toLowerCase())
+  const filteredData = data.filter((item) =>
+    item.page_title?.toLowerCase().includes(search.toLowerCase())
   );
 
   /* ---------------------------------
@@ -95,9 +100,9 @@ const Table = () => {
   const columns = [
     {
       name: "SL No",
-      selector: (row, index) => index + 1 + currentPage * rowsPerPage,
       width: "80px",
       center: true,
+      cell: (_, index) => index + 1 + currentPage * rowsPerPage,
     },
     {
       name: "Page Title",
@@ -108,24 +113,23 @@ const Table = () => {
     {
       name: "Banner Image",
       center: true,
-      width: "150px",
+      width: "160px",
       cell: (row) => {
         if (!row.banner_image) {
           return <span className="text-muted">No Image</span>;
         }
 
-        const imagePath = row.banner_image
-          .replace(/\\/g, "/")
-          .replace(/^\/+/g, "")
-          .replace(/^uploads\//, "");
-
         return (
           <img
-            src={`${baseURL}/uploads/${imagePath}`}
+            src={`${baseURL}${row.banner_image}`}
             alt={row.page_title}
-            width="70"
-            height="40"
-            style={{ objectFit: "cover", borderRadius: "6px" }}
+            width="80"
+            height="45"
+            style={{
+              objectFit: "cover",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+            }}
           />
         );
       },
@@ -133,6 +137,7 @@ const Table = () => {
     {
       name: "Action",
       center: true,
+      width: "100px",
       cell: (row) => (
         <Pencil
           size={20}
@@ -154,27 +159,34 @@ const Table = () => {
           <div
             className="spinner-border"
             role="status"
-            style={{ width: "3rem", height: "3rem", color: "#D4AA2D" }}
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
           >
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       ) : (
         <DataTable
-          title="About PGDM – SEO & Content"
+          title="PGDM General Content"
           columns={columns}
           data={filteredData}
           highlightOnHover
-          pagination
+          pagination={filteredData.length > 1}
           onChangePage={(page) => setCurrentPage(page - 1)}
-          onChangeRowsPerPage={(newPerPage) => setRowsPerPage(newPerPage)}
+          onChangeRowsPerPage={(newPerPage) => {
+            setRowsPerPage(newPerPage);
+            setCurrentPage(0);
+          }}
           subHeader
           subHeaderAlign="right"
           subHeaderComponent={
             <input
               type="text"
               className="form-control"
-              placeholder="Search..."
+              placeholder="Search by page title..."
               style={{ width: "250px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
