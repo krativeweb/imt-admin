@@ -587,116 +587,106 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             </div>
             {/* Program Structure TEXT */}
             <div className="mb-4">
-              <label className="form-label fw-semibold">Program Structure</label>
+  <label className="form-label fw-semibold">Program Structure</label>
 
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.program_structure || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, specialprogram_structureizations: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
-            </div>
+  <Editor
+    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+    value={formData.program_structure || ""}
+    onEditorChange={(content) =>
+      setFormData((prev) => ({
+        ...prev,
+        program_structure: content,   // ✅ FIXED KEY
+      }))
+    }
+    init={{
+      height: 300,
+      menubar: true,
+      plugins: [
+        "advlist",
+        "autolink",
+        "lists",
+        "link",
+        "image",
+        "charmap",
+        "preview",
+        "anchor",
+        "searchreplace",
+        "visualblocks",
+        "code",
+        "fullscreen",
+        "insertdatetime",
+        "media",
+        "table",
+        "help",
+        "wordcount",
+      ],
+      toolbar:
+        "undo redo | formatselect | fontselect fontsizeselect | " +
+        "bold italic forecolor backcolor | " +
+        "alignleft aligncenter alignright alignjustify | " +
+        "bullist numlist outdent indent | link image media table | " +
+        "code fullscreen help",
+      branding: false,
+      content_css: [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+      ],
+      content_style: `
+        body {
+          font-family: 'Inter', sans-serif;
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        .tab-pane {
+          display: block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        .fade {
+          opacity: 1 !important;
+        }
+
+        .nav-tabs,
+        .nav-pills {
+          pointer-events: none;
+          opacity: 0.7;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        th, td {
+          border: 1px solid #dee2e6;
+          padding: 8px;
+          vertical-align: middle;
+        }
+
+        .card {
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          padding: 12px;
+          margin-bottom: 16px;
+        }
+
+        .btn {
+          display: inline-block;
+          padding: 4px 10px;
+          font-size: 13px;
+          border-radius: 4px;
+        }
+
+        .btn-warning {
+          background-color: #ffc107;
+          color: #000;
+        }
+      `,
+    }}
+  />
+</div>
+
              {/* Academic Calendar TEXT */}
              <div className="mb-4">
               <label className="form-label fw-semibold">Academic Calendar</label>

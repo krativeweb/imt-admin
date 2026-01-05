@@ -256,7 +256,7 @@ module.exports = [
       },
       {
         id: "14-2",
-        name: "PGDM",
+        name: "PGDM General",
         icon: "la-file-signature",
         routePath: "/admin/pgdm",
       },

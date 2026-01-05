@@ -20,19 +20,24 @@ const Table = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* ---------------------------------
-     FETCH ALL FACULTY SEO PAGES
+     FETCH ABOUT PGDM DATA
   --------------------------------- */
   const fetchPages = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/api/faculty-seo");
+      const res = await api.get("/api/about-pgdm");
+  
+      // backend now returns array
       setData(res.data || []);
     } catch (error) {
-      console.error("Error fetching pages:", error);
+      console.error("Error fetching About PGDM:", error);
+      setData([]);
     } finally {
       setLoading(false);
     }
   };
+  
+  
 
   useEffect(() => {
     fetchPages();
@@ -59,14 +64,14 @@ const Table = () => {
   };
 
   /* ---------------------------------
-     UPDATE PAGE (FORMDATA)
+     UPDATE ABOUT PGDM (FORMDATA)
   --------------------------------- */
   const handleEditSave = async (formData) => {
     if (!editRow?._id) return;
 
     try {
       const res = await api.put(
-        `/api/faculty-seo/${editRow._id}`,
+        `/api/about-pgdm/${editRow._id}`,
         formData,
         {
           headers: {
@@ -112,7 +117,7 @@ const Table = () => {
     {
       name: "Banner Image",
       center: true,
-      width: "160px",
+      width: "150px",
       cell: (row) => {
         if (!row.banner_image) {
           return <span className="text-muted">No Image</span>;
@@ -124,8 +129,8 @@ const Table = () => {
           <img
             src={imageUrl}
             alt={row.page_title}
-            width="80"
-            height="45"
+            width="70"
+            height="40"
             style={{
               objectFit: "cover",
               borderRadius: "6px",
@@ -153,7 +158,6 @@ const Table = () => {
   return (
     <div className="p-2">
       {loading ? (
-        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "300px" }}
@@ -172,12 +176,11 @@ const Table = () => {
         </div>
       ) : (
         <DataTable
-          title="Faculty SEO Settings"
+          title="About PGDM Content"
           columns={columns}
           data={filteredData}
           highlightOnHover
           pagination
-          paginationServer={false}
           onChangePage={(page) => setCurrentPage(page - 1)}
           onChangeRowsPerPage={(newPerPage) => {
             setRowsPerPage(newPerPage);
@@ -198,7 +201,6 @@ const Table = () => {
         />
       )}
 
-      {/* EDIT MODAL */}
       {showEditModal && (
         <EditfieldModal
           show={showEditModal}
