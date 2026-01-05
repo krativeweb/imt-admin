@@ -250,15 +250,27 @@ module.exports = [
     children: [
       {
         id: "14-1",
+        name: "Learn About The Program",
+        icon: "la-file-signature",
+        routePath: "/admin/learn-about-program",
+      },
+      {
+        id: "14-2",
         name: "About PGDM",
         icon: "la-file-signature",
         routePath: "/admin/about-pgdm",
       },
       {
-        id: "14-2",
+        id: "14-3",
         name: "PGDM General",
         icon: "la-file-signature",
         routePath: "/admin/pgdm",
+      },
+      {
+        id: "14-4",
+        name: "PGDM Finance",
+        icon: "la-file-signature",
+        routePath: "/admin/pgdm-finance",
       },
       
       
