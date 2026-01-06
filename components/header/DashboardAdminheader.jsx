@@ -25,6 +25,29 @@ const DashboardHeader = () => {
     window.addEventListener("scroll", changeBackground);
   }, []);
 
+  const handleLogout = async (e) => {
+    e.preventDefault();
+
+    try {
+      // 🔐 Clear HTTP-only cookie
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`,
+        {
+          method: "POST",
+          credentials: "include", // 🔥 REQUIRED
+        }
+      );
+
+      // 🧹 Clear localStorage
+      localStorage.clear();
+
+      // 🚀 Redirect safely
+      router.push("/");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
+
   return (
     // <!-- Main Header-->
     <header
@@ -131,7 +154,7 @@ const DashboardHeader = () => {
                   } mb-1`}
                   key={11}
                 >
-                  <Link href="/" onClick={() => localStorage.clear()}>
+                  <Link href="/"  onClick={handleLogout}>
                     <i className={`la la-sign-out`}></i>Logout
                   </Link>
                 </li>
