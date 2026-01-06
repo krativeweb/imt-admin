@@ -278,6 +278,12 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/pgdm-marketing",
       },
+      {
+        id: "14-6",
+        name: "PGDM LSCM",
+        icon: "la-file-signature",
+        routePath: "/admin/pgdm-lscm",
+      },
       
       
 

@@ -16,7 +16,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     meta_canonical: "",
     banner_image: "",
     banner_text: "",
-    pgdm_marketing: "",
+    pgdm_logistics_supply_chain: "",
     curriculum: "",
     key_features: "",
     program_outcome: "",
@@ -36,7 +36,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         meta_canonical: field.meta_canonical || "",
         banner_image: field.banner_image || "",
         banner_text: field.banner_text || "",
-        pgdm_marketing: field.pgdm_marketing || "",
+        pgdm_logistics_supply_chain: field.pgdm_logistics_supply_chain || "",
 
         curriculum: field.curriculum || "",
         key_features: field.key_features || "",
@@ -253,13 +253,13 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             </div>
             {/* PGDM Finance Content TEXT */}
             <div className="mb-4">
-              <label className="form-label fw-semibold">PGDM Marketing Content</label>
+              <label className="form-label fw-semibold">  PGDM (Logistics & Supply Chain Management)</label>
 
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.pgdm_marketing || ""}
+                value={formData.pgdm_logistics_supply_chain || ""}
                 onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, pgdm_marketing: content }))
+                  setFormData((prev) => ({ ...prev, pgdm_logistics_supply_chain: content }))
                 }
                 init={{
                   height: 300,
