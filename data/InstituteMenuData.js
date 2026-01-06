@@ -13,7 +13,7 @@ module.exports = [
     routePath: "/institute-dashboard/institute-profile",
     active: "",
   }, 
-  {
+  { 
     id: 3,
     name: "Student Verification",
     icon: "la-user-tie",
