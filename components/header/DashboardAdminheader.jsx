@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 import employerMenuData from "../../data/adminHeadermenuData";
 /* import HeaderNavContent from "./HeaderNavContent"; */
 import { isActiveLink } from "../../utils/linkActiveChecker";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+
 import { color } from "framer-motion";
 
 const DashboardHeader = () => {
   const [navbar, setNavbar] = useState(true);
   const name = localStorage.getItem("Super_name");
-
+  const router = useRouter();
+  const pathname = usePathname();
   const changeBackground = () => {
     if (window.scrollY >= 0) {
       setNavbar(true);
