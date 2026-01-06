@@ -275,7 +275,12 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/pgdm-finance",
       },
-      
+      {
+        id: "14-5",
+        name: "PGDM Marketing",
+        icon: "la-file-signature",
+        routePath: "/admin/pgdm-marketing",
+      },
       
 
       
