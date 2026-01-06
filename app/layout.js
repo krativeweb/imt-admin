@@ -6,7 +6,7 @@ import Providers from "./providers";
 export const metadata = {
   title: "IMT Hyderabad",
 }; 
-
+ 
 
 export default function RootLayout({ children }) {
   return (
