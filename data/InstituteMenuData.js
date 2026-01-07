@@ -1,6 +1,6 @@
 module.exports = [
   {
-    id: 1,
+    id: 1, 
     name: "Dashboard",
     icon: "la-home",
     routePath: "/institute-dashboard/dashboard",
