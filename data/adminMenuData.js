@@ -391,5 +391,12 @@ module.exports = [
     routePath: "/admin/campus-connect",
     active: "",
   },
+    {
+    id: 17,
+    name: "Summer Internship",
+    icon: "la-building",
+    routePath: "/admin/internship",
+    active: "",
+  },
   
 ];
