@@ -399,4 +399,20 @@ module.exports = [
     routePath: "/admin/internship",
     active: "",
   },
+  {
+    id: 18,
+    name: "Manage Admissions",
+    icon: "la-book",
+    children: [
+      {
+        id: "18-1",
+        name: "Fellow Program in Management",
+        icon: "la-file-signature",
+        routePath: "/admin/fellow-program-in-management",
+      },
+      
+
+      
+    ],
+  },
 ];
