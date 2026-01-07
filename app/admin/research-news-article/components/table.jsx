@@ -118,26 +118,26 @@ const Table = () => {
       width: "150px",
       center: true,
     },
-    {
-      name: "Article Content",
-      grow: 3,
-      wrap: true,
-      cell: (row) => {
-        const content = row.content || "";
+    // {
+    //   name: "Article Content",
+    //   grow: 3,
+    //   wrap: true,
+    //   cell: (row) => {
+    //     const content = row.content || "";
     
-        return (
-          <div
-            style={{ maxHeight: "120px", overflow: "hidden" }}
-            dangerouslySetInnerHTML={{
-              __html:
-                content.length > 300
-                  ? content.substring(0, 300) + "..."
-                  : content || "<em>No content</em>",
-            }}
-          />
-        );
-      },
-    },
+    //     return (
+    //       <div
+    //         style={{ maxHeight: "120px", overflow: "hidden" }}
+    //         dangerouslySetInnerHTML={{
+    //           __html:
+    //             content.length > 300
+    //               ? content.substring(0, 300) + "..."
+    //               : content || "<em>No content</em>",
+    //         }}
+    //       />
+    //     );
+    //   },
+    // },
     
     {
       name: "Action",
