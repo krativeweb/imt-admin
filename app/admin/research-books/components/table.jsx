@@ -132,13 +132,13 @@ const Table = () => {
       grow: 2,
     },
     
-    {
-      name: "Published",
-      selector: (row) => row.published,
-      sortable: true,
-      wrap: true,
-      grow: 1,
-    },
+    // {
+    //   name: "Published",
+    //   selector: (row) => row.published,
+    //   sortable: true,
+    //   wrap: true,
+    //   grow: 1,
+    // },
     {
       name: "Year",
       selector: (row) => row.year,
