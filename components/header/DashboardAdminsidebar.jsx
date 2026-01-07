@@ -104,7 +104,7 @@ const DashboardEmployerSidebar = () => {
                     {isOpen && (
                       <ul className="submenu">
                         {item.children.map((child) => (
-                          <li key={child.id}>
+                          <li key={child.id} style={{fontSize:"14px"}}>
                             <Link
                               href={child.routePath}
                               onClick={menuToggleHandler}
