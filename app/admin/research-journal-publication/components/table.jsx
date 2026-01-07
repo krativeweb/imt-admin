@@ -168,12 +168,12 @@ const Table = () => {
       wrap: true,
     },
   
-    {
-      name: "Publication Title",
-      selector: (row) => row.publication_title,
-      wrap: true,
-      grow: 2,
-    },
+    // {
+    //   name: "Publication Title",
+    //   selector: (row) => row.publication_title,
+    //   wrap: true,
+    //   grow: 2,
+    // },
   
     // ❌ REMOVED JOURNAL COLUMN
   
