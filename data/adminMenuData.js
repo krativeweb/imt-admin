@@ -384,6 +384,12 @@ module.exports = [
      
     ],
   },
-
+  {
+    id: 16,
+    name: "Manage Campus Connect",
+    icon: "la-building",
+    routePath: "/admin/campus-connect",
+    active: "",
+  },
   
 ];
