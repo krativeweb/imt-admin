@@ -81,7 +81,7 @@ const DashboardEmployerSidebar = () => {
                   <>
                     {/* SUBMENU PARENT (NO ACTIVE BACKGROUND) */}
                     <div
-                      className="menu-link d-flex align-items-center justify-content-between px-4 py-2"
+                      className="menu-link d-flex align-items-center justify-content-between px-4 py-2 mb-2"
                       onClick={() => handleSubMenuToggle(item.id)}
                          style={{ fontSize:"15px" }}
                     >
