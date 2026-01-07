@@ -166,12 +166,12 @@ const Table = () => {
       wrap: true,
     },
 
-    {
-      name: "Title",
-      selector: (row) => row.title,
-      wrap: true,
-      grow: 2,
-    },
+    // {
+    //   name: "Title",
+    //   selector: (row) => row.title,
+    //   wrap: true,
+    //   grow: 2,
+    // },
 
      
 
