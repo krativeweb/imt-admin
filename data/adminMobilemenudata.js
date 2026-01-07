@@ -287,6 +287,18 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/pgdm-lscm",
       },
+      {
+        id: "14-7",
+        name: "Fellow Program in Management",
+        icon: "la-file-signature",
+        routePath: "/admin/fellowprogram-in-management",
+      },
+      {
+        id: "14-8",
+        name: "Executive Education",
+        icon: "la-file-signature",
+        routePath: "/admin/executive-edication",
+      },
       
 
       
