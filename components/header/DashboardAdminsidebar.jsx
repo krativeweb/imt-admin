@@ -108,11 +108,10 @@ const DashboardEmployerSidebar = () => {
                             <Link
                               href={child.routePath}
                               onClick={menuToggleHandler}
-                              style={
-                                isActiveLink(child.routePath, pathname)
-                                  ? activeStyle
-                                  : undefined
-                              }
+                               style={{
+    fontSize: "14px",
+    ...(isActiveLink(child.routePath, pathname) ? activeStyle : {}),
+  }}
                             >
                               {child.name}
                             </Link>
