@@ -124,19 +124,19 @@ const Table = () => {
       wrap: true,
       grow: 1,
     },
-    {
-      name: "Title of the Article",
-      selector: (row) => row.article_title,
-      sortable: true,
-      wrap: true,
-      grow: 2,
-    },
-    {
-      name: "Published / Presented",
-      selector: (row) => row.published_presented,
-      wrap: true,
-      grow: 2,
-    },
+    // {
+    //   name: "Title of the Article",
+    //   selector: (row) => row.article_title,
+    //   sortable: true,
+    //   wrap: true,
+    //   grow: 2,
+    // },
+    // {
+    //   name: "Published / Presented",
+    //   selector: (row) => row.published_presented,
+    //   wrap: true,
+    //   grow: 2,
+    // },
     {
       name: "Year",
       selector: (row) => row.year,
