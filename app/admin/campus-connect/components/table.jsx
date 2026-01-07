@@ -94,7 +94,7 @@ const Table = () => {
 
         return (
           <img
-            src={`${baseURL}${imagePath}`}
+            src={`${baseURL}/${imagePath}`}
             alt="Banner"
             width="80"
             height="30"
