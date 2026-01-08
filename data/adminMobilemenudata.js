@@ -415,4 +415,23 @@ module.exports = [
       
     ],
   },
+    {
+    id: 19,
+    name: "Manage Corporate Connect",
+    icon: "la-book",
+    children: [
+      {
+        id: "19-1",
+        name: "Corporate Connect Page SEO",
+        icon: "la-file-signature",
+        routePath: "/admin/corporate-connect-seo",
+      },
+      {
+        id: "19-2",
+        name: "Corporate Connect Details",
+        icon: "la-file-signature",
+        routePath: "/admin/corporate-connect-details",
+      },
+    ],
+  },
 ];
