@@ -50,8 +50,7 @@ const AddDistinguishedClientModal = ({ show, onClose, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
 
-    if (!formData.title.trim())
-      newErrors.title = "Title is required";
+  
 
     if (!formData.image)
       newErrors.image = "Image is required";
