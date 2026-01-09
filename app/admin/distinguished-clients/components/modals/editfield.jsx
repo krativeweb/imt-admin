@@ -98,7 +98,7 @@ const EditDistinguishedClientModal = ({ show, onClose, field, onSave }) => {
           {/* BODY */}
           <div className="modal-body">
             {/* TITLE */}
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label className="form-label fw-semibold">
                 Client Name / Title
               </label>
@@ -114,7 +114,7 @@ const EditDistinguishedClientModal = ({ show, onClose, field, onSave }) => {
               {errors.title && (
                 <small className="text-danger">{errors.title}</small>
               )}
-            </div>
+            </div> */}
 
             {/* IMAGE */}
             <div className="mb-3">
