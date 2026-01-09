@@ -54,7 +54,7 @@ const Table = () => {
   const handleAddSave = async (newData) => {
     try {
       const formData = new FormData();
-      formData.append("title", newData.title);
+      // formData.append("title", newData.title);
       formData.append("image", newData.image);
 
       await api.post("/api/distinguished-clients", formData);
@@ -71,7 +71,7 @@ const Table = () => {
   const handleEditSave = async (updatedData) => {
     try {
       const formData = new FormData();
-      formData.append("title", updatedData.title);
+      // formData.append("title", updatedData.title);
 
       if (updatedData.image) {
         formData.append("image", updatedData.image);
