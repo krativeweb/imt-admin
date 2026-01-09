@@ -104,9 +104,15 @@ const Table = () => {
   /* -----------------------------
         SEARCH FILTER
   ------------------------------ */
-  const filteredData = data.filter((item) =>
-    item.title?.toLowerCase().includes(search.toLowerCase())
+const filteredData = data.filter((item) => {
+  if (!search) return true;
+
+  return (
+    item.title &&
+    item.title.toLowerCase().includes(search.toLowerCase())
   );
+});
+
 
   /* -----------------------------
         TABLE COLUMNS
@@ -129,7 +135,7 @@ const Table = () => {
         row.image ? (
           <img
             src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
-            alt={row.title}
+            alt={row.title || "Distinguished Client Logo"}
             style={{
               width: "80px",
               height: "50px",
