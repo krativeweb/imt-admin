@@ -117,12 +117,12 @@ const Table = () => {
       selector: (_, index) => index + 1,
       width: "70px",
     },
-    {
-      name: "Client Name",
-      selector: (row) => row.title,
-      sortable: true,
-      wrap: true,
-    },
+    // {
+    //   name: "Client Name",
+    //   selector: (row) => row.title,
+    //   sortable: true,
+    //   wrap: true,
+    // },
     {
       name: "Logo",
       cell: (row) =>
