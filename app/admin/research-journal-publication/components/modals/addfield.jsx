@@ -14,6 +14,7 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
     publication_title: "",
     authors: "",
     journal_name: "",
+    volume: "",
     publication_url: "",
     abstract: "",
     image: null,
@@ -67,6 +68,7 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
 
     if (!formData.journal_name.trim())
       newErrors.journal_name = "Journal name is required";
+    
 
     if (!formData.abstract.trim())
       newErrors.abstract = "Abstract is required";
@@ -176,6 +178,17 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
                 name="journal_name"
                 className={`form-control ${errors.journal_name ? "is-invalid" : ""}`}
                 value={formData.journal_name}
+                onChange={handleChange}
+              />
+            </div>
+            {/* VOLUME */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Volume</label>
+              <input
+                type="text"
+                name="volume"
+                className={`form-control ${errors.volume ? "is-invalid" : ""}`}
+                value={formData.volume}
                 onChange={handleChange}
               />
             </div>

@@ -406,12 +406,16 @@ module.exports = [
     children: [
       {
         id: "18-1",
+        name: "PGDM",
+        icon: "la-file-signature",
+        routePath: "/admin/pgdm-admission",
+      },
+      {
+        id: "18-2",
         name: "Fellow Program in Management",
         icon: "la-file-signature",
         routePath: "/admin/fellow-program-in-management",
-      },
-      
-
+      },  
       
     ],
   },
