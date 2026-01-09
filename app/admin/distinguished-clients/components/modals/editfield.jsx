@@ -64,9 +64,7 @@ const EditDistinguishedClientModal = ({ show, onClose, field, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) {
-      newErrors.title = "Title is required";
-    }
+
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
