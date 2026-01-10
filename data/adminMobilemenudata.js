@@ -438,4 +438,23 @@ module.exports = [
       },
     ],
   },
+    {
+    id: 20,
+    name: "Manage Newsletter",
+    icon: "la-book",
+    children: [
+      {
+        id: "20-1",
+        name: "Newsletter Page SEO",
+        icon: "la-file-signature",
+        routePath: "/admin/newsletter-seo",
+      },
+      {
+        id: "20-2",
+        name: "Newsletter Details",
+        icon: "la-file-signature",
+        routePath: "/admin/newsletter",
+      },
+    ],
+  },
 ];
