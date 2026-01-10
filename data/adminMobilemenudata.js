@@ -457,4 +457,24 @@ module.exports = [
       },
     ],
   },
+  {
+    id: 21,
+    name: "Manage Campus Life",
+    icon: "la-book",
+    children: [
+      {
+        id: "21-1",
+        name: "Campus Tour",
+        icon: "la-file-signature",
+        routePath: "/admin/campus-tour",
+      },
+      {
+        id: "21-2",
+        name: "Media",
+        icon: "la-file-signature",
+        routePath: "/admin/media",
+      },
+      
+    ],
+  },
 ];
