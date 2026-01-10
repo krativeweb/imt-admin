@@ -30,7 +30,7 @@ const MandatoryDisclosure = () => {
      document.body.style.overflow = "auto"; // Re-enable background scrolling
    };
   return (
-    <>
+    <> 
       <div className="page-wrapper dashboard">
         <span className="header-span"></span>
 
