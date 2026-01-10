@@ -76,7 +76,10 @@ const [campusPreviews, setCampusPreviews] = useState([]);
   const handleAddPeople = () => {
     router.push("/admin/student-tutorials");
   };
-
+  const handleAddProgram = () => {
+    router.push("/admin/program-offered-admission");
+  };
+  
 
   const getImageUrl = (path) => {
     if (!path) return "";
@@ -1616,6 +1619,9 @@ const removeNewImage = (index) => {
           </div>
              
           <div className="modal-footer">
+          <button className="btn btn-primary" onClick={handleAddProgram}>
+                Add Program Offered
+              </button>
           <button className="btn btn-primary" onClick={handleAddPeople}>
                 Add Student Tutorials
               </button>
