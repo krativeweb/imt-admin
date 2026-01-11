@@ -438,19 +438,27 @@ module.exports = [
       },
     ],
   },
-    {
+
+  {
     id: 20,
+    name: "Community Connect",
+    icon: "la-building",
+    routePath: "/admin/community-connect",
+    active: "",
+  },
+    {
+    id: 21,
     name: "Manage Newsletter",
     icon: "la-book",
     children: [
       {
-        id: "20-1",
+        id: "21-1",
         name: "Newsletter Page SEO",
         icon: "la-file-signature",
         routePath: "/admin/newsletter-seo",
       },
       {
-        id: "20-2",
+        id: "21-2",
         name: "Newsletter Details",
         icon: "la-file-signature",
         routePath: "/admin/newsletter",
@@ -458,23 +466,30 @@ module.exports = [
     ],
   },
   {
-    id: 21,
+    id: 22,
     name: "Manage Campus Life",
     icon: "la-book",
     children: [
       {
-        id: "21-1",
+        id: "22-1",
         name: "Campus Tour",
         icon: "la-file-signature",
         routePath: "/admin/campus-tour",
       },
       {
-        id: "21-2",
+        id: "22-2",
         name: "Media",
         icon: "la-file-signature",
         routePath: "/admin/media",
       },
       
     ],
+  },
+  {
+    id: 23,
+    name: "Manage Contact Info",
+    icon: "la-building",
+    routePath: "/admin/contact-info",
+    active: "",
   },
 ];
