@@ -19,11 +19,15 @@ const Table = () => {
   const fetchFooter = async () => {
     try {
       setLoading(true);
-
-      // 🔥 FOOTER API
+  
       const res = await api.get("/api/footer");
-
-      setData(Array.isArray(res.data) ? res.data : []);
+  
+      // ✅ FIX HERE
+      if (res.data) {
+        setData([res.data]); // wrap object in array
+      } else {
+        setData([]);
+      }
     } catch (error) {
       console.error("Error fetching footer data:", error);
       setData([]);
@@ -31,6 +35,7 @@ const Table = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchFooter();

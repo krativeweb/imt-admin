@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const AddResearchModal = ({ show, onClose, onSave }) => {
   const [errors, setErrors] = useState({});
@@ -215,41 +216,14 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
             <label className="form-label fw-semibold d-block mb-2">
               Description
             </label>
-            <Editor
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-              value={formData.description}
-              init={{
-                height: 300,
-                menubar: true,
-                plugins: [
-                  "advlist",
-                  "autolink",
-                  "lists",
-                  "link",
-                  "image",
-                  "charmap",
-                  "preview",
-                  "anchor",
-                  "searchreplace",
-                  "visualblocks",
-                  "code",
-                  "fullscreen",
-                  "insertdatetime",
-                  "media",
-                  "table",
-                  "help",
-                  "wordcount",
-                ],
-                toolbar:
-                  "undo redo | formatselect | bold italic forecolor backcolor | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist | link image media table | code fullscreen",
-                branding: false,
-              }}
-              onEditorChange={(description) =>
-                setFormData((prev) => ({ ...prev, description }))
-              }
-            />
+               <CmsEditor
+                  value={formData.description}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, description: v }))
+                  }
+                />
+            
+          
             {errors.description && (
               <small className="text-danger">{errors.description}</small>
             )}

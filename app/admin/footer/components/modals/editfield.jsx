@@ -3,6 +3,20 @@
 import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
+import CmsEditor from "@/components/common/CmsEditor";
+
+/* ===============================
+   REUSABLE FIELD GROUP
+================================ */
+const FieldGroup = ({ label, required = false, children }) => (
+  <div className="mb-3">
+    <label className="form-label fw-semibold">
+      {label}
+      {required && <span className="text-danger ms-1">*</span>}
+    </label>
+    {children}
+  </div>
+);
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
   /* ===============================
@@ -22,12 +36,15 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
   });
 
   /* ===============================
-     IMAGE STATES
+     ACCREDITATIONS STATES
   =============================== */
   const [existingAccreditations, setExistingAccreditations] = useState([]);
   const [newAccreditations, setNewAccreditations] = useState([]);
   const [accreditationPreviews, setAccreditationPreviews] = useState([]);
 
+  /* ===============================
+     MEMBERS STATES
+  =============================== */
   const [existingMembers, setExistingMembers] = useState([]);
   const [newMembers, setNewMembers] = useState([]);
   const [memberPreviews, setMemberPreviews] = useState([]);
@@ -36,28 +53,34 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
      LOAD DATA
   =============================== */
   useEffect(() => {
-    if (field) {
-      setFormData({
-        address: field.address || "",
-        email: field.email || "",
-        phone: field.phone || "",
+    if (!field) return;
 
-        facebook_url: field.facebook_url || "",
-        linkedin_url: field.linkedin_url || "",
-        instagram_url: field.instagram_url || "",
-        youtube_url: field.youtube_url || "",
+    setFormData({
+      address: field.address || "",
+      email: field.email || "",
+      phone: field.phone || "",
 
-        copyright_text: field.copyright_text || "",
-      });
+      facebook_url: field.facebook_url || "",
+      linkedin_url: field.linkedin_url || "",
+      instagram_url: field.instagram_url || "",
+      youtube_url: field.youtube_url || "",
 
-      setExistingAccreditations(field.accreditations || []);
-      setExistingMembers(field.members || []);
+      copyright_text: field.copyright_text || "",
+    });
 
-      setNewAccreditations([]);
-      setNewMembers([]);
-      setAccreditationPreviews([]);
-      setMemberPreviews([]);
-    }
+    setExistingAccreditations(
+      Array.isArray(field.accreditations) ? field.accreditations : []
+    );
+
+    setExistingMembers(
+      Array.isArray(field.members) ? field.members : []
+    );
+
+    setNewAccreditations([]);
+    setAccreditationPreviews([]);
+
+    setNewMembers([]);
+    setMemberPreviews([]);
   }, [field]);
 
   /* ===============================
@@ -74,45 +97,43 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
   };
 
   /* ===============================
-     ACCREDITATIONS HANDLERS
+     ACCREDITATION HANDLERS
   =============================== */
   const handleAccreditationChange = (e) => {
     const files = Array.from(e.target.files);
     setNewAccreditations((p) => [...p, ...files]);
-    setAccreditationPreviews((p) => [
-      ...p,
-      ...files.map((f) => URL.createObjectURL(f)),
-    ]);
+
+    const previews = files.map((f) => URL.createObjectURL(f));
+    setAccreditationPreviews((p) => [...p, ...previews]);
   };
 
   const removeExistingAccreditation = (img) => {
     setExistingAccreditations((p) => p.filter((i) => i !== img));
   };
 
-  const removeNewAccreditation = (i) => {
-    setNewAccreditations((p) => p.filter((_, idx) => idx !== i));
-    setAccreditationPreviews((p) => p.filter((_, idx) => idx !== i));
+  const removeNewAccreditation = (index) => {
+    setNewAccreditations((p) => p.filter((_, i) => i !== index));
+    setAccreditationPreviews((p) => p.filter((_, i) => i !== index));
   };
 
   /* ===============================
-     MEMBERS HANDLERS
+     MEMBER HANDLERS
   =============================== */
   const handleMemberChange = (e) => {
     const files = Array.from(e.target.files);
     setNewMembers((p) => [...p, ...files]);
-    setMemberPreviews((p) => [
-      ...p,
-      ...files.map((f) => URL.createObjectURL(f)),
-    ]);
+
+    const previews = files.map((f) => URL.createObjectURL(f));
+    setMemberPreviews((p) => [...p, ...previews]);
   };
 
   const removeExistingMember = (img) => {
     setExistingMembers((p) => p.filter((i) => i !== img));
   };
 
-  const removeNewMember = (i) => {
-    setNewMembers((p) => p.filter((_, idx) => idx !== i));
-    setMemberPreviews((p) => p.filter((_, idx) => idx !== i));
+  const removeNewMember = (index) => {
+    setNewMembers((p) => p.filter((_, i) => i !== index));
+    setMemberPreviews((p) => p.filter((_, i) => i !== index));
   };
 
   /* ===============================
@@ -122,9 +143,12 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     const form = new FormData();
 
     Object.entries(formData).forEach(([k, v]) => {
-      if (v) form.append(k, v);
+      if (v !== undefined && v !== null) {
+        form.append(k, v);
+      }
     });
 
+    /* ACCREDITATIONS */
     existingAccreditations.forEach((img) =>
       form.append("existing_accreditations[]", img)
     );
@@ -132,6 +156,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
       form.append("accreditations", file)
     );
 
+    /* MEMBERS */
     existingMembers.forEach((img) =>
       form.append("existing_members[]", img)
     );
@@ -152,72 +177,93 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
       <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
 
+          {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">Edit Footer Content</h5>
             <button className="btn-close" onClick={onClose} />
           </div>
 
+          {/* BODY */}
           <div className="modal-body">
 
             {/* CONTACT INFO */}
             <div className="mb-5">
               <h6 className="fw-bold mb-3">Contact Information</h6>
 
-              <textarea
-                className="form-control mb-3"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Full Address"
-              />
+              <FieldGroup label="Address">
+                <textarea
+                  className="form-control"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  rows={3}
+                />
+              </FieldGroup>
 
-              <input
-                className="form-control mb-3"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-              />
+              <FieldGroup label="Email Address">
+                <input
+                  type="email"
+                  className="form-control"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </FieldGroup>
 
-              <input
-                className="form-control"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone"
-              />
+              <FieldGroup label="Phone Number">
+                <input
+                  className="form-control"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </FieldGroup>
             </div>
-
-            <hr />
 
             {/* SOCIAL LINKS */}
             <div className="mb-5">
-              <h6 className="fw-bold mb-3">Social Media</h6>
-              {["facebook_url","linkedin_url","instagram_url","youtube_url"].map((f) => (
-                <input
-                  key={f}
-                  className="form-control mb-3"
-                  name={f}
-                  value={formData[f]}
-                  onChange={handleChange}
-                  placeholder={f.replace("_url","").toUpperCase() + " URL"}
-                />
+              <h6 className="fw-bold mb-3">Social Media Links</h6>
+
+              {[
+                { key: "facebook_url", label: "Facebook URL" },
+                { key: "linkedin_url", label: "LinkedIn URL" },
+                { key: "instagram_url", label: "Instagram URL" },
+                { key: "youtube_url", label: "YouTube URL" },
+              ].map(({ key, label }) => (
+                <FieldGroup key={key} label={label}>
+                  <input
+                    className="form-control"
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                  />
+                </FieldGroup>
               ))}
             </div>
 
-            <hr />
-
-            {/* ACCREDITATIONS */}
+            {/* ===============================
+                ACCREDITATIONS & APPROVALS
+            =============================== */}
             <div className="mb-5">
-              <h6 className="fw-bold mb-3">Accreditations & Approvals</h6>
+              <h6 className="fw-bold mb-3">Accreditations & Approvals ( Multiple )</h6>
 
               <div className="d-flex flex-wrap gap-3 mb-3">
                 {existingAccreditations.map((img, i) => (
                   <div key={i} className="position-relative">
-                    <img src={getImageUrl(img)} className="img-thumbnail" style={{ width: 120 }} />
+                    <img
+                      src={getImageUrl(img)}
+                      style={{
+                        width: 120,
+                        height: 80,
+                        objectFit: "cover",
+                        borderRadius: 6,
+                        border: "1px solid #ddd",
+                      }}
+                    />
                     <button
                       className="btn btn-danger btn-sm position-absolute top-0 end-0"
                       onClick={() => removeExistingAccreditation(img)}
+                      style={{ transform: "translate(50%, -50%)" }}
                     >
                       <X size={14} />
                     </button>
@@ -225,15 +271,31 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 ))}
               </div>
 
-              <input type="file" multiple className="form-control mb-3" onChange={handleAccreditationChange} />
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                className="form-control mb-3"
+                onChange={handleAccreditationChange}
+              />
 
               <div className="d-flex flex-wrap gap-3">
                 {accreditationPreviews.map((src, i) => (
                   <div key={i} className="position-relative">
-                    <img src={src} className="img-thumbnail" style={{ width: 120 }} />
+                    <img
+                      src={src}
+                      style={{
+                        width: 120,
+                        height: 80,
+                        objectFit: "cover",
+                        borderRadius: 6,
+                        border: "1px solid #ddd",
+                      }}
+                    />
                     <button
                       className="btn btn-danger btn-sm position-absolute top-0 end-0"
                       onClick={() => removeNewAccreditation(i)}
+                      style={{ transform: "translate(50%, -50%)" }}
                     >
                       <X size={14} />
                     </button>
@@ -242,19 +304,29 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               </div>
             </div>
 
-            <hr />
-
-            {/* MEMBERS */}
+            {/* ===============================
+                MEMBERS
+            =============================== */}
             <div className="mb-5">
-              <h6 className="fw-bold mb-3">Members</h6>
+              <h6 className="fw-bold mb-3">Members ( Multiple )</h6>
 
               <div className="d-flex flex-wrap gap-3 mb-3">
                 {existingMembers.map((img, i) => (
                   <div key={i} className="position-relative">
-                    <img src={getImageUrl(img)} className="img-thumbnail" style={{ width: 120 }} />
+                    <img
+                      src={getImageUrl(img)}
+                      style={{
+                        width: 120,
+                        height: 80,
+                        objectFit: "cover",
+                        borderRadius: 6,
+                        border: "1px solid #ddd",
+                      }}
+                    />
                     <button
                       className="btn btn-danger btn-sm position-absolute top-0 end-0"
                       onClick={() => removeExistingMember(img)}
+                      style={{ transform: "translate(50%, -50%)" }}
                     >
                       <X size={14} />
                     </button>
@@ -262,15 +334,31 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 ))}
               </div>
 
-              <input type="file" multiple className="form-control mb-3" onChange={handleMemberChange} />
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                className="form-control mb-3"
+                onChange={handleMemberChange}
+              />
 
               <div className="d-flex flex-wrap gap-3">
                 {memberPreviews.map((src, i) => (
                   <div key={i} className="position-relative">
-                    <img src={src} className="img-thumbnail" style={{ width: 120 }} />
+                    <img
+                      src={src}
+                      style={{
+                        width: 120,
+                        height: 80,
+                        objectFit: "cover",
+                        borderRadius: 6,
+                        border: "1px solid #ddd",
+                      }}
+                    />
                     <button
                       className="btn btn-danger btn-sm position-absolute top-0 end-0"
                       onClick={() => removeNewMember(i)}
+                      style={{ transform: "translate(50%, -50%)" }}
                     >
                       <X size={14} />
                     </button>
@@ -279,55 +367,24 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               </div>
             </div>
 
-            <hr />
-
             {/* COPYRIGHT */}
             <div className="mb-4">
               <h6 className="fw-bold mb-3">Copyright</h6>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-  value={formData.copyright_text || ""}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({ ...prev, copyright_text: content }))
-  }
-  init={{
-    height: 300,
-    menubar: true,
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code fullscreen help",
-    branding: false,
-    content_style:
-      "body { font-family: Inter, sans-serif; font-size: 14px }",
-  }}
-/>
 
+              <FieldGroup label="Copyright Text">
+                <CmsEditor
+                      value={formData.copyright_text}
+                      onChange={(v) =>
+                        setFormData((p) => ({ ...p, copyright_text: v }))
+                      }
+                    />
+                
+              </FieldGroup>
             </div>
 
           </div>
 
+          {/* FOOTER */}
           <div className="modal-footer">
             <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
             <button className="btn btn-success" onClick={handleSave}>Save Changes</button>

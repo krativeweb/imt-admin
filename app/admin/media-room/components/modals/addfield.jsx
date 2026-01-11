@@ -1,35 +1,38 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import React, { useState, useEffect } from "react";
 import CmsEditor from "@/components/common/CmsEditor";
 
-const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
+const AddMediaRoomModal = ({ show, onClose, onSave, field = null }) => {
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
+    year: "",
+    content: "",
   });
 
   /* ---------------------------------
-     LOAD EXISTING DATA
+     PREFILL DATA (EDIT MODE)
   --------------------------------- */
   useEffect(() => {
     if (field) {
       setFormData({
         title: field.title || "",
-        description: field.description || "",
+        year: field.year || "",
+        content: field.content || "",
       });
     }
   }, [field]);
 
   /* ---------------------------------
-     INPUT HANDLERS
+     INPUT HANDLER
   --------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({ ...prev, [name]: value }));
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: null }));
     }
@@ -41,20 +44,24 @@ const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) {
-      newErrors.title = "Title is required";
-    }
+    if (!formData.title.trim()) newErrors.title = "Title is required";
+    if (!formData.year.trim()) newErrors.year = "Year is required";
+    if (!formData.content.trim()) newErrors.content = "Content is required";
 
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
-    }
-
-    if (Object.keys(newErrors).length) {
+    if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     onSave(formData);
+
+    setFormData({
+      title: "",
+      year: "",
+      content: "",
+    });
+
+    setErrors({});
     onClose();
   };
 
@@ -66,12 +73,12 @@ const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
       tabIndex="-1"
       style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
     >
-      <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           {/* HEADER */}
           <div className="modal-header">
             <h5 className="modal-title fw-bold">
-              Edit Announcement
+              {field ? "Edit Media Content" : "Add Media Content"}
             </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
@@ -84,32 +91,45 @@ const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
               <input
                 type="text"
                 name="title"
-                className={`form-control ${
-                  errors.title ? "is-invalid" : ""
-                }`}
+                className={`form-control ${errors.title ? "is-invalid" : ""}`}
                 value={formData.title}
                 onChange={handleChange}
+                placeholder="Media Coverage Title"
               />
               {errors.title && (
                 <small className="text-danger">{errors.title}</small>
               )}
             </div>
 
-            {/* DESCRIPTION */}
-            <label className="form-label fw-semibold d-block mb-2">
-              Description
-            </label>
+            {/* YEAR */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Year</label>
+              <input
+                type="number"
+                name="year"
+                className={`form-control ${errors.year ? "is-invalid" : ""}`}
+                value={formData.year}
+                onChange={handleChange}
+                placeholder="2024"
+              />
+              {errors.year && (
+                <small className="text-danger">{errors.year}</small>
+              )}
+            </div>
 
-             <CmsEditor
-                value={formData.description}
+            {/* CONTENT */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Content</label>
+              <CmsEditor
+                value={formData.content}
                 onChange={(v) =>
-                  setFormData((p) => ({ ...p, description: v }))
+                  setFormData((p) => ({ ...p, content: v }))
                 }
               />
-
-            {errors.description && (
-              <small className="text-danger">{errors.description}</small>
-            )}
+              {errors.content && (
+                <small className="text-danger">{errors.content}</small>
+              )}
+            </div>
           </div>
 
           {/* FOOTER */}
@@ -117,8 +137,8 @@ const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
             <button className="btn btn-secondary" onClick={onClose}>
               Cancel
             </button>
-            <button className="btn btn-success" onClick={handleSave}>
-              Update Announcement
+            <button className="btn btn-primary" onClick={handleSave}>
+              {field ? "Update" : "Add"} Media
             </button>
           </div>
         </div>
@@ -127,4 +147,4 @@ const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
   );
 };
 
-export default EditAnnouncementModal;
+export default AddMediaRoomModal;

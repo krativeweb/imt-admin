@@ -25,10 +25,7 @@ const Table = () => {
   const fetchPages = async () => {
     try {
       setLoading(true);
-
-      // ✅ MEDIA API
       const res = await api.get("/api/media");
-
       setData(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error("Error fetching Media content:", error);
@@ -53,7 +50,7 @@ const Table = () => {
      MODAL HANDLERS
   --------------------------------- */
   const openEditModal = (row) => {
-    setEditRow(row);
+    setEditRow(row);          // 👈 full row passed
     setShowEditModal(true);
   };
 
@@ -69,18 +66,12 @@ const Table = () => {
     if (!editRow?._id) return;
 
     try {
-      const res = await api.put(
-        `/api/media/${editRow._id}`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      await api.put(`/api/media/${editRow._id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      if (res.data?.success || res.data?.data) {
-        await fetchPages();
-        closeEditModal();
-      }
+      await fetchPages();     // 👈 refresh table
+      closeEditModal();
     } catch (err) {
       console.error("Media update failed:", err);
     }
@@ -155,18 +146,12 @@ const Table = () => {
           <div
             className="spinner-border"
             role="status"
-            style={{
-              width: "3rem",
-              height: "3rem",
-              color: "#D4AA2D",
-            }}
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
+            style={{ width: "3rem", height: "3rem", color: "#D4AA2D" }}
+          />
         </div>
       ) : (
         <DataTable
-          title="Media Room Content"
+          title="Media  Content"
           columns={columns}
           data={filteredData}
           highlightOnHover

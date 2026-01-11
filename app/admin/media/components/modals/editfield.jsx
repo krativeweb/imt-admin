@@ -4,8 +4,10 @@
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import CmsEditor from "@/components/common/CmsEditor";
+import { useRouter } from "next/navigation";
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
+  const router = useRouter();
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
@@ -17,12 +19,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     meta_canonical: "",
     banner_image: "",
     banner_text: "",
-    media_room_2024: "",
-    media_room_2022: "",
-    media_room_2019: "",
-    media_room_2018: "",
-    media_room_2016: "",
-    media_room_2015: "",
+   
   });
 
   useEffect(() => {
@@ -36,13 +33,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         meta_canonical: field.meta_canonical || "",
         banner_image: field.banner_image || "",
         banner_text: field.banner_text || "",
-        media_room_2024: field.media_room_2024 || "",
-
-        media_room_2022: field.media_room_2022 || "",
-        media_room_2019: field.media_room_2019 || "",
-        media_room_2018: field.media_room_2018 || "",
-        media_room_2016: field.media_room_2016 || "",
-        media_room_2015: field.media_room_2015 || "",
+       
       });
     }
   }, [field]);
@@ -60,6 +51,11 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
       });
     }
   };
+
+  const handleAddMediaroom= () => {
+    router.push("/admin/media-room");
+  };
+  
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -251,84 +247,16 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               />
             </div>
             {/* PGDM Finance Content TEXT */}
-            <div className="mb-4">
-              <label className="form-label fw-semibold">MEDIA ROOM 2024</label>
-              <CmsEditor
-                  value={formData.media_room_2024}
-                  onChange={(v) =>
-                    setFormData((p) => ({ ...p, media_room_2024: v }))
-                  }
-                />
 
              
-            </div>
-                  {/* Curriculum TEXT */}
-              <div className="mb-4">
-              <label className="form-label fw-semibold">MEDIA ROOM 2022</label>
-              <CmsEditor
-                  value={formData.media_room_2022}
-                  onChange={(v) =>
-                    setFormData((p) => ({ ...p, media_room_2022: v }))
-                  }
-                />
 
-            
-            </div>
-                {/* Key Features TEXT */}
-                <div className="mb-4">
-              <label className="form-label fw-semibold">MEDIA ROOM 2019</label>
-              <CmsEditor
-                  value={formData.media_room_2019}
-                  onChange={(v) =>
-                    setFormData((p) => ({ ...p, media_room_2019: v }))
-                  }
-                />
-
-             
-            </div>
-              {/* Program Outcome TEXT */}
-              <div className="mb-4">
-              <label className="form-label fw-semibold">MEDIA ROOM 2018</label>
-              <CmsEditor
-                  value={formData.media_room_2018}
-                  onChange={(v) =>
-                    setFormData((p) => ({ ...p, media_room_2018: v }))
-                  }
-                />
-
-             
-            </div>
-            {/* Pedagogy Structure TEXT */}
-            <div className="mb-4">
-  <label className="form-label fw-semibold">MEDIA ROOM 2016</label>
-
-              <CmsEditor
-                value={formData.media_room_2016}
-                onChange={(v) =>
-                  setFormData((p) => ({ ...p, media_room_2016: v }))
-                }
-              />
-
-
-  
-</div>
-
-             {/* Career Opportunities TEXT */}
-             <div className="mb-4">
-              <label className="form-label fw-semibold">MEDIA ROOM 2015</label>
-              <CmsEditor
-                value={formData.media_room_2015}
-                onChange={(v) =>
-                  setFormData((p) => ({ ...p, media_room_2015: v }))
-                }
-              />
-
-             
-            </div>
                
           </div>
 
           <div className="modal-footer">
+          <button className="btn btn-primary" onClick={handleAddMediaroom}>
+                Add Media Room
+              </button>
             <button
               type="button"
               className="btn btn-secondary"
