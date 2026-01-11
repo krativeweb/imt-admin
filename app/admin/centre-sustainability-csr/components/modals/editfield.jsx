@@ -237,6 +237,8 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
       "alignleft aligncenter alignright alignjustify | " +
       "bullist numlist outdent indent | link image media table | " +
       "code | fullscreen | help",
+      automatic_uploads: true,
+    file_picker_types: "image",
 
     branding: false,
     resize: true,
