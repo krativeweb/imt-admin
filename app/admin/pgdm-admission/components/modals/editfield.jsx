@@ -40,39 +40,52 @@ const [campusPreviews, setCampusPreviews] = useState([]);
   });
 
   useEffect(() => {
-    if (field) {
-      setFormData({
-        page_title: field.page_title || "",
-        page_slug: field.page_slug || "",
-        meta_title: field.meta_title || "",
-        meta_description: field.meta_description || "",
-        meta_keywords: field.meta_keywords || "",
-        meta_canonical: field.meta_canonical || "",
-        banner_image: field.banner_image || "",
-        banner_text: field.banner_text || "",
-        
-
-        features_section: field.features_section || "",
-        advantage_of_imt_hyderabad: field.advantage_of_imt_hyderabad || "",
-        advantage_of_imt_blocks: field.advantage_of_imt_blocks || "",
-        impeccable_placement: field.impeccable_placement || "",
-        elligibility: field.elligibility || "",
-        remember_important_dates: field.remember_important_dates || "",
-        admission_process: field.admission_process || "",
-        admission_information: field.admission_information || "",
-        program_highlights: field.program_highlights || "",
-        life_imt_Hyderabad_campus: field.life_imt_Hyderabad_campus || "",
-                
-      });
-      setExistingImages(field.accreditation_images || []);
-      setNewImages([]);
-      setPreviews([]);
-
-       setExistingCampusImages(field.life_imt_Hyderabad_images || []);
-      setNewCampusImages([]);
-      setCampusPreviews([]);
-    }
+    if (!field) return;
+  
+    /* ---------------- TEXT FIELDS ---------------- */
+    setFormData({
+      page_title: field.page_title || "",
+      page_slug: field.page_slug || "",
+      meta_title: field.meta_title || "",
+      meta_description: field.meta_description || "",
+      meta_keywords: field.meta_keywords || "",
+      meta_canonical: field.meta_canonical || "",
+      banner_image: field.banner_image || "",
+      banner_text: field.banner_text || "",
+  
+      features_section: field.features_section || "",
+      advantage_of_imt_hyderabad: field.advantage_of_imt_hyderabad || "",
+      advantage_of_imt_blocks: field.advantage_of_imt_blocks || "",
+      impeccable_placement: field.impeccable_placement || "",
+      elligibility: field.elligibility || "",
+      remember_important_dates: field.remember_important_dates || "",
+      admission_process: field.admission_process || "",
+      admission_information: field.admission_information || "",
+      program_highlights: field.program_highlights || "",
+      life_imt_Hyderabad_campus: field.life_imt_Hyderabad_campus || "",
+    });
+  
+    /* ---------------- EXISTING IMAGES (CRITICAL) ---------------- */
+    setExistingImages(
+      Array.isArray(field.accreditation_images)
+        ? field.accreditation_images
+        : []
+    );
+  
+    setExistingCampusImages(
+      Array.isArray(field.life_imt_Hyderabad_images)
+        ? field.life_imt_Hyderabad_images
+        : []
+    );
+  
+    /* ---------------- RESET NEW UPLOAD STATES ---------------- */
+    setNewImages([]);
+    setPreviews([]);
+  
+    setNewCampusImages([]);
+    setCampusPreviews([]);
   }, [field]);
+  
 
   const handleAddPeople = () => {
     router.push("/admin/student-tutorials");
@@ -138,27 +151,24 @@ const removeNewCampusImage = (index) => {
   const handleSave = () => {
     const form = new FormData();
   
-    /* TEXT / HTML */
-    Object.keys(formData).forEach((key) => {
-      if (
-        formData[key] !== undefined &&
-        formData[key] !== null &&
-        formData[key] !== ""
-      ) {
-        form.append(key, formData[key]);
+    /* TEXT FIELDS */
+    Object.entries(formData).forEach(([k, v]) => {
+      if (v !== undefined && v !== null) {
+        form.append(k, v);
       }
     });
   
-    /* Accreditation */
+    /* ✅ SEND EXISTING IMAGES */
     existingImages.forEach((img) => {
       form.append("existing_accreditation_images[]", img);
     });
   
+    /* ✅ SEND NEW IMAGES */
     newImages.forEach((file) => {
       form.append("accreditation_images", file);
     });
   
-    /* Life @ IMT Campus */
+    /* CAMPUS IMAGES */
     existingCampusImages.forEach((img) => {
       form.append("existing_campus_images[]", img);
     });
