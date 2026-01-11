@@ -105,12 +105,20 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             <div className="row g-3 mb-4">
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Page Title</label>
-                <input className="form-control" value={formData.page_title} readOnly />
+                <input
+                  className="form-control"
+                  value={formData.page_title}
+                  readOnly
+                />
               </div>
 
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Page Slug</label>
-                <input className="form-control" value={formData.page_slug} readOnly />
+                <input
+                  className="form-control"
+                  value={formData.page_slug}
+                  readOnly
+                />
               </div>
 
               <div className="col-md-6">
@@ -134,7 +142,9 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               </div>
 
               <div className="col-12">
-                <label className="form-label fw-semibold">Meta Description</label>
+                <label className="form-label fw-semibold">
+                  Meta Description
+                </label>
                 <textarea
                   name="meta_description"
                   rows="3"
@@ -159,32 +169,29 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
 
             {/* BANNER IMAGE */}
             <div className="mb-4">
-  <label className="form-label fw-semibold">Banner Image</label>
+              <label className="form-label fw-semibold">Banner Image</label>
 
-  <input
-    type="file"
-    accept="image/*"
-    className="form-control"
-    onChange={handleImageUpload}
-  />
+              <input
+                type="file"
+                accept="image/*"
+                className="form-control"
+                onChange={handleImageUpload}
+              />
 
-  {/* ✅ SHOW PREVIEW AFTER UPLOAD */}
-  {formData.banner_image && (
-    <img
-      src={
-        typeof formData.banner_image === "string"
-          ? `${process.env.NEXT_PUBLIC_API_URL}${formData.banner_image}`
-          : URL.createObjectURL(formData.banner_image)
-      }
-      alt="Banner Preview"
-      className="img-fluid rounded mt-3 border"
-      style={{ maxHeight: "120px" }}
-    />
-  )}
-</div>
-
-
-            
+              {/* ✅ SHOW PREVIEW AFTER UPLOAD */}
+              {formData.banner_image && (
+                <img
+                  src={
+                    typeof formData.banner_image === "string"
+                      ? `${process.env.NEXT_PUBLIC_API_URL}${formData.banner_image}`
+                      : URL.createObjectURL(formData.banner_image)
+                  }
+                  alt="Banner Preview"
+                  className="img-fluid rounded mt-3 border"
+                  style={{ maxHeight: "120px" }}
+                />
+              )}
+            </div>
 
             {/* BANNER TEXT */}
             <div className="mb-4">
@@ -205,81 +212,83 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             <div className="mb-4">
               <label className="form-label fw-semibold">About Details</label>
               <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.about_details}
-  init={{
-    height: 500,
-    menubar: true,
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+                value={formData.about_details}
+                init={{
+                  height: 500,
+                  menubar: true,
 
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                  ],
 
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-      automatic_uploads: true,
-    file_picker_types: "image",
-   images_upload_handler: async (blobInfo) => {
-  const formData = new FormData();
-  formData.append("file", blobInfo.blob());
+                  toolbar:
+                    "undo redo | formatselect | fontselect fontsizeselect | " +
+                    "bold italic forecolor backcolor | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | link image media table | " +
+                    "code | fullscreen | help",
+                  automatic_uploads: true,
+                  image_dimensions: false,
+                  image_caption: false,
+                  file_picker_types: "image",
+                  images_upload_handler: async (blobInfo) => {
+                    const formData = new FormData();
+                    formData.append("file", blobInfo.blob());
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/upload-editor-image`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
+                    const res = await fetch(
+                      `${process.env.NEXT_PUBLIC_API_URL}/upload-editor-image`,
+                      {
+                        method: "POST",
+                        body: formData,
+                      }
+                    );
 
-  const data = await res.json();
+                    const data = await res.json();
 
-  if (!data?.location) {
-    throw new Error("Upload failed");
-  }
+                    if (!data?.location) {
+                      throw new Error("Upload failed");
+                    }
 
-  return data.location; // ✅ MUST return URL
-},
+                    return data.location; // ✅ upload happens on OK
+                  },
 
-    branding: false,
-    resize: true,
+                  branding: false,
+                  resize: true,
 
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
+                  /* ✅ CRITICAL FIXES */
+                  verify_html: false,
+                  cleanup: false,
+                  cleanup_on_startup: false,
+                  forced_root_block: false,
+                  remove_empty: false,
 
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
+                  valid_elements: "*[*]",
+                  extended_valid_elements: "*[*]",
+                  valid_children: "+div[div|h2|p|ul|li|span|a]",
+                  sandbox_iframes: false,
 
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
+                  content_css: [
+                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+                  ],
 
-    content_style: `
+                  content_style: `
       body {
         font-family: 'Inter', sans-serif;
         font-size: 14px;
@@ -337,76 +346,72 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         color: #000;
       }
     `,
-  }}
-  onEditorChange={(content) => {
-    setFormData((prev) => ({
-      ...prev,
-      about_details: content,
-    }));
-  }}
-/>
-
+                }}
+                onEditorChange={(content) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    about_details: content,
+                  }));
+                }}
+              />
             </div>
 
-           
-                <div className="mb-4">
-                  <label className="form-label fw-semibold">
-                    News & Events
-                  </label>
-                  <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.news_events}
-  init={{
-    height: 500,
-    menubar: true,
+            <div className="mb-4">
+              <label className="form-label fw-semibold">News & Events</label>
+              <Editor
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
+                value={formData.news_events}
+                init={{
+                  height: 500,
+                  menubar: true,
 
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                  ],
 
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
+                  toolbar:
+                    "undo redo | formatselect | fontselect fontsizeselect | " +
+                    "bold italic forecolor backcolor | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | link image media table | " +
+                    "code | fullscreen | help",
 
-    branding: false,
-    resize: true,
+                  branding: false,
+                  resize: true,
 
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
+                  /* ✅ CRITICAL FIXES */
+                  verify_html: false,
+                  cleanup: false,
+                  cleanup_on_startup: false,
+                  forced_root_block: false,
+                  remove_empty: false,
 
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
+                  valid_elements: "*[*]",
+                  extended_valid_elements: "*[*]",
+                  valid_children: "+div[div|h2|p|ul|li|span|a]",
+                  sandbox_iframes: false,
 
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
+                  content_css: [
+                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+                  ],
 
-    content_style: `
+                  content_style: `
       body {
         font-family: 'Inter', sans-serif;
         font-size: 14px;
@@ -464,24 +469,22 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         color: #000;
       }
     `,
-  }}
-  onEditorChange={(content) => {
-    setFormData((prev) => ({
-      ...prev,
-      news_events: content,
-    }));
-  }}
-/>
-
-                </div>
-       
+                }}
+                onEditorChange={(content) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    news_events: content,
+                  }));
+                }}
+              />
+            </div>
           </div>
 
           {/* FOOTER */}
           <div className="modal-footer">
             {formData.page_slug === "centre-csr" && (
               <button className="btn btn-primary" onClick={handleAddPeople}>
-               Add Advisory Council & Affilated Faculty 
+                Add Advisory Council & Affilated Faculty
               </button>
             )}
 
