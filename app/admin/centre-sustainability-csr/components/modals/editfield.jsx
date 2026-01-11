@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useRouter } from "next/navigation";
+import CmsEditor from "@/components/common/CmsEditor";
 const pageActions = {
   "centre-digital-transformation": {
     label: "Add Advisory Council",
@@ -211,272 +212,24 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             {/* ABOUT DETAILS */}
             <div className="mb-4">
               <label className="form-label fw-semibold">About Details</label>
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.about_details}
-                init={{
-                  height: 500,
-                  menubar: true,
-
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code | fullscreen | help",
-                  automatic_uploads: true,
-                  image_dimensions: false,
-                  image_caption: false,
-                  file_picker_types: "image",
-                  images_upload_handler: async (blobInfo) => {
-                    const formData = new FormData();
-                    formData.append("file", blobInfo.blob());
-
-                    const res = await fetch(
-                      `${process.env.NEXT_PUBLIC_API_URL}/upload-editor-image`,
-                      {
-                        method: "POST",
-                        body: formData,
-                      }
-                    );
-
-                    const data = await res.json();
-
-                    if (!data?.location) {
-                      throw new Error("Upload failed");
-                    }
-
-                    return data.location; // ✅ upload happens on OK
-                  },
-
-                  branding: false,
-                  resize: true,
-
-                  /* ✅ CRITICAL FIXES */
-                  verify_html: false,
-                  cleanup: false,
-                  cleanup_on_startup: false,
-                  forced_root_block: false,
-                  remove_empty: false,
-
-                  valid_elements: "*[*]",
-                  extended_valid_elements: "*[*]",
-                  valid_children: "+div[div|h2|p|ul|li|span|a]",
-                  sandbox_iframes: false,
-
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-
-                  content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-                }}
-                onEditorChange={(content) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    about_details: content,
-                  }));
-                }}
-              />
+              <CmsEditor
+                  value={formData.about_details}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, about_details: v }))
+                  }
+                />
+             
             </div>
 
             <div className="mb-4">
               <label className="form-label fw-semibold">News & Events</label>
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.news_events}
-                init={{
-                  height: 500,
-                  menubar: true,
-
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code | fullscreen | help",
-
-                  branding: false,
-                  resize: true,
-
-                  /* ✅ CRITICAL FIXES */
-                  verify_html: false,
-                  cleanup: false,
-                  cleanup_on_startup: false,
-                  forced_root_block: false,
-                  remove_empty: false,
-
-                  valid_elements: "*[*]",
-                  extended_valid_elements: "*[*]",
-                  valid_children: "+div[div|h2|p|ul|li|span|a]",
-                  sandbox_iframes: false,
-
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-
-                  content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-                }}
-                onEditorChange={(content) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    news_events: content,
-                  }));
-                }}
-              />
+              <CmsEditor
+                  value={formData.news_events}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, news_events: v }))
+                  }
+                />
+             
             </div>
           </div>
 

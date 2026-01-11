@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
@@ -253,663 +254,74 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               <div className="mb-4">
               <label className="form-label fw-semibold">Introduction</label>
 
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.introduction || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, introduction: content }))
+              <CmsEditor
+                value={formData.introduction}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, introduction: v }))
                 }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
               />
+
+             
             </div>
                 {/* Program Uniqueness TEXT */}
                 <div className="mb-4">
               <label className="form-label fw-semibold">Program Uniqueness</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.program_uniqueness || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, program_uniqueness: content }))
+              <CmsEditor
+                value={formData.program_uniqueness}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, program_uniqueness: v }))
                 }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
               />
+
+             
             </div>
               {/* Specializations TEXT */}
               <div className="mb-4">
               <label className="form-label fw-semibold">Specializations</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.specializations || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, specializations: content }))
+              <CmsEditor
+                value={formData.specializations}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, specializations: v }))
                 }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
               />
+
+              
             </div>
             {/* Program Structure TEXT */}
             <div className="mb-4">
   <label className="form-label fw-semibold">Program Structure</label>
-
-  <Editor
-    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-    value={formData.program_structure || ""}
-    onEditorChange={(content) =>
-      setFormData((prev) => ({
-        ...prev,
-        program_structure: content,   // ✅ FIXED KEY
-      }))
-    }
-    init={{
-      height: 300,
-      menubar: true,
-      plugins: [
-        "advlist",
-        "autolink",
-        "lists",
-        "link",
-        "image",
-        "charmap",
-        "preview",
-        "anchor",
-        "searchreplace",
-        "visualblocks",
-        "code",
-        "fullscreen",
-        "insertdatetime",
-        "media",
-        "table",
-        "help",
-        "wordcount",
-      ],
-      toolbar:
-        "undo redo | formatselect | fontselect fontsizeselect | " +
-        "bold italic forecolor backcolor | " +
-        "alignleft aligncenter alignright alignjustify | " +
-        "bullist numlist outdent indent | link image media table | " +
-        "code fullscreen help",
-      branding: false,
-      content_css: [
-        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-      ],
-      content_style: `
-        body {
-          font-family: 'Inter', sans-serif;
-          font-size: 14px;
-          padding: 10px;
-        }
-
-        .tab-pane {
-          display: block !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
-        .fade {
-          opacity: 1 !important;
-        }
-
-        .nav-tabs,
-        .nav-pills {
-          pointer-events: none;
-          opacity: 0.7;
-        }
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        th, td {
-          border: 1px solid #dee2e6;
-          padding: 8px;
-          vertical-align: middle;
-        }
-
-        .card {
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          padding: 12px;
-          margin-bottom: 16px;
-        }
-
-        .btn {
-          display: inline-block;
-          padding: 4px 10px;
-          font-size: 13px;
-          border-radius: 4px;
-        }
-
-        .btn-warning {
-          background-color: #ffc107;
-          color: #000;
-        }
-      `,
-    }}
-  />
+            <CmsEditor
+                value={formData.program_structure}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, program_structure: v }))
+                }
+              />
+  
 </div>
 
              {/* Academic Calendar TEXT */}
              <div className="mb-4">
               <label className="form-label fw-semibold">Academic Calendar</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.academic_calendar || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, academic_calendar: content }))
+              <CmsEditor
+                value={formData.academic_calendar}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, academic_calendar: v }))
                 }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
               />
+
+              
             </div>
                {/* Placement TEXT */}
                <div className="mb-4">
               <label className="form-label fw-semibold">Placement</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.placement || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, placement: content }))
+              <CmsEditor
+                value={formData.placement}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, placement: v }))
                 }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
               />
+
+              
             </div>
           </div>
 

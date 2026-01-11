@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
+import CmsEditor from "@/components/common/CmsEditor";
+
 
 const AddFieldModal = ({ show, onClose, onSave }) => {
   const [errors, setErrors] = useState({});
@@ -171,41 +173,13 @@ const AddFieldModal = ({ show, onClose, onSave }) => {
             <label className="form-label fw-semibold d-block mb-2">
               Content
             </label>
-            <Editor
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-              value={formData.content}
-              init={{
-                height: 300,
-                menubar: true,
-                plugins: [
-                  "advlist",
-                  "autolink",
-                  "lists",
-                  "link",
-                  "image",
-                  "charmap",
-                  "preview",
-                  "anchor",
-                  "searchreplace",
-                  "visualblocks",
-                  "code",
-                  "fullscreen",
-                  "insertdatetime",
-                  "media",
-                  "table",
-                  "help",
-                  "wordcount",
-                ],
-                toolbar:
-                  "undo redo | formatselect | bold italic forecolor backcolor | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist | link image media table | code fullscreen",
-                branding: false,
-              }}
-              onEditorChange={(content) =>
-                setFormData((prev) => ({ ...prev, content }))
-              }
-            />
+            <CmsEditor
+                value={formData.page_content}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, page_content: v }))
+                }
+              />
+           
             {errors.content && (
               <small className="text-danger">{errors.content}</small>
             )}

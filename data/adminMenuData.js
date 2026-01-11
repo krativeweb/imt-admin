@@ -493,5 +493,12 @@ module.exports = [
     routePath: "/admin/contact-info",
     active: "",
   },
+  {
+    id: 24,
+    name: "Manage Footer",
+    icon: "la-building",
+    routePath: "/admin/footer",
+    active: "",
+  },
   
 ];

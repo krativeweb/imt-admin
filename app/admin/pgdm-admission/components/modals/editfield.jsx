@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
   const router = useRouter();
@@ -367,450 +368,48 @@ const removeNewImage = (index) => {
             {/* PGDM Finance Content TEXT */}
             <div className="mb-4">
               <label className="form-label fw-semibold">  Features Section</label>
+              <CmsEditor
+                  value={formData.features_section}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, features_section: v }))
+                  }
+                />
 
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.features_section || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, features_section: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
+             
             </div>
                   {/* Curriculum TEXT */}
               <div className="mb-4">
               <label className="form-label fw-semibold">Advantage of IMT Hyderabad</label>
+              <CmsEditor
+                  value={formData.advantage_of_imt_hyderabad}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, advantage_of_imt_hyderabad: v }))
+                  }
+                />
 
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.advantage_of_imt_hyderabad || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, advantage_of_imt_hyderabad: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
             
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
             </div>
                 {/* Key Features TEXT */}
                 <div className="mb-4">
               <label className="form-label fw-semibold">Advantage Of Imt Blocks</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.advantage_of_imt_blocks || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, advantage_of_imt_blocks: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
+              <CmsEditor
+                  value={formData.advantage_of_imt_blocks}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, advantage_of_imt_blocks: v }))
+                  }
+                />
+             
             </div>
               {/* Program Outcome TEXT */}
               <div className="mb-4">
               <label className="form-label fw-semibold">Impeccable Placements</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.impeccable_placement || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, impeccable_placement: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
+              <CmsEditor
+                  value={formData.impeccable_placement}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, impeccable_placement: v }))
+                  }
+                />
+              
             </div>
 
             {/* ===============================
@@ -889,662 +488,67 @@ const removeNewImage = (index) => {
             {/* Pedagogy Structure TEXT */}
             <div className="mb-4">
   <label className="form-label fw-semibold">Elligivility</label>
-
-  <Editor
-    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-    value={formData.elligibility || ""}
-    onEditorChange={(content) =>
-      setFormData((prev) => ({
-        ...prev,
-        elligibility: content,   // ✅ FIXED KEY
-      }))
-    }
-    init={{
-      height: 300,
-      menubar: true,
-      plugins: [
-        "advlist",
-        "autolink",
-        "lists",
-        "link",
-        "image",
-        "charmap",
-        "preview",
-        "anchor",
-        "searchreplace",
-        "visualblocks",
-        "code",
-        "fullscreen",
-        "insertdatetime",
-        "media",
-        "table",
-        "help",
-        "wordcount",
-      ],
-      toolbar:
-        "undo redo | formatselect | fontselect fontsizeselect | " +
-        "bold italic forecolor backcolor | " +
-        "alignleft aligncenter alignright alignjustify | " +
-        "bullist numlist outdent indent | link image media table | " +
-        "code fullscreen help",
-      branding: false,
-      content_css: [
-        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-      ],
-      content_style: `
-        body {
-          font-family: 'Inter', sans-serif;
-          font-size: 14px;
-          padding: 10px;
-        }
-
-        .tab-pane {
-          display: block !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
-        .fade {
-          opacity: 1 !important;
-        }
-
-        .nav-tabs,
-        .nav-pills {
-          pointer-events: none;
-          opacity: 0.7;
-        }
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        th, td {
-          border: 1px solid #dee2e6;
-          padding: 8px;
-          vertical-align: middle;
-        }
-
-        .card {
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          padding: 12px;
-          margin-bottom: 16px;
-        }
-
-        .btn {
-          display: inline-block;
-          padding: 4px 10px;
-          font-size: 13px;
-          border-radius: 4px;
-        }
-
-        .btn-warning {
-          background-color: #ffc107;
-          color: #000;
-        }
-      `,
-    }}
-  />
+  <CmsEditor
+                  value={formData.elligibility}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, elligibility: v }))
+                  }
+                />
+  
 </div>
 
              {/* Career Opportunities TEXT */}
              <div className="mb-4">
               <label className="form-label fw-semibold">Remember Important Dates</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.remember_important_dates || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, remember_important_dates: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
+              <CmsEditor
+                  value={formData.remember_important_dates}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, remember_important_dates: v }))
+                  }
+                />
+              
             </div>
 
             <div className="mb-4">
               <label className="form-label fw-semibold">Admission Process</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.admission_process || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, admission_process: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
+              <CmsEditor
+                  value={formData.admission_process}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, admission_process: v }))
+                  }
+                />
             
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
             </div>
             <div className="mb-4">
               <label className="form-label fw-semibold">Admission Information</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.admission_information || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, admission_information: content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-            
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
+              <CmsEditor
+                  value={formData.admission_information}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, admission_information: v }))
+                  }
+                />
+             
             </div>
             <div className="mb-4">
               <label className="form-label fw-semibold">Program Highlights</label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.program_highlights  || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, program_highlights : content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
+              <CmsEditor
+                  value={formData.program_highlights}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, program_highlights: v }))
+                  }
+                />
             
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
             </div>
             <div className="mb-4">
               <label className="form-label fw-semibold">
               Life @ IMT Hyderabad Campus </label>
-
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.life_imt_Hyderabad_campus  || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, life_imt_Hyderabad_campus : content }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
+              <CmsEditor
+                  value={formData.life_imt_Hyderabad_campus}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, life_imt_Hyderabad_campus: v }))
+                  }
+                />
             
-                  /* ✅ FIXED TEMPLATE STRING */
-                  
-                content_style: `
-                body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                }
-              `,
-              content_style: `
-              body {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                padding: 10px;
-              }
-            
-              /* Always show all tab content inside editor */
-              .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-              }
-            
-              .fade {
-                opacity: 1 !important;
-              }
-            
-              /* Disable clicking tabs inside editor */
-              .nav-tabs,
-              .nav-pills {
-                pointer-events: none;
-                opacity: 0.7;
-              }
-            
-              /* Bootstrap tables */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-            
-              th, td {
-                border: 1px solid #dee2e6;
-                padding: 8px;
-                vertical-align: middle;
-              }
-            
-              /* Cards */
-              .card {
-                border: 1px solid #ddd;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 16px;
-              }
-            
-              /* Buttons */
-              .btn {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 13px;
-                border-radius: 4px;
-              }
-            
-              .btn-warning {
-                background-color: #ffc107;
-                color: #000;
-              }
-            `,
-                }}
-              />
             </div>
             {/* ===============================
    LIFE @ IMT HYDERABAD CAMPUS IMAGES

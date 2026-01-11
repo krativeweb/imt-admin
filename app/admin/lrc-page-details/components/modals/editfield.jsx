@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
   const [formData, setFormData] = useState({
@@ -313,27 +314,24 @@ const editorConfig = {
             {/* ABOUT LRC */}
             <div className="mb-4">
               <label className="form-label fw-semibold">About LRC</label>
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+              <CmsEditor
                 value={formData.about_lrc}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, about_lrc: content }))
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, about_lrc: v }))
                 }
-                init={editorConfig}
               />
             </div>
 
             {/* RESOURCES */}
             <div className="mb-4">
               <label className="form-label fw-semibold">Resources</label>
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+              <CmsEditor
                 value={formData.resources}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({ ...prev, resources: content }))
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, resources: v }))
                 }
-                init={editorConfig}
               />
+             
             </div>
           </div>
 

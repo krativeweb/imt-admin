@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
   const [formData, setFormData] = useState({
@@ -213,125 +214,13 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               <label className="form-label fw-semibold">
               Sponsored Research & Advisory Services
               </label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.sponsored_research}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      sponsored_research: content,
-    }))
-  }
-/>
+              <CmsEditor
+                value={formData.sponsored_research}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, sponsored_research: v }))
+                }
+              />
+          
 
             </div>
 

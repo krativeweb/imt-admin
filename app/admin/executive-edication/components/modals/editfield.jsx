@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useRouter } from "next/navigation";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const EditfieldModal = ({ show, onClose, field, onSave }) => {
   const router = useRouter();
@@ -262,125 +263,13 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               <label className="form-label fw-semibold">
               Introduction
               </label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.introduction}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      introduction: content,
-    }))
-  }
-/>
+              <CmsEditor
+                  value={formData.introduction}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, introduction: v }))
+                  }
+                />
+              
 
             </div>
 
@@ -389,620 +278,59 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
               <label className="form-label fw-semibold">
               EDP Calender
               </label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.edp_calender}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      edp_calender: content,
-    }))
-  }
-/>
+              <CmsEditor
+                  value={formData.edp_calender}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, edp_calender: v }))
+                  }
+                />
+              
 
             </div>
 
             {/* ✅ CASES */}
             <div className="mb-4">
               <label className="form-label fw-semibold">Short During Program</label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.short_during_program}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      short_during_program: content,
-    }))
-  }
-/>
+              <CmsEditor
+                  value={formData.short_during_program}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, short_during_program: v }))
+                  }
+                />
+              
 
             </div>
 
             <div className="mb-4">
               <label className="form-label fw-semibold">Long During Program</label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.long_during_program}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      long_during_program: content,
-    }))
-  }
-/>
-
+              <CmsEditor
+                  value={formData.long_during_program}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, long_during_program: v }))
+                  }
+                />
+             
             </div>
             <div className="mb-4">
               <label className="form-label fw-semibold">First Time Manager Program</label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.first_time_manager_program}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      first_time_manager_program: content,
-    }))
-  }
-/>
+              <CmsEditor
+                  value={formData.first_time_manager_program}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, first_time_manager_program: v }))
+                  }
+                />
+             
 
             </div>
             <div className="mb-4">
               <label className="form-label fw-semibold">Certificate Program</label>
-              <Editor
-  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-  value={formData.certificate_program}
-  init={{
-    height: 500,
-    menubar: true,
-
-    plugins: [
-      "advlist",
-      "autolink",
-      "lists",
-      "link",
-      "image",
-      "charmap",
-      "preview",
-      "anchor",
-      "searchreplace",
-      "visualblocks",
-      "code",
-      "fullscreen",
-      "insertdatetime",
-      "media",
-      "table",
-      "help",
-      "wordcount",
-    ],
-
-    toolbar:
-      "undo redo | formatselect | fontselect fontsizeselect | " +
-      "bold italic forecolor backcolor | " +
-      "alignleft aligncenter alignright alignjustify | " +
-      "bullist numlist outdent indent | link image media table | " +
-      "code | fullscreen | help",
-
-    branding: false,
-    resize: true,
-
-    /* ✅ CRITICAL FIXES */
-    verify_html: false,
-    cleanup: false,
-    cleanup_on_startup: false,
-    forced_root_block: false,
-    remove_empty: false,
-
-    valid_elements: "*[*]",
-    extended_valid_elements: "*[*]",
-    valid_children: "+div[div|h2|p|ul|li|span|a]",
-    sandbox_iframes: false,
-
-    content_css: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-    ],
-
-    content_style: `
-      body {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      /* Always show all tab content inside editor */
-      .tab-pane {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .fade {
-        opacity: 1 !important;
-      }
-
-      /* Disable clicking tabs inside editor */
-      .nav-tabs,
-      .nav-pills {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      /* Bootstrap tables */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th, td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        vertical-align: middle;
-      }
-
-      /* Cards */
-      .card {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-block;
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-    `,
-  }}
-  onEditorChange={(content) =>
-    setFormData((prev) => ({
-      ...prev,
-      certificate_program: content,
-    }))
-  }
-/>
+              <CmsEditor
+                  value={formData.certificate_program}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, certificate_program: v }))
+                  }
+                />
+             
 
             </div>
           </div>

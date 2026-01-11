@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { Editor } from "@tinymce/tinymce-react";
-
+import CmsEditor from "@/components/common/CmsEditor";
 const EditStudentTutorialModal = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
   const [preview, setPreview] = useState(null);
@@ -173,56 +173,12 @@ const EditStudentTutorialModal = ({ show, onClose, field, onSave }) => {
                 Description
               </label>
 
-              <Editor
-                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-                value={formData.description || ""}
-                onEditorChange={(content) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    description: content,
-                  }))
-                }
-                init={{
-                  height: 300,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | fontselect fontsizeselect | " +
-                    "bold italic forecolor backcolor | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | link image media table | " +
-                    "code fullscreen help",
-                  branding: false,
-                  content_css: [
-                    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-                  ],
-                  content_style: `
-                    body {
-                      font-family: 'Inter', sans-serif;
-                      font-size: 14px;
-                      padding: 10px;
-                    }
-                  `,
-                }}
-              />
+              <CmsEditor
+                  value={formData.description}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, description: v }))
+                  }
+                />
 
               {errors.description && (
                 <small className="text-danger">
