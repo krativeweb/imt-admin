@@ -45,6 +45,35 @@ const CmsEditor = ({
           "bullist numlist outdent indent | link image media table | " +
           "code | fullscreen | help",
 
+          
+        /* ===============================
+           IMAGE UPLOAD (CMS SAFE)
+        =============================== */
+        automatic_uploads: true,
+        image_dimensions: false,
+        images_responsive: false,
+
+        images_upload_handler: async (blobInfo) => {
+          const formData = new FormData();
+          formData.append("file", blobInfo.blob());
+
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/upload-editor-image`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          const data = await res.json();
+
+          if (!data?.location) {
+            throw new Error("Image upload failed");
+          }
+
+          return data.location; // 👈 MUST be absolute URL
+        },
+
         branding: false,
         resize: true,
 
