@@ -239,7 +239,30 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
       "code | fullscreen | help",
       automatic_uploads: true,
     file_picker_types: "image",
+      images_upload_handler: async (blobInfo, success, failure) => {
+      try {
+        const formData = new FormData();
+        formData.append("file", blobInfo.blob());
 
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/upload-editor-image`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+
+        if (data?.location) {
+          success(data.location);
+        } else {
+          failure("Upload failed");
+        }
+      } catch (err) {
+        failure("Upload error");
+      }
+    },
     branding: false,
     resize: true,
 
