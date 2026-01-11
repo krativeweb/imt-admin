@@ -2,7 +2,7 @@
 
 import MobileMenu from "../../../components/header/AdminMobileMenu";
 import DashboardHeader from "../../../components/header/DashboardAdminheader";
-import DashboardEmployerSidebar from "../../../components/header/DashboardAdminsidebar";
+import DashboardEmployerSidebar from "../../../components/header/DashboardAdminsidebar"; 
 import CopyrightFooter from "../../../components/admin/CopyrightFooter";
 
 import { useState } from "react";
