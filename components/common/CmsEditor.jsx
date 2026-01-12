@@ -77,6 +77,30 @@ const CmsEditor = ({
         branding: false,
         resize: true,
 
+                code_dialog_height: 600,
+        code_dialog_width: 1000,
+
+        setup: (editor) => {
+          editor.on("OpenWindow", (e) => {
+            if (e.dialog?.title === "Source Code") {
+              setTimeout(() => {
+                const textarea = document.querySelector(
+                  ".tox-textarea"
+                );
+                if (textarea) {
+                  textarea.style.height = "500px";
+                  textarea.style.maxHeight = "70vh";
+                  textarea.style.overflow = "auto";
+                  textarea.style.resize = "vertical";
+                  textarea.style.fontFamily = "monospace";
+                  textarea.style.fontSize = "13px";
+                  textarea.style.lineHeight = "1.5";
+                }
+              }, 50);
+            }
+          });
+        },
+
         /* ✅ CRITICAL CMS FIXES */
         verify_html: false,
         cleanup: false,
@@ -152,3 +176,4 @@ const CmsEditor = ({
 };
 
 export default CmsEditor;
+
