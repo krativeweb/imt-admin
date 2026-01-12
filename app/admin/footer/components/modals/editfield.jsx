@@ -141,31 +141,35 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
   =============================== */
   const handleSave = () => {
     const form = new FormData();
-
+  
+    // basic fields
     Object.entries(formData).forEach(([k, v]) => {
-      if (v !== undefined && v !== null) {
-        form.append(k, v);
-      }
+      form.append(k, v ?? "");
     });
-
-    /* ACCREDITATIONS */
-    existingAccreditations.forEach((img) =>
-      form.append("existing_accreditations[]", img)
+  
+    // ✅ SEND AS JSON (IMPORTANT)
+    form.append(
+      "existing_accreditations",
+      JSON.stringify(existingAccreditations || [])
     );
+  
+    form.append(
+      "existing_members",
+      JSON.stringify(existingMembers || [])
+    );
+  
+    // new uploads
     newAccreditations.forEach((file) =>
       form.append("accreditations", file)
     );
-
-    /* MEMBERS */
-    existingMembers.forEach((img) =>
-      form.append("existing_members[]", img)
-    );
+  
     newMembers.forEach((file) =>
       form.append("members", file)
     );
-
+  
     onSave(form);
   };
+  
 
   if (!show) return null;
 
