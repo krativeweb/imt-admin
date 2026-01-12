@@ -30,6 +30,7 @@ const CmsEditor = ({
           "searchreplace",
           "visualblocks",
           "code",
+          "codesample",  // CODE BLOCKS
           "fullscreen",
           "insertdatetime",
           "media",
@@ -43,9 +44,21 @@ const CmsEditor = ({
           "bold italic forecolor backcolor | " +
           "alignleft aligncenter alignright alignjustify | " +
           "bullist numlist outdent indent | link image media table | " +
-          "code | fullscreen | help",
+          "codesample |code | fullscreen | help",
 
-          
+
+        codesample_languages: [
+  { text: "HTML / XML", value: "markup" },
+  { text: "CSS", value: "css" },
+  { text: "JavaScript", value: "javascript" },
+  { text: "TypeScript", value: "typescript" },
+  { text: "JSON", value: "json" },
+  { text: "PHP", value: "php" },
+  { text: "Python", value: "python" },
+  { text: "Java", value: "java" },
+  { text: "C", value: "c" },
+  { text: "C++", value: "cpp" },
+],
         /* ===============================
            IMAGE UPLOAD (CMS SAFE)
         =============================== */
@@ -176,4 +189,5 @@ const CmsEditor = ({
 };
 
 export default CmsEditor;
+
 
