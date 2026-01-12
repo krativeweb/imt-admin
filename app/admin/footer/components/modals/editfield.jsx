@@ -368,7 +368,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             </div>
 
             {/* COPYRIGHT */}
-            <div className="mb-4">
+            {/*<div className="mb-4">
               <h6 className="fw-bold mb-3">Copyright</h6>
 
               <FieldGroup label="Copyright Text">
@@ -380,7 +380,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                     />
                 
               </FieldGroup>
-            </div>
+            </div>*/}
 
           </div>
 
