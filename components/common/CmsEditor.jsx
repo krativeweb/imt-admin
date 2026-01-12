@@ -18,6 +18,9 @@ const CmsEditor = ({
         height,
         menubar: true,
 
+        /* ===============================
+           PLUGINS (UNCHANGED)
+        =============================== */
         plugins: [
           "advlist",
           "autolink",
@@ -30,7 +33,7 @@ const CmsEditor = ({
           "searchreplace",
           "visualblocks",
           "code",
-          "codesample",  // CODE BLOCKS
+          "codesample",
           "fullscreen",
           "insertdatetime",
           "media",
@@ -39,28 +42,35 @@ const CmsEditor = ({
           "wordcount",
         ],
 
+        /* ===============================
+           TOOLBAR (UNCHANGED)
+        =============================== */
         toolbar:
           "undo redo | formatselect | fontselect fontsizeselect | " +
           "bold italic forecolor backcolor | " +
           "alignleft aligncenter alignright alignjustify | " +
-          "bullist numlist outdent indent | link image media table | " +
-          "codesample |code | fullscreen | help",
+          "bullist numlist outdent indent | " +
+          "link image media table | " +
+          "codesample | code | fullscreen | help",
 
-
-        codesample_languages: [
-  { text: "HTML / XML", value: "markup" },
-  { text: "CSS", value: "css" },
-  { text: "JavaScript", value: "javascript" },
-  { text: "TypeScript", value: "typescript" },
-  { text: "JSON", value: "json" },
-  { text: "PHP", value: "php" },
-  { text: "Python", value: "python" },
-  { text: "Java", value: "java" },
-  { text: "C", value: "c" },
-  { text: "C++", value: "cpp" },
-],
         /* ===============================
-           IMAGE UPLOAD (CMS SAFE)
+           CODE SAMPLE LANGUAGES
+        =============================== */
+        codesample_languages: [
+          { text: "HTML / XML", value: "markup" },
+          { text: "CSS", value: "css" },
+          { text: "JavaScript", value: "javascript" },
+          { text: "TypeScript", value: "typescript" },
+          { text: "JSON", value: "json" },
+          { text: "PHP", value: "php" },
+          { text: "Python", value: "python" },
+          { text: "Java", value: "java" },
+          { text: "C", value: "c" },
+          { text: "C++", value: "cpp" },
+        ],
+
+        /* ===============================
+           IMAGE UPLOAD (UNCHANGED)
         =============================== */
         automatic_uploads: true,
         image_dimensions: false,
@@ -84,37 +94,47 @@ const CmsEditor = ({
             throw new Error("Image upload failed");
           }
 
-          return data.location; // 👈 MUST be absolute URL
+          return data.location;
         },
 
         branding: false,
         resize: true,
 
-                code_dialog_height: 600,
-        code_dialog_width: 1000,
+        /* ===============================
+           SOURCE CODE DIALOG SIZE
+        =============================== */
+        code_dialog_height: 650,
+        code_dialog_width: 1100,
 
+        /* ===============================
+           ✅ SOURCE CODE SCROLL FIX (KEY)
+        =============================== */
         setup: (editor) => {
           editor.on("OpenWindow", (e) => {
             if (e.dialog?.title === "Source Code") {
               setTimeout(() => {
-                const textarea = document.querySelector(
-                  ".tox-textarea"
-                );
+                const dialog = document.querySelector(".tox-dialog");
+                const textarea = dialog?.querySelector("textarea");
+
                 if (textarea) {
-                  textarea.style.height = "500px";
-                  textarea.style.maxHeight = "70vh";
-                  textarea.style.overflow = "auto";
+                  textarea.style.height = "520px";
+                  textarea.style.maxHeight = "75vh";
+                  textarea.style.overflowY = "auto";
+                  textarea.style.whiteSpace = "pre";
                   textarea.style.resize = "vertical";
-                  textarea.style.fontFamily = "monospace";
+                  textarea.style.fontFamily =
+                    "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
                   textarea.style.fontSize = "13px";
-                  textarea.style.lineHeight = "1.5";
+                  textarea.style.lineHeight = "1.6";
                 }
-              }, 50);
+              }, 100);
             }
           });
         },
 
-        /* ✅ CRITICAL CMS FIXES */
+        /* ===============================
+           CMS HTML PRESERVATION
+        =============================== */
         verify_html: false,
         cleanup: false,
         cleanup_on_startup: false,
@@ -123,9 +143,12 @@ const CmsEditor = ({
 
         valid_elements: "*[*]",
         extended_valid_elements: "*[*]",
-        valid_children: "+div[div|h2|p|ul|li|span|a]",
+        valid_children: "+div[div|h2|p|ul|li|span|a|img|pre|code]",
         sandbox_iframes: false,
 
+        /* ===============================
+           CONTENT STYLES
+        =============================== */
         content_css: [
           "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
         ],
@@ -189,5 +212,3 @@ const CmsEditor = ({
 };
 
 export default CmsEditor;
-
-
