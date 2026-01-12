@@ -235,7 +235,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
               Cancel
             </button>
             <button className="btn btn-primary" onClick={handleSave}>
-              Add Research
+              Add Happening
             </button>
           </div>
         </div>
