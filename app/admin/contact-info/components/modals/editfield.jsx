@@ -178,10 +178,12 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
   </div>
 </div>
 
-            <hr />
+          
 
             {/* Banner */}
-            <h6 className="fw-bold">Banner</h6>
+            <div className="row g-3 mb-4">
+            <div className="col-md-12">
+            <label className="form-label fw-semibold">Banner Image</label>
             <input type="file" className="form-control" onChange={handleImageUpload} />
             {formData.banner_image && (
               <img
@@ -194,15 +196,19 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                 style={{ maxHeight: 100 }}
               />
             )}
-
+            </div>
+            <div className="col-md-12">
+            <label className="form-label fw-semibold">Banner Text</label>
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
               value={formData.banner_text}
               onEditorChange={(v) => setFormData((p) => ({ ...p, banner_text: v }))}
               init={{ height: 250, menubar: true }}
             />
+            </div>
+            </div>
 
-            <hr />
+           
 
             {/* ADMISSION */}
 <div className="mb-5">
