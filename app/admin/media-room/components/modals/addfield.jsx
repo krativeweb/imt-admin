@@ -43,27 +43,32 @@ const AddMediaRoomModal = ({ show, onClose, onSave, field = null }) => {
   --------------------------------- */
   const handleSave = () => {
     const newErrors = {};
-
+  
     if (!formData.title.trim()) newErrors.title = "Title is required";
     if (!formData.year.trim()) newErrors.year = "Year is required";
     if (!formData.content.trim()) newErrors.content = "Content is required";
-
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
-    onSave(formData);
-
+  
+    onSave({
+      title: formData.title.trim(),
+      year: Number(formData.year), // 👈 FIX
+      content: formData.content,
+    });
+  
     setFormData({
       title: "",
       year: "",
       content: "",
     });
-
+  
     setErrors({});
     onClose();
   };
+  
 
   if (!show) return null;
 

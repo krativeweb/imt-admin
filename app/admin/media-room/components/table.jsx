@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Pencil, Trash2, Plus } from "lucide-react";
 
-import AddStudentsOnRollModal from "./modals/addfield";
-import EditStudentsOnRollModal from "./modals/editfield";
+import AddMediaRoomModal from "./modals/addfield";
+import EditMediaRoomModal from "./modals/editfield";
 import api from "../../lib/api";
 
 const MediaRoomTable = () => {
@@ -23,7 +23,7 @@ const MediaRoomTable = () => {
     try {
       setLoading(true);
       const res = await api.get("/api/media-room");
-      setData(res.data.data || []);
+      setData(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching media room:", error);
     } finally {
@@ -40,21 +40,31 @@ const MediaRoomTable = () => {
   ------------------------------ */
   const handleAddSave = async (newData) => {
     try {
-      await api.post("/api/media-room", newData);
-      fetchMedia();
+      const formData = new URLSearchParams();
+      formData.append("title", newData.title);
+      formData.append("year", newData.year);
+      formData.append("content", newData.content);
+  
+      await api.post("/api/media-room", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+  
+      await fetchMedia();
       setShowAddModal(false);
     } catch (err) {
-      console.error("Add failed:", err);
+      console.error("Add failed:", err.response?.data || err);
     }
   };
-
+  
   /* -----------------------------
         EDIT MEDIA
   ------------------------------ */
   const handleEditSave = async (updatedData) => {
     try {
       await api.put(`/api/media-room/${editRow._id}`, updatedData);
-      fetchMedia();
+      await fetchMedia();
       setShowEditModal(false);
       setEditRow(null);
     } catch (err) {
@@ -82,8 +92,12 @@ const MediaRoomTable = () => {
   const columns = [
     {
       name: "SL",
-      selector: (_, index) => index + 1,
       width: "70px",
+      cell: (_, index) => (
+        <div style={{ textAlign: "center", width: "100%" }}>
+          {index + 1}
+        </div>
+      ),
     },
     {
       name: "Title",
@@ -93,15 +107,18 @@ const MediaRoomTable = () => {
     },
     {
       name: "Year",
-      selector: (row) => row.year,
       width: "100px",
-      center: true,
+      cell: (row) => (
+        <div style={{ textAlign: "center", width: "100%" }}>
+          {row.year}
+        </div>
+      ),
     },
     {
       name: "Action",
       width: "120px",
       cell: (row) => (
-        <>
+        <div className="d-flex justify-content-center">
           <Pencil
             size={18}
             className="text-primary me-3"
@@ -117,7 +134,7 @@ const MediaRoomTable = () => {
             style={{ cursor: "pointer" }}
             onClick={() => handleDelete(row._id)}
           />
-        </>
+        </div>
       ),
     },
   ];
@@ -153,7 +170,7 @@ const MediaRoomTable = () => {
 
       {/* ADD MODAL */}
       {showAddModal && (
-        <AddStudentsOnRollModal
+        <AddMediaRoomModal
           show={showAddModal}
           onClose={() => setShowAddModal(false)}
           onSave={handleAddSave}
@@ -161,8 +178,8 @@ const MediaRoomTable = () => {
       )}
 
       {/* EDIT MODAL */}
-      {showEditModal && (
-        <EditStudentsOnRollModal
+      {showEditModal && editRow && (
+        <EditMediaRoomModal
           show={showEditModal}
           field={editRow}
           onClose={() => setShowEditModal(false)}

@@ -211,53 +211,63 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
            
 
             {/* ADMISSION */}
+{/* ADMISSION */}
 <div className="mb-5">
   <h6 className="fw-bold mb-3">Admission</h6>
 
   <div className="row g-3">
     <div className="col-md-6">
+      <label className="form-label fw-semibold">PGDM Email</label>
       <input
+        type="email"
         className="form-control"
         name="admission_pgdm_email"
         value={formData.admission_pgdm_email}
         onChange={handleChange}
-        placeholder="PGDM Email"
+        placeholder="pgdm@example.com"
       />
     </div>
 
     <div className="col-md-6">
+      <label className="form-label fw-semibold">FPM Email</label>
       <input
+        type="email"
         className="form-control"
         name="admission_fpm_email"
         value={formData.admission_fpm_email}
         onChange={handleChange}
-        placeholder="FPM Email"
+        placeholder="fpm@example.com"
       />
     </div>
 
     <div className="col-md-6">
+      <label className="form-label fw-semibold">Admission Phone</label>
       <input
+        type="text"
         className="form-control"
         name="admission_phone"
         value={formData.admission_phone}
         onChange={handleChange}
-        placeholder="Phone"
+        placeholder="+91 33 1234 5678"
       />
     </div>
 
     <div className="col-md-6">
+      <label className="form-label fw-semibold">Admission Mobile</label>
       <input
+        type="text"
         className="form-control"
         name="admission_mobile"
         value={formData.admission_mobile}
         onChange={handleChange}
-        placeholder="Mobile"
+        placeholder="+91 98765 43210"
       />
     </div>
   </div>
 </div>
 
 <hr className="my-4" />
+
 
 {/* CRG */}
 <div className="mb-5">
@@ -265,79 +275,126 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
 
   <div className="row g-3">
     <div className="col-md-6">
+      <label className="form-label fw-semibold">CRG Email</label>
       <input
+        type="email"
         className="form-control"
         name="crg_email"
         value={formData.crg_email}
         onChange={handleChange}
-        placeholder="CRG Email"
+        placeholder="crg@example.com"
       />
     </div>
 
     <div className="col-md-6">
+      <label className="form-label fw-semibold">CRG Phone</label>
       <input
+        type="text"
         className="form-control"
         name="crg_phone"
         value={formData.crg_phone}
         onChange={handleChange}
-        placeholder="CRG Phone"
+        placeholder="+91 33 1111 2222"
       />
     </div>
 
     <div className="col-md-6">
+      <label className="form-label fw-semibold">CRG Mobile</label>
       <input
+        type="text"
         className="form-control"
         name="crg_mobile"
         value={formData.crg_mobile}
         onChange={handleChange}
-        placeholder="CRG Mobile"
+        placeholder="+91 99999 88888"
       />
     </div>
   </div>
 </div>
 
 <hr className="my-4" />
+
 
 {/* SOCIAL */}
 <div className="mb-5">
   <h6 className="fw-bold mb-3">Social Media</h6>
 
   <div className="row g-3">
-    {["instagram_url","facebook_url","linkedin_url","youtube_url"].map((f) => (
-      <div className="col-md-6" key={f}>
-        <input
-          className="form-control"
-          name={f}
-          value={formData[f]}
-          onChange={handleChange}
-          placeholder={f.replace("_url","").toUpperCase() + " URL"}
-        />
-      </div>
-    ))}
+    <div className="col-md-6">
+      <label className="form-label fw-semibold">Instagram URL</label>
+      <input
+        className="form-control"
+        name="instagram_url"
+        value={formData.instagram_url}
+        onChange={handleChange}
+        placeholder="https://instagram.com/yourpage"
+      />
+    </div>
+
+    <div className="col-md-6">
+      <label className="form-label fw-semibold">Facebook URL</label>
+      <input
+        className="form-control"
+        name="facebook_url"
+        value={formData.facebook_url}
+        onChange={handleChange}
+        placeholder="https://facebook.com/yourpage"
+      />
+    </div>
+
+    <div className="col-md-6">
+      <label className="form-label fw-semibold">LinkedIn URL</label>
+      <input
+        className="form-control"
+        name="linkedin_url"
+        value={formData.linkedin_url}
+        onChange={handleChange}
+        placeholder="https://linkedin.com/company/yourpage"
+      />
+    </div>
+
+    <div className="col-md-6">
+      <label className="form-label fw-semibold">YouTube URL</label>
+      <input
+        className="form-control"
+        name="youtube_url"
+        value={formData.youtube_url}
+        onChange={handleChange}
+        placeholder="https://youtube.com/@yourchannel"
+      />
+    </div>
   </div>
 </div>
 
 <hr className="my-4" />
 
+
 {/* MAP */}
 <div className="mb-4">
   <h6 className="fw-bold mb-3">Map</h6>
 
-  <textarea
-    className="form-control mb-3"
-    name="map_address"
-    value={formData.map_address}
-    onChange={handleChange}
-    placeholder="Full Address"
-  />
+  <div className="mb-3">
+    <label className="form-label fw-semibold">Address</label>
+    <textarea
+      className="form-control"
+      name="map_address"
+      rows="3"
+      value={formData.map_address}
+      onChange={handleChange}
+      placeholder="Full office address"
+    />
+  </div>
 
-  <input
-    className="form-control"
-    name="map_embed_url"
-    value={formData.map_embed_url}
-    onChange={handleChange}
-    placeholder="Google Map Embed URL"
-  />
+  <div>
+    <label className="form-label fw-semibold">Google Map Embed URL</label>
+    <input
+      className="form-control"
+      name="map_embed_url"
+      value={formData.map_embed_url}
+      onChange={handleChange}
+      placeholder="https://www.google.com/maps/embed?..."
+    />
+  </div>
 </div>
 
           </div>
