@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link"; 
 
-const About = () => { 
+const About = () => {  
   return (  
     <>
       <div className="content-column col-lg-6 col-md-12 col-sm-12 order-2">
