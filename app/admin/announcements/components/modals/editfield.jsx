@@ -45,9 +45,7 @@ const EditAnnouncementModal = ({ show, onClose, field, onSave }) => {
       newErrors.title = "Title is required";
     }
 
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
-    }
+
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
