@@ -506,4 +506,27 @@ module.exports = [
     routePath: "/admin/footer",
     active: "",
   },
+
+  {
+    children: [
+      {
+        id: "25-1",
+        name: "Clubs & Communities Page SEO",
+        icon: "la-file-signature",
+        routePath: "/admin/club-communities-seo",
+      },
+      {
+        id: "25-2",
+        name: "Club @ IMT",
+        icon: "la-file-signature",
+        routePath: "/admin/club-imt-data",
+      },
+      {
+        id: "25-3",
+        name: "Committees @ IMT",
+        icon: "la-file-signature",
+        routePath: "/admin/committees-imt-data",
+      },
+    ],
+  },
 ];
