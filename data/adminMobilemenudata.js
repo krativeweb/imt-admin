@@ -527,6 +527,18 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/committees-imt-data",
       },
+      {
+        id: "25-4",
+        name: "Event Picture Gallery",
+        icon: "la-file-signature",
+        routePath: "/admin/event-gallery",
+      },
+      {
+        id: "25-5",
+        name: "Event Calender",
+        icon: "la-file-signature",
+        routePath: "/admin/event-calender",
+      },
     ],
   },
 ];
