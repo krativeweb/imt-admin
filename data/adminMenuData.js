@@ -567,6 +567,12 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/inbound-exchange",
       },
+      {
+        id: "26-4",
+        name: "Inbound Application Form",
+        icon: "la-file-signature",
+        routePath: "/admin/inbound-application-form",
+      },
 
 
     ],
