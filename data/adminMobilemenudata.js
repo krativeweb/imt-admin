@@ -539,6 +539,33 @@ module.exports = [
         icon: "la-file-signature",
         routePath: "/admin/event-calender",
       },
+      
+    ],
+  },
+  {
+    id: 26,
+    name: "Manage Student Exchange",
+    icon: "la-book",
+    children: [
+      {
+        id: "26-1",
+        name: "Student Exchange Page SEO",
+        icon: "la-file-signature",
+        routePath: "/admin/student-exchange-seo",
+      },
+      {
+        id: "26-2",
+        name: "Outbound Exchange",
+        icon: "la-file-signature",
+        routePath: "/admin/outbound-exchange",
+      },
+      {
+        id: "26-3",
+        name: "Inbound Exchange",
+        icon: "la-file-signature",
+        routePath: "/admin/inbound-exchange",
+      },
+
     ],
   },
 ];
