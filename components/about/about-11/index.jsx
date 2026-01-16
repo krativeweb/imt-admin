@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ImageBox from "./ImageBox";
-
+ 
 const index = () => {
   return (
     <>
