@@ -138,7 +138,7 @@ const EditFieldModal = ({ show, onClose, field, onSave }) => {
             </div>
 
             {/* CONTENT */}
-            <label className="form-label fw-semibold d-block mb-2">
+            {/*<label className="form-label fw-semibold d-block mb-2">
               Content
             </label>
 
@@ -176,7 +176,7 @@ const EditFieldModal = ({ show, onClose, field, onSave }) => {
               onEditorChange={(content) =>
                 setFormData((prev) => ({ ...prev, content }))
               }
-            />
+            />*/}
           </div>
 
           {/* FOOTER */}
