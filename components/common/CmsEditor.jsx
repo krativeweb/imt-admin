@@ -86,6 +86,51 @@ const CmsEditor = ({
           return data.location;
         },
 
+        file_picker_types: "file",
+
+file_picker_callback: (callback, value, meta) => {
+  if (meta.filetype === "file") {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "application/pdf");
+
+    input.onchange = async function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/upload-editor-file`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+
+        if (!data?.location) {
+          throw new Error("PDF upload failed");
+        }
+
+        // Insert link into editor
+        callback(data.location, {
+          text: file.name,
+          title: file.name,
+        });
+      } catch (err) {
+        alert("PDF upload failed");
+        console.error(err);
+      }
+    };
+
+    input.click();
+  }
+},
+
         branding: false,
         resize: true,
 
@@ -201,4 +246,5 @@ const CmsEditor = ({
 };
 
 export default CmsEditor;
+
 
