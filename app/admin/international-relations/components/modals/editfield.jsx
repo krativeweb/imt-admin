@@ -184,7 +184,7 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                   value={formData.page_title}
                   onChange={handleChange}
                   maxLength={60}
-                  readOnly
+             
                 />
                 {errors.page_title && (
                   <small className="text-danger">{errors.page_title}</small>
