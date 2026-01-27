@@ -267,3 +267,34 @@ img.rounded-circle {
   text-overflow: ellipsis;
   vertical-align: middle;
 }
+
+/* ===============================
+   TinyMCE Source Code Scroll FIX
+   =============================== */
+
+.tox-dialog {
+  max-height: 90vh !important;
+}
+
+.tox-dialog__body {
+  max-height: 85vh !important;
+  overflow: hidden !important;
+}
+
+.tox-dialog__body-content {
+  max-height: 80vh !important;
+  overflow-y: auto !important; /* ✅ THIS ENABLES SCROLL */
+}
+
+.tox-dialog textarea {
+  min-height: 600px !important;
+  height: 70vh !important;
+  max-height: 75vh !important;
+  overflow-y: auto !important;
+  white-space: pre !important;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
