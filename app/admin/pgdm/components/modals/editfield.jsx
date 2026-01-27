@@ -311,7 +311,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
             </div>
                {/* Competency Goal TEXT */}
                <div className="mb-4">
-              <label className="form-label fw-semibold">Competency Goal</label>
+              <label className="form-label fw-semibold">Program Learning Outcomes</label>
               <CmsEditor
                     value={formData.competency_goal}
                     onChange={(v) =>
