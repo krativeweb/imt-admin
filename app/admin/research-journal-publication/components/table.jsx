@@ -177,23 +177,13 @@ const Table = () => {
   
     // ❌ REMOVED JOURNAL COLUMN
   
-    {
-      name: "URL",
-      cell: (row) =>
-        row.publication_url ? (
-          <a
-            href={row.publication_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary"
-          >
-            View
-          </a>
-        ) : (
-          "-"
-        ),
-      center: true,
-    },
+  {
+  name: "Volume",
+  selector: (row) => row.volume || "-",
+  sortable: true,
+  wrap: true,
+  center: true,
+},
   
     {
       name: "Action",
