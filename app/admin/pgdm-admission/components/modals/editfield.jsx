@@ -36,6 +36,7 @@ const [campusPreviews, setCampusPreviews] = useState([]);
     admission_process: "",
     admission_information: "",
     program_highlights:"",
+    know_more: "",
     life_imt_Hyderabad_campus:"",
   });
 
@@ -62,6 +63,7 @@ const [campusPreviews, setCampusPreviews] = useState([]);
       admission_process: field.admission_process || "",
       admission_information: field.admission_information || "",
       program_highlights: field.program_highlights || "",
+      know_more: field.know_more || "",
       life_imt_Hyderabad_campus: field.life_imt_Hyderabad_campus || "",
     });
   
@@ -549,6 +551,17 @@ const removeNewImage = (index) => {
                 />
             
             </div>
+
+            <div className="mb-4">
+  <label className="form-label fw-semibold">Know More</label>
+  <CmsEditor
+    value={formData.know_more}
+    onChange={(v) =>
+      setFormData((p) => ({ ...p, know_more: v }))
+    }
+  />
+</div>
+
             <div className="mb-4">
               <label className="form-label fw-semibold">
               Life @ IMT Hyderabad Campus </label>
