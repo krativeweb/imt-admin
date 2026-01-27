@@ -144,45 +144,27 @@ file_picker_callback: (callback, value, meta) => {
            ✅ SOURCE CODE SCROLL FIX (KEY)
         =============================== */
         setup: (editor) => {
-  editor.on("OpenWindow", (e) => {
-    if (e.dialog?.title === "Source Code") {
-      setTimeout(() => {
-        const dialog = document.querySelector(".tox-dialog");
-        const body = dialog?.querySelector(".tox-dialog__body");
-        const content = dialog?.querySelector(".tox-dialog__body-content");
-        const textarea = dialog?.querySelector("textarea");
+          editor.on("OpenWindow", (e) => {
+            if (e.dialog?.title === "Source Code") {
+              setTimeout(() => {
+                const dialog = document.querySelector(".tox-dialog");
+                const textarea = dialog?.querySelector("textarea");
 
-        if (dialog) {
-          dialog.style.maxHeight = "90vh";
-        }
-
-        if (body) {
-          body.style.maxHeight = "85vh";
-          body.style.overflow = "hidden";
-        }
-
-        if (content) {
-          content.style.maxHeight = "80vh";
-          content.style.overflowY = "auto";   // ✅ KEY FIX
-        }
-
-        if (textarea) {
-          textarea.style.minHeight = "600px";
-          textarea.style.height = "70vh";
-          textarea.style.maxHeight = "75vh";
-          textarea.style.overflowY = "auto";  // ✅ ENABLE SCROLL
-          textarea.style.whiteSpace = "pre";
-          textarea.style.resize = "vertical";
-          textarea.style.fontFamily =
-            "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-          textarea.style.fontSize = "13px";
-          textarea.style.lineHeight = "1.6";
-        }
-      }, 100);
-    }
-  });
-},
-
+                if (textarea) {
+                  textarea.style.height = "520px";
+                  textarea.style.maxHeight = "75vh";
+                  textarea.style.overflowY = "auto";
+                  textarea.style.whiteSpace = "pre";
+                  textarea.style.resize = "vertical";
+                  textarea.style.fontFamily =
+                    "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+                  textarea.style.fontSize = "13px";
+                  textarea.style.lineHeight = "1.6";
+                }
+              }, 100);
+            }
+          });
+        },
 
         /* ===============================
            CMS HTML PRESERVATION
@@ -264,6 +246,5 @@ file_picker_callback: (callback, value, meta) => {
 };
 
 export default CmsEditor;
-
 
 
