@@ -57,7 +57,8 @@ const Table = () => {
       // text fields
       formData.append("title", updatedData.title);
       formData.append("description", updatedData.description || "");
-  
+  formData.append("sortOrder", updatedData.sortOrder);
+
       // ✅ NEW IMAGES (FILES)
       updatedData.new_images?.forEach((file) => {
         formData.append("images", file); // multer key
