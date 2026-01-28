@@ -1,6 +1,6 @@
 name: Deploy IMT Admin (Next.js)
 
-on:
+on: 
   push:
     branches:
       - main  
@@ -42,3 +42,4 @@ jobs:
 
             pm2 save
           EOF
+
