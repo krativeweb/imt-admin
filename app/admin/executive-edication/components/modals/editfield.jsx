@@ -154,7 +154,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                   className="form-control"
                   value={formData.meta_title}
                   onChange={handleChange}
-                  maxLength={60}
+              
                 />
               </div>
 
@@ -181,7 +181,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                   className="form-control"
                   value={formData.meta_description}
                   onChange={handleChange}
-                  maxLength={160}
+                
                 />
               </div>
 

@@ -210,11 +210,9 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                   className="form-control"
                   value={formData.meta_title}
                   onChange={handleChange}
-                  maxLength={60}
+             
                 />
-                <small className="text-muted">
-                  {formData.meta_title.length}/60
-                </small>
+           
               </div>
               <div className="col-md-6">
                 <label className="form-label fw-semibold">
@@ -226,11 +224,9 @@ const EditfieldModal = ({ show, onClose, field, onSave, pageSlug }) => {
                   className="form-control"
                   value={formData.meta_description}
                   onChange={handleChange}
-                  maxLength={160}
+              
                 />
-                <small className="text-muted">
-                  {formData.meta_description.length}/160
-                </small>
+              
               </div>
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Meta Keywords</label>
