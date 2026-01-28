@@ -103,7 +103,7 @@ const Table = () => {
   
       formData.append("title", newData.title);
       formData.append("description", newData.description || "");
-  
+      formData.append("sortOrder", updatedData.sortOrder);
       newData.images.forEach((file) => {
         formData.append("images[]", file);
       });
