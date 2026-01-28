@@ -158,7 +158,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     className={`form-control ${errors.sortOrder ? "is-invalid" : ""}`}
     value={formData.sortOrder}
     onChange={handleChange}
-    placeholder="Lower number = higher priority"
+    placeholder="Higher number = higher priority"
   />
   {errors.sortOrder && (
     <small className="text-danger">{errors.sortOrder}</small>
