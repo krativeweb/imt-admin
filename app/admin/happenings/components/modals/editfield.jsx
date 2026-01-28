@@ -14,6 +14,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     existing_images: [],
     new_images: [],
     remove_images: [],
+      sortOrder: "",
   });
 
   /* ---------------------------------
@@ -25,6 +26,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     setFormData({
       title: field.title || "",
       description: field.description || "",
+       sortOrder: field.sortOrder ?? "", 
       existing_images: field.images || [],
       new_images: [],
       remove_images: [],
@@ -101,6 +103,8 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     if (!formData.description.trim())
       errs.description = "Description is required";
 
+    if (formData.sortOrder === "")
+  errs.sortOrder = "Sort order is required";
     if (Object.keys(errs).length) {
       setErrors(errs);
       return;
@@ -144,6 +148,23 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                 <small className="text-danger">{errors.title}</small>
               )}
             </div>
+
+            {/* SORT ORDER */}
+<div className="mb-3">
+  <label className="form-label fw-semibold">Sort Order</label>
+  <input
+    type="number"
+    name="sortOrder"
+    className={`form-control ${errors.sortOrder ? "is-invalid" : ""}`}
+    value={formData.sortOrder}
+    onChange={handleChange}
+    placeholder="Lower number = higher priority"
+  />
+  {errors.sortOrder && (
+    <small className="text-danger">{errors.sortOrder}</small>
+  )}
+</div>
+
 
             {/* EXISTING IMAGES */}
             <div className="mb-4">
