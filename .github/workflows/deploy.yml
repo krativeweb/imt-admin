@@ -3,7 +3,7 @@ name: Deploy IMT Admin (Next.js)
 on:
   push:
     branches:
-      - main
+      - main  
 
 jobs:
   deploy:
