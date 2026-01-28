@@ -13,6 +13,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
     title: "",
     images: [],
     description: "",
+    sortOrder: "",
   });
 
   
@@ -83,7 +84,9 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
       setErrors(newErrors);
       return;
     }
-  
+
+  if (formData.sortOrder === "")
+  newErrors.sortOrder = "Sort order is required";
     const fd = new FormData();
     fd.append("title", formData.title);
     fd.append("description", formData.description);
@@ -116,7 +119,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
     const fd = new FormData();
     fd.append("title", formData.title);
     fd.append("description", formData.description);
-  
+  fd.append("sortOrder", formData.sortOrder);
     // ✅ CORRECT FIELD NAME
     formData.images.forEach((file) =>
       fd.append("images", file)
@@ -124,7 +127,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
   
     onSave(fd);
   
-    setFormData({ title: "", images: [], description: "" });
+    setFormData({ title: "", images: [], description: "" ,  sortOrder: "",});
     setPreviews([]);
     onClose();
   };
@@ -162,6 +165,23 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
                 <small className="text-danger">{errors.title}</small>
               )}
             </div>
+
+            {/* SORT ORDER */}
+<div className="mb-3">
+  <label className="form-label fw-semibold">Sort Order</label>
+  <input
+    type="number"
+    name="sortOrder"
+    className={`form-control ${errors.sortOrder ? "is-invalid" : ""}`}
+    value={formData.sortOrder}
+    onChange={handleChange}
+    placeholder="Lower number = higher priority"
+  />
+  {errors.sortOrder && (
+    <small className="text-danger">{errors.sortOrder}</small>
+  )}
+</div>
+
 
             {/* IMAGE */}
             <div className="mb-3">
@@ -228,6 +248,8 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
               <small className="text-danger">{errors.description}</small>
             )}
           </div>
+
+          
 
           {/* FOOTER */}
           <div className="modal-footer">
