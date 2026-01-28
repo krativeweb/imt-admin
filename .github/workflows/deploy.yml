@@ -1,0 +1,44 @@
+name: Deploy IMT Admin (Next.js)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            cd ${{ secrets.APP_PATH }}
+
+            echo "🔄 Pulling latest code..."
+            git pull origin main
+
+            echo "📦 Installing dependencies..."
+            npm install
+
+            echo "🏗️ Building Next.js..."
+            npm run build
+
+            echo "🚀 Reloading PM2..."
+            pm2 reload imt-admin || pm2 start node_modules/next/dist/bin/next \
+              --name imt-admin \
+              -i max \
+              -- start -p 4051
+
+            pm2 save
+          EOF
