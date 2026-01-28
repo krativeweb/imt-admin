@@ -154,6 +154,12 @@ const Table = () => {
       selector: (row, index) => index + 1,
       width: "70px",
     },
+      {
+    name: "Order",
+    selector: (row) => row.sortOrder ?? 0,
+    width: "90px",
+    center: true,
+  },
     {
       name: "Title",
       selector: (row) => row.title,
