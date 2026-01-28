@@ -114,7 +114,7 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
                   type="text"
                   className="form-control"
                   value={formData.page_title}
-                  readOnly
+                  onChange={handleChange}
                 />
               </div>
 
