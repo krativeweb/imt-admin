@@ -215,4 +215,5 @@ module.exports = [
       { id: "26-4", name: "Inbound Application Form", routePath: "/admin/inbound-application-form" },
     ],
   },
+  { id: 27, name: "Privacy Policy", icon: "la-building", routePath: "/admin/privacy-policy" },
 ];
