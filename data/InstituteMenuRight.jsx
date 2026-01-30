@@ -96,7 +96,7 @@ module.exports = [
   //   icon: "la-lock",
   //   routePath: "/employers-dashboard/change-password",
   //   active: "",
-  // },
+  // }, 
   // {
   //   id: 15,
   //   name: "Logout",
