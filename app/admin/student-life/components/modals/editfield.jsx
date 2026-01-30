@@ -26,8 +26,8 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
      LOAD DATA
   --------------------------------- */
   useEffect(() => {
-    if (!field) return;
-
+    if (!field || !show) return;
+  
     setFormData({
       page_title: field.page_title || "",
       page_slug: field.page_slug || "",
@@ -39,16 +39,18 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
       banner_text: field.banner_text || "",
       student_life_content: field.student_life_content || "",
     });
-
+  
+    // IMPORTANT: clone array so React does not overwrite changes
     setExistingImages(
       Array.isArray(field.student_life_images)
-        ? field.student_life_images
+        ? [...field.student_life_images]
         : []
     );
-
+  
     setNewImages([]);
     setPreviews([]);
-  }, [field]);
+  }, [field, show]);
+  
 
   /* ---------------------------------
      CLEAN PREVIEWS
