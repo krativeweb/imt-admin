@@ -214,7 +214,7 @@ const fetchNews = async () => {
           pagination
           highlightOnHover
           subHeader
-          defaultSortFieldId={2} // Event Date
+          defaultSortFieldId="sortDate" 
           defaultSortAsc={false} // DESC
           subHeaderComponent={
             <input
