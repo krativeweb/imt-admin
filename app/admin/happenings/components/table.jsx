@@ -18,23 +18,18 @@ const Table = () => {
   /* -----------------------------
         FETCH DATA (DESC DATE)
   ------------------------------ */
-  const fetchNews = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get("/api/happenings");
+const fetchNews = async () => {
+  try {
+    setLoading(true);
+    const res = await api.get("/api/happenings");
 
-      // ✅ SORT BY DATE DESCENDING
-      const sortedData = (res.data?.data || []).sort(
-        (a, b) => new Date(b.sortDate) - new Date(a.sortDate)
-      );
-
-      setData(sortedData);
-    } catch (error) {
-      console.error("Error fetching Happenings:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setData(res.data?.data || []);
+  } catch (error) {
+    console.error("Error fetching Happenings:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchNews();
