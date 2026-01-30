@@ -19,12 +19,19 @@ const Table = () => {
 
   /* -----------------------------
         FETCH CASE PUBLICATIONS
+        SORT BY sortDate DESC
   ------------------------------ */
   const fetchCases = async () => {
     try {
       setLoading(true);
       const res = await api.get("/api/research-cases-publication");
-      setData(res.data.data || []);
+
+      // 🔥 SORT BY SHORT DATE (LATEST FIRST)
+      const sortedData = (res.data?.data || []).sort(
+        (a, b) => new Date(b.sortDate) - new Date(a.sortDate)
+      );
+
+      setData(sortedData);
     } catch (error) {
       console.error("Error fetching case publications:", error);
     } finally {
@@ -122,6 +129,7 @@ const Table = () => {
 
   /* -----------------------------
         TABLE COLUMNS
+        ❌ DATE COLUMN HIDDEN
   ------------------------------ */
   const columns = [
     {
@@ -130,7 +138,6 @@ const Table = () => {
       width: "70px",
       center: true,
     },
-
     {
       name: "Image",
       center: true,
@@ -151,30 +158,18 @@ const Table = () => {
           <span className="text-muted">No Image</span>
         ),
     },
-
     {
-      name: "Year",
+      name: "Academic Year",
       selector: (row) => row.academic_year,
       sortable: true,
-      width: "120px",
+      width: "130px",
     },
-
     {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
       wrap: true,
     },
-
-    // {
-    //   name: "Title",
-    //   selector: (row) => row.title,
-    //   wrap: true,
-    //   grow: 2,
-    // },
-
-     
-
     {
       name: "URL",
       center: true,
@@ -192,7 +187,6 @@ const Table = () => {
           "-"
         ),
     },
-
     {
       name: "Action",
       center: true,
@@ -241,6 +235,7 @@ const Table = () => {
           highlightOnHover
           striped
           subHeader
+          /* 🔒 SORTING ALREADY HANDLED */
           subHeaderComponent={
             <input
               type="text"

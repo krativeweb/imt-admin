@@ -19,6 +19,7 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
     publication_url: "",
     abstract: "",
     image: null,
+    sortDate: "",
   });
 
   /* ---------------------------------
@@ -54,34 +55,40 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
   --------------------------------- */
   const handleSave = () => {
     const newErrors = {};
-
+  
     if (!formData.academic_year)
       newErrors.academic_year = "Academic year is required";
-
+  
     if (!formData.author_name.trim())
       newErrors.author_name = "Author name is required";
-
+  
     if (!formData.publication_title.trim())
       newErrors.publication_title = "Publication title is required";
-
+  
     if (!formData.authors.trim())
       newErrors.authors = "Authors are required";
-
+  
     if (!formData.journal_name.trim())
       newErrors.journal_name = "Journal name is required";
-    
-
-    if (!formData.abstract.trim())
+  
+    if (
+      !formData.abstract ||
+      formData.abstract.replace(/<[^>]*>/g, "").trim() === ""
+    )
       newErrors.abstract = "Abstract is required";
-
+  
+    if (!formData.sortDate)
+      newErrors.sortDate = "Publication date is required";
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
+  
     onSave(formData);
     onClose();
   };
+  
 
   if (!show) return null;
 
@@ -134,6 +141,22 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
                 <small className="text-danger">{errors.academic_year}</small>
               )}
             </div>
+
+            {/* SORT / PUBLISH DATE */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Publication Short Date</label>
+              <input
+                type="date"
+                name="sortDate"
+                className={`form-control ${errors.sortDate ? "is-invalid" : ""}`}
+                value={formData.sortDate}
+                onChange={handleChange}
+              />
+              {errors.sortDate && (
+                <small className="text-danger">{errors.sortDate}</small>
+              )}
+            </div>
+
 
             {/* AUTHOR NAME */}
             <div className="mb-3">

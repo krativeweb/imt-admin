@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { X } from "lucide-react";
-import { Editor } from "@tinymce/tinymce-react";
 import CmsEditor from "@/components/common/CmsEditor";
 
 const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
@@ -11,6 +10,7 @@ const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
 
   const [formData, setFormData] = useState({
     academic_year: "",
+    sortDate: "",                 // ✅ NEW
     name: "",
     title: "",
     authors: "",
@@ -51,13 +51,32 @@ const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
 
-    if (!formData.academic_year) newErrors.academic_year = "Academic year is required";
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.authors.trim()) newErrors.authors = "Authors are required";
-    if (!formData.publisher.trim()) newErrors.publisher = "Publisher is required";
-    if (!formData.reference.trim()) newErrors.reference = "Reference is required";
-    if (!formData.abstract.trim()) newErrors.abstract = "Abstract is required";
+    if (!formData.academic_year)
+      newErrors.academic_year = "Academic year is required";
+
+    if (!formData.sortDate)
+      newErrors.sortDate = "Publication date is required";
+
+    if (!formData.name.trim())
+      newErrors.name = "Name is required";
+
+    if (!formData.title.trim())
+      newErrors.title = "Title is required";
+
+    if (!formData.authors.trim())
+      newErrors.authors = "Authors are required";
+
+    if (!formData.publisher.trim())
+      newErrors.publisher = "Publisher is required";
+
+    if (!formData.reference.trim())
+      newErrors.reference = "Reference is required";
+
+    if (
+      !formData.abstract ||
+      formData.abstract.replace(/<[^>]*>/g, "").trim() === ""
+    )
+      newErrors.abstract = "Abstract is required";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -71,13 +90,18 @@ const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
   if (!show) return null;
 
   return (
-    <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
+    <div
+      className="modal fade show d-block"
+      style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
+    >
       <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
 
           {/* HEADER */}
           <div className="modal-header">
-            <h5 className="modal-title fw-bold">Add Research Case Publication</h5>
+            <h5 className="modal-title fw-bold">
+              Add Research Case Publication
+            </h5>
             <button className="btn-close" onClick={onClose}></button>
           </div>
 
@@ -102,7 +126,26 @@ const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
                   <option key={y} value={y}>{y}</option>
                 ))}
               </select>
-              {errors.academic_year && <small className="text-danger">{errors.academic_year}</small>}
+              {errors.academic_year && (
+                <small className="text-danger">{errors.academic_year}</small>
+              )}
+            </div>
+
+            {/* 🔥 PUBLICATION SHORT DATE */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">
+                Publication Short Date
+              </label>
+              <input
+                type="date"
+                name="sortDate"
+                className={`form-control ${errors.sortDate ? "is-invalid" : ""}`}
+                value={formData.sortDate}
+                onChange={handleChange}
+              />
+              {errors.sortDate && (
+                <small className="text-danger">{errors.sortDate}</small>
+              )}
             </div>
 
             {/* NAME */}
@@ -179,35 +222,41 @@ const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
 
             {/* ABSTRACT */}
             <div className="mb-3">
-  <label className="form-label fw-semibold">Abstract</label>
-  <CmsEditor
-  value={formData.abstract}
-  onChange={(v) =>
-    setFormData((p) => ({ ...p, abstract: v }))
-  }
-/>
-
-  
-
-  {errors.abstract && (
-    <div className="invalid-feedback d-block">
-      {errors.abstract}
-    </div>
-  )}
-</div>
-
+              <label className="form-label fw-semibold">Abstract</label>
+              <CmsEditor
+                value={formData.abstract}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, abstract: v }))
+                }
+              />
+              {errors.abstract && (
+                <div className="invalid-feedback d-block">
+                  {errors.abstract}
+                </div>
+              )}
+            </div>
 
             {/* IMAGE */}
             <div className="mb-3">
               <label className="form-label fw-semibold">Profile Image</label>
-              <input type="file" accept="image/*" className="form-control" onChange={handleImageChange} />
+              <input
+                type="file"
+                accept="image/*"
+                className="form-control"
+                onChange={handleImageChange}
+              />
 
               {preview && (
                 <div className="mt-3 position-relative d-inline-block">
                   <img
                     src={preview}
                     alt="Preview"
-                    style={{ width: "150px", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
                   />
                   <button
                     type="button"
@@ -224,8 +273,12 @@ const AddResearchCasesPublicationModal = ({ show, onClose, onSave }) => {
 
           {/* FOOTER */}
           <div className="modal-footer">
-            <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
-            <button className="btn btn-primary" onClick={handleSave}>Add Case</button>
+            <button className="btn btn-secondary" onClick={onClose}>
+              Cancel
+            </button>
+            <button className="btn btn-primary" onClick={handleSave}>
+              Add Case
+            </button>
           </div>
 
         </div>

@@ -10,7 +10,7 @@ import api from "../../lib/api";
 
 const Table = () => {
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState(""); // ✅ SEARCH STATE
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -18,13 +18,20 @@ const Table = () => {
   const [showAddModal, setShowAddModal] = useState(false);
 
   /* -----------------------------
-        FETCH JOURNAL PUBLICATIONS
+        FETCH PUBLICATIONS
+        SORT BY sortDate DESC
   ------------------------------ */
   const fetchPublications = async () => {
     try {
       setLoading(true);
       const res = await api.get("/api/research-journal-publication");
-      setData(res.data.data || []);
+
+      // 🔥 SORT BY DATE (LATEST FIRST)
+      const sortedData = (res.data?.data || []).sort(
+        (a, b) => new Date(b.sortDate) - new Date(a.sortDate)
+      );
+
+      setData(sortedData);
     } catch (error) {
       console.error("Error fetching publications:", error);
     } finally {
@@ -123,6 +130,7 @@ const Table = () => {
 
   /* -----------------------------
         TABLE COLUMNS
+        ❌ Publication Date HIDDEN
   ------------------------------ */
   const columns = [
     {
@@ -131,8 +139,6 @@ const Table = () => {
       width: "70px",
       center: true,
     },
-  
-    // ✅ IMAGE COLUMN (NEW)
     {
       name: "Image",
       center: true,
@@ -153,38 +159,24 @@ const Table = () => {
           <span className="text-muted">No Image</span>
         ),
     },
-  
     {
-      name: "Year",
+      name: "Academic Year",
       selector: (row) => row.academic_year,
       sortable: true,
-      width: "120px",
+      width: "130px",
     },
-  
     {
       name: "Author",
       selector: (row) => row.author_name,
       sortable: true,
       wrap: true,
     },
-  
-    // {
-    //   name: "Publication Title",
-    //   selector: (row) => row.publication_title,
-    //   wrap: true,
-    //   grow: 2,
-    // },
-  
-    // ❌ REMOVED JOURNAL COLUMN
-  
-  {
-  name: "Volume",
-  selector: (row) => row.volume || "-",
-  sortable: true,
-  wrap: true,
-  center: true,
-},
-  
+    {
+      name: "Volume",
+      selector: (row) => row.volume || "-",
+      sortable: true,
+      center: true,
+    },
     {
       name: "Action",
       center: true,
@@ -206,7 +198,6 @@ const Table = () => {
       ),
     },
   ];
-  
 
   return (
     <div className="p-2">
@@ -234,12 +225,13 @@ const Table = () => {
           highlightOnHover
           striped
           subHeader
+          /* 🔒 Sorting already handled in fetch */
           subHeaderComponent={
             <input
               type="text"
               className="form-control"
               placeholder="Search by title, author, journal or year..."
-              style={{ width: "280px" }}
+              style={{ width: "300px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

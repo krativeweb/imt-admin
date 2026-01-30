@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { Editor } from "@tinymce/tinymce-react";
+import CmsEditor from "@/components/common/CmsEditor";
 
 const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
   const [errors, setErrors] = useState({});
@@ -10,6 +11,7 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
 
   const [formData, setFormData] = useState({
     academic_year: "",
+    sortDate: "",
     author_name: "",
     publication_title: "",
     authors: "",
@@ -17,34 +19,39 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
     volume: "",
     publication_url: "",
     abstract: "",
-    image: null, // optional new image
+    image: null,
   });
 
   /* ---------------------------------
      LOAD EXISTING DATA
   --------------------------------- */
   useEffect(() => {
-    if (field) {
-      setFormData({
-        academic_year: field.academic_year || "",
-        author_name: field.author_name || "",
-        publication_title: field.publication_title || "",
-        authors: field.authors || "",
-        journal_name: field.journal_name || "",
-        volume: field.volume || "",
-        publication_url: field.publication_url || "",
-        abstract: field.abstract || "",
-        image: null,
-      });
+    if (!field) return;
 
-      if (field.image) {
-        setPreview(
-          field.image.startsWith("http")
-            ? field.image
-            : `${process.env.NEXT_PUBLIC_API_URL}/${field.image}`
-        );
-      }
+    setFormData({
+      academic_year: field.academic_year || "",
+      sortDate: field.sortDate
+        ? new Date(field.sortDate).toISOString().split("T")[0] // ✅ yyyy-mm-dd
+        : "",
+      author_name: field.author_name || "",
+      publication_title: field.publication_title || "",
+      authors: field.authors || "",
+      journal_name: field.journal_name || "",
+      volume: field.volume || "",
+      publication_url: field.publication_url || "",
+      abstract: field.abstract || "",
+      image: null,
+    });
+
+    if (field.image) {
+      setPreview(
+        field.image.startsWith("http")
+          ? field.image
+          : `${process.env.NEXT_PUBLIC_API_URL}/${field.image}`
+      );
     }
+
+    setErrors({});
   }, [field]);
 
   /* ---------------------------------
@@ -84,6 +91,9 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
     if (!formData.academic_year)
       newErrors.academic_year = "Academic year is required";
 
+    if (!formData.sortDate)
+      newErrors.sortDate = "Publication date is required";
+
     if (!formData.author_name.trim())
       newErrors.author_name = "Author name is required";
 
@@ -96,9 +106,10 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
     if (!formData.journal_name.trim())
       newErrors.journal_name = "Journal name is required";
 
-
-
-    if (!formData.abstract.trim())
+    if (
+      !formData.abstract ||
+      formData.abstract.replace(/<[^>]*>/g, "").trim() === ""
+    )
       newErrors.abstract = "Abstract is required";
 
     if (Object.keys(newErrors).length > 0) {
@@ -130,14 +141,13 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
 
           {/* BODY */}
           <div className="modal-body">
+
             {/* ACADEMIC YEAR */}
             <div className="mb-3">
               <label className="form-label fw-semibold">Academic Year</label>
               <select
                 name="academic_year"
-                className={`form-select ${
-                  errors.academic_year ? "is-invalid" : ""
-                }`}
+                className={`form-select ${errors.academic_year ? "is-invalid" : ""}`}
                 value={formData.academic_year}
                 onChange={handleChange}
               >
@@ -155,15 +165,30 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
               )}
             </div>
 
+            {/* PUBLICATION DATE */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">
+                Publication Short Date
+              </label>
+              <input
+                type="date"
+                name="sortDate"
+                className={`form-control ${errors.sortDate ? "is-invalid" : ""}`}
+                value={formData.sortDate}
+                onChange={handleChange}
+              />
+              {errors.sortDate && (
+                <small className="text-danger">{errors.sortDate}</small>
+              )}
+            </div>
+
             {/* AUTHOR NAME */}
             <div className="mb-3">
               <label className="form-label fw-semibold">Author Name</label>
               <input
                 type="text"
                 name="author_name"
-                className={`form-control ${
-                  errors.author_name ? "is-invalid" : ""
-                }`}
+                className={`form-control ${errors.author_name ? "is-invalid" : ""}`}
                 value={formData.author_name}
                 onChange={handleChange}
               />
@@ -171,15 +196,11 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
 
             {/* PUBLICATION TITLE */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Publication Title
-              </label>
+              <label className="form-label fw-semibold">Publication Title</label>
               <input
                 type="text"
                 name="publication_title"
-                className={`form-control ${
-                  errors.publication_title ? "is-invalid" : ""
-                }`}
+                className={`form-control ${errors.publication_title ? "is-invalid" : ""}`}
                 value={formData.publication_title}
                 onChange={handleChange}
               />
@@ -191,9 +212,7 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
               <input
                 type="text"
                 name="authors"
-                className={`form-control ${
-                  errors.authors ? "is-invalid" : ""
-                }`}
+                className={`form-control ${errors.authors ? "is-invalid" : ""}`}
                 value={formData.authors}
                 onChange={handleChange}
               />
@@ -205,22 +224,19 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
               <input
                 type="text"
                 name="journal_name"
-                className={`form-control ${
-                  errors.journal_name ? "is-invalid" : ""
-                }`}
+                className={`form-control ${errors.journal_name ? "is-invalid" : ""}`}
                 value={formData.journal_name}
                 onChange={handleChange}
               />
             </div>
-             {/* VOLUME */}
-             <div className="mb-3">
+
+            {/* VOLUME */}
+            <div className="mb-3">
               <label className="form-label fw-semibold">Volume</label>
               <input
                 type="text"
                 name="volume"
-                className={`form-control ${
-                  errors.volume ? "is-invalid" : ""
-                }`}
+                className="form-control"
                 value={formData.volume}
                 onChange={handleChange}
               />
@@ -228,9 +244,7 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
 
             {/* URL */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Publication URL
-              </label>
+              <label className="form-label fw-semibold">Publication URL</label>
               <input
                 type="url"
                 name="publication_url"
@@ -242,143 +256,19 @@ const EditResearchArchiveModal = ({ show, onClose, field, onSave }) => {
 
             {/* ABSTRACT */}
             <div className="mb-3">
-  <label className="form-label fw-semibold">Abstract</label>
-
-  <Editor
-    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY_2}
-    value={formData.abstract}
-    init={{
-      height: 300,
-      menubar: true,
-
-      plugins: [
-        "advlist",
-        "autolink",
-        "lists",
-        "link",
-        "image",
-        "charmap",
-        "preview",
-        "anchor",
-        "searchreplace",
-        "visualblocks",
-        "code",
-        "fullscreen",
-        "insertdatetime",
-        "media",
-        "table",
-        "help",
-        "wordcount",
-      ],
-
-      toolbar:
-        "undo redo | formatselect | fontselect fontsizeselect | " +
-        "bold italic forecolor backcolor | " +
-        "alignleft aligncenter alignright alignjustify | " +
-        "bullist numlist outdent indent | link image media table | " +
-        "code | fullscreen | help",
-
-      branding: false,
-      resize: true,
-
-      /* ✅ CRITICAL FIXES */
-      verify_html: false,
-      cleanup: false,
-      cleanup_on_startup: false,
-      forced_root_block: false,
-      remove_empty: false,
-
-      valid_elements: "*[*]",
-      extended_valid_elements: "*[*]",
-      valid_children: "+div[div|h2|p|ul|li|span|a]",
-      sandbox_iframes: false,
-
-      content_css: [
-        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-      ],
-
-      /* ✅ MUST be a template string */
-      
-    content_style: `
-    body {
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 14px;
-    }
-  `,
-  content_style: `
-  body {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  /* Always show all tab content inside editor */
-  .tab-pane {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .fade {
-    opacity: 1 !important;
-  }
-
-  /* Disable clicking tabs inside editor */
-  .nav-tabs,
-  .nav-pills {
-    pointer-events: none;
-    opacity: 0.7;
-  }
-
-  /* Bootstrap tables */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    vertical-align: middle;
-  }
-
-  /* Cards */
-  .card {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 16px;
-  }
-
-  /* Buttons */
-  .btn {
-    display: inline-block;
-    padding: 4px 10px;
-    font-size: 13px;
-    border-radius: 4px;
-  }
-
-  .btn-warning {
-    background-color: #ffc107;
-    color: #000;
-  }
-`,
-    }}
-    onEditorChange={(content) => {
-      setFormData((prev) => ({
-        ...prev,
-        abstract: content,
-      }));
-    }}
-  />
-
-  {errors.abstract && (
-    <div className="invalid-feedback d-block">
-      {errors.abstract}
-    </div>
-  )}
-</div>
-
+              <label className="form-label fw-semibold">Abstract</label>
+              <CmsEditor
+                value={formData.abstract}
+                onChange={(v) =>
+                  setFormData((p) => ({ ...p, abstract: v }))
+                }
+              />
+              {errors.abstract && (
+                <div className="invalid-feedback d-block">
+                  {errors.abstract}
+                </div>
+              )}
+            </div>
 
             {/* IMAGE */}
             <div className="mb-3">
