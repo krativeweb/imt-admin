@@ -122,20 +122,21 @@ const fetchNews = async () => {
       selector: (row, index) => index + 1,
       width: "70px",
     },
-    {
-        id: "sortDate", 
-      name: "Event Date",
-      selector: (row) => {
-        if (!row.sortDate) return "-";
-        const d = new Date(row.sortDate);
-        const day = String(d.getDate()).padStart(2, "0");
-        const month = String(d.getMonth() + 1).padStart(2, "0");
-        const year = d.getFullYear();
-        return `${day}-${month}-${year}`;
-      },
-      sortable: true,
-      width: "130px",
-    },
+   {
+  id: "sortDate",
+  name: "Event Date",
+  selector: (row) => row.sortDate ? new Date(row.sortDate) : null, // ✅ raw date
+  sortable: true,
+  width: "130px",
+  cell: (row) => {
+    if (!row.sortDate) return "-";
+    const d = new Date(row.sortDate);
+    return `${String(d.getDate()).padStart(2, "0")}-${String(
+      d.getMonth() + 1
+    ).padStart(2, "0")}-${d.getFullYear()}`;
+  },
+}
+,
     {
       name: "Title",
       selector: (row) => row.title,
