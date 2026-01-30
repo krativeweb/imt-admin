@@ -11,10 +11,10 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    sortDate: "",
     existing_images: [],
     new_images: [],
     remove_images: [],
-      sortOrder: "",
   });
 
   /* ---------------------------------
@@ -26,7 +26,9 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
     setFormData({
       title: field.title || "",
       description: field.description || "",
-       sortOrder: field.sortOrder ?? "", 
+      sortDate: field.sortDate
+        ? field.sortDate.split("T")[0] // ✅ fix for date input
+        : "",
       existing_images: field.images || [],
       new_images: [],
       remove_images: [],
@@ -37,7 +39,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   }, [field]);
 
   /* ---------------------------------
-     TEXT HANDLER
+     TEXT / DATE HANDLER
   --------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,12 +101,16 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
   --------------------------------- */
   const handleSave = () => {
     const errs = {};
-    if (!formData.title.trim()) errs.title = "Title is required";
+
+    if (!formData.title.trim())
+      errs.title = "Title is required";
+
     if (!formData.description.trim())
       errs.description = "Description is required";
 
-    if (formData.sortOrder === "")
-  errs.sortOrder = "Sort order is required";
+    if (!formData.sortDate)
+      errs.sortDate = "Event date is required";
+
     if (Object.keys(errs).length) {
       setErrors(errs);
       return;
@@ -149,22 +155,20 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
               )}
             </div>
 
-            {/* SORT ORDER */}
-<div className="mb-3">
-  <label className="form-label fw-semibold">Sort Order</label>
-  <input
-    type="number"
-    name="sortOrder"
-    className={`form-control ${errors.sortOrder ? "is-invalid" : ""}`}
-    value={formData.sortOrder}
-    onChange={handleChange}
-    placeholder="Higher number = higher priority"
-  />
-  {errors.sortOrder && (
-    <small className="text-danger">{errors.sortOrder}</small>
-  )}
-</div>
-
+            {/* EVENT DATE */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Event Date</label>
+              <input
+                type="date"
+                name="sortDate"
+                className={`form-control ${errors.sortDate ? "is-invalid" : ""}`}
+                value={formData.sortDate}
+                onChange={handleChange}
+              />
+              {errors.sortDate && (
+                <small className="text-danger">{errors.sortDate}</small>
+              )}
+            </div>
 
             {/* EXISTING IMAGES */}
             <div className="mb-4">
@@ -213,7 +217,6 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
                 onChange={handleImageChange}
               />
 
-              {/* NEW IMAGE PREVIEWS */}
               <div className="d-flex flex-wrap gap-3 mt-3">
                 {previews.map((src, i) => (
                   <div key={i} className="position-relative">

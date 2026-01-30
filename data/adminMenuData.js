@@ -216,4 +216,5 @@ module.exports = [
     ],
   },
   { id: 27, name: "Privacy Policy", icon: "la-building", routePath: "/admin/privacy-policy" },
+  { id: 28, name: "Student Life", icon: "la-building", routePath: "/admin/student-life" },
 ];

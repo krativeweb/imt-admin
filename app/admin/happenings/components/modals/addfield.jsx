@@ -13,7 +13,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
     title: "",
     images: [],
     description: "",
-    sortOrder: "",
+    sortDate: "",
   });
 
   
@@ -105,32 +105,50 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
   const handleSave = () => {
     const newErrors = {};
   
-    if (!formData.title.trim()) newErrors.title = "Title is required";
+   
+    if (!formData.title.trim())
+      newErrors.title = "Title is required";
+  
     if (!formData.images.length)
       newErrors.images = "At least one image is required";
+  
     if (!formData.description.trim())
       newErrors.description = "Description is required";
+  
+    if (!formData.sortDate)
+      newErrors.sortDate = "Event date is required";
   
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
       return;
     }
   
+    // 🟢 FORM DATA
     const fd = new FormData();
     fd.append("title", formData.title);
     fd.append("description", formData.description);
-  fd.append("sortOrder", formData.sortOrder);
-    // ✅ CORRECT FIELD NAME
-    formData.images.forEach((file) =>
-      fd.append("images", file)
-    );
+    fd.append("sortDate", formData.sortDate); // 📅 calendar date
   
+    formData.images.forEach((file) => {
+      fd.append("images", file); // multer field name
+    });
+  
+    // 🚀 SAVE
     onSave(fd);
   
-    setFormData({ title: "", images: [], description: "" ,  sortOrder: "",});
+    // 🔄 RESET
+    setFormData({
+      title: "",
+      images: [],
+      description: "",
+      sortDate: "",
+    });
+  
     setPreviews([]);
+    setErrors({});
     onClose();
   };
+  
 
   
   if (!show) return null;
@@ -167,20 +185,20 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
             </div>
 
             {/* SORT ORDER */}
-<div className="mb-3">
-  <label className="form-label fw-semibold">Sort Order</label>
+            <div className="mb-3">
+  <label className="form-label fw-semibold">Event Date</label>
   <input
-    type="number"
-    name="sortOrder"
-    className={`form-control ${errors.sortOrder ? "is-invalid" : ""}`}
-    value={formData.sortOrder}
+    type="date"
+    name="sortDate"
+    className={`form-control ${errors.sortDate ? "is-invalid" : ""}`}
+    value={formData.sortDate}
     onChange={handleChange}
-    placeholder="Higher number = higher priority"
   />
-  {errors.sortOrder && (
-    <small className="text-danger">{errors.sortOrder}</small>
+  {errors.sortDate && (
+    <small className="text-danger">{errors.sortDate}</small>
   )}
 </div>
+
 
 
             {/* IMAGE */}

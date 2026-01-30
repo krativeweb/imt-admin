@@ -9,24 +9,30 @@ import api from "../../lib/api";
 const Table = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true); // ✅ loader
+  const [loading, setLoading] = useState(true);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
   /* -----------------------------
-        FETCH NEWS DATA
+        FETCH DATA (DESC DATE)
   ------------------------------ */
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/api/happenings`);
-      setData(res.data?.data || []);
+      const res = await api.get("/api/happenings");
+
+      // ✅ SORT BY DATE DESCENDING
+      const sortedData = (res.data?.data || []).sort(
+        (a, b) => new Date(b.sortDate) - new Date(a.sortDate)
+      );
+
+      setData(sortedData);
     } catch (error) {
-      console.error("Error fetching Research In Focus:", error);
+      console.error("Error fetching Happenings:", error);
     } finally {
-      setLoading(false); // ✅ stop loader
+      setLoading(false);
     }
   };
 
@@ -35,7 +41,7 @@ const Table = () => {
   }, []);
 
   /* -----------------------------
-        OPEN / CLOSE MODALS
+        MODAL HANDLERS
   ------------------------------ */
   const openEditModal = (row) => {
     setEditRow(row);
@@ -48,43 +54,37 @@ const Table = () => {
   };
 
   /* -----------------------------
-        SAVE EDIT NEWS
+        EDIT SAVE
   ------------------------------ */
   const handleEditSave = async (updatedData) => {
     try {
       const formData = new FormData();
-  
-      // text fields
+
       formData.append("title", updatedData.title);
       formData.append("description", updatedData.description || "");
-  formData.append("sortOrder", updatedData.sortOrder);
+      formData.append("sortDate", updatedData.sortDate);
 
-      // ✅ NEW IMAGES (FILES)
       updatedData.new_images?.forEach((file) => {
-        formData.append("images", file); // multer key
+        formData.append("images", file);
       });
-  
-      // ✅ REMOVED IMAGES (PATHS)
+
       updatedData.remove_images?.forEach((img) => {
         formData.append("remove_images", img);
       });
-  
+
       await api.put(`/api/happenings/${editRow._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-  
+
       fetchNews();
       closeEditModal();
     } catch (err) {
       console.error("Update failed:", err);
     }
   };
-  
-  
-  
 
   /* -----------------------------
-        DELETE NEWS
+        DELETE
   ------------------------------ */
   const handleDelete = async (id) => {
     try {
@@ -96,37 +96,14 @@ const Table = () => {
   };
 
   /* -----------------------------
-        ADD NEWS
+        ADD SAVE
   ------------------------------ */
-  /*const handleAddSave = async (newData) => {
-    try {
-      const formData = new FormData();
-  
-      formData.append("title", newData.title);
-      formData.append("description", newData.description || "");
-      formData.append("sortOrder", updatedData.sortOrder);
-      newData.images.forEach((file) => {
-        formData.append("images[]", file);
-      });
-  
-      await api.post(`/api/happenings`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-  
-      fetchNews();
-      setShowAddModal(false);
-    } catch (err) {
-      console.error("Add failed:", err);
-    }
-  };*/
   const handleAddSave = async (formData) => {
     try {
       await api.post(`/api/happenings`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
-  
+
       fetchNews();
       setShowAddModal(false);
     } catch (err) {
@@ -134,33 +111,35 @@ const Table = () => {
     }
   };
 
-
-  
-
   /* -----------------------------
         SEARCH FILTER
   ------------------------------ */
   const filteredData = data.filter((item) =>
-    (item.content || "").toLowerCase().includes(search.toLowerCase())
+    (item.title || "").toLowerCase().includes(search.toLowerCase())
   );
 
   /* -----------------------------
         TABLE COLUMNS
   ------------------------------ */
-
-  
   const columns = [
     {
       name: "SL",
       selector: (row, index) => index + 1,
       width: "70px",
     },
-      {
-    name: "Order",
-    selector: (row) => row.sortOrder ?? 0,
-    width: "90px",
-    center: true,
-  },
+    {
+      name: "Event Date",
+      selector: (row) => {
+        if (!row.sortDate) return "-";
+        const d = new Date(row.sortDate);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      },
+      sortable: true,
+      width: "130px",
+    },
     {
       name: "Title",
       selector: (row) => row.title,
@@ -171,7 +150,6 @@ const Table = () => {
       name: "Image",
       cell: (row) => {
         const firstImage = row.images?.[0];
-  
         return firstImage ? (
           <img
             src={`${process.env.NEXT_PUBLIC_API_URL}/${firstImage}`}
@@ -208,7 +186,7 @@ const Table = () => {
       ),
     },
   ];
-  
+
   return (
     <div className="p-2">
       <div className="d-flex justify-content-end mb-2">
@@ -222,7 +200,6 @@ const Table = () => {
       </div>
 
       {loading ? (
-        /* 🔄 Loader */
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "300px" }}
@@ -230,14 +207,8 @@ const Table = () => {
           <div
             className="spinner-border"
             role="status"
-            style={{
-              width: "3rem",
-              height: "3rem",
-              color: "#D4AA2D",
-            }}
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
+            style={{ width: "3rem", height: "3rem" }}
+          />
         </div>
       ) : (
         <DataTable
@@ -247,11 +218,13 @@ const Table = () => {
           pagination
           highlightOnHover
           subHeader
+          defaultSortFieldId={2} // Event Date
+          defaultSortAsc={false} // DESC
           subHeaderComponent={
             <input
               type="text"
               className="form-control"
-              placeholder="Search News Content..."
+              placeholder="Search by title..."
               style={{ width: "250px" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -260,7 +233,6 @@ const Table = () => {
         />
       )}
 
-      {/* EDIT MODAL */}
       {showEditModal && (
         <EditFieldModal
           show={showEditModal}
@@ -270,7 +242,6 @@ const Table = () => {
         />
       )}
 
-      {/* ADD MODAL */}
       {showAddModal && (
         <AddFieldModal
           show={showAddModal}
