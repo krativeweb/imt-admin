@@ -186,7 +186,7 @@ const AddResearchModal = ({ show, onClose, onSave }) => {
 
             {/* SORT ORDER */}
             <div className="mb-3">
-  <label className="form-label fw-semibold">Event Date</label>
+  <label className="form-label fw-semibold">Event Sort Date</label>
   <input
     type="date"
     name="sortDate"

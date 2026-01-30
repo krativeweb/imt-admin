@@ -157,7 +157,7 @@ const EditResearchModal = ({ show, onClose, field, onSave }) => {
 
             {/* EVENT DATE */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Event Date</label>
+              <label className="form-label fw-semibold">Event Sort Date</label>
               <input
                 type="date"
                 name="sortDate"

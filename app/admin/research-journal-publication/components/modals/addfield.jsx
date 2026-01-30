@@ -144,7 +144,7 @@ const AddResearchArchiveModal = ({ show, onClose, onSave }) => {
 
             {/* SORT / PUBLISH DATE */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Publication Short Date</label>
+              <label className="form-label fw-semibold">Publication Sort Date</label>
               <input
                 type="date"
                 name="sortDate"

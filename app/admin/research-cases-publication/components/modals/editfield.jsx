@@ -164,7 +164,7 @@ const EditResearchCasesPublicationModal = ({ show, onClose, field, onSave }) => 
             {/* 🔥 PUBLICATION SHORT DATE */}
             <div className="mb-3">
               <label className="form-label fw-semibold">
-                Publication Short Date
+                Publication Sort Date
               </label>
               <input
                 type="date"
