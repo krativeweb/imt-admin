@@ -123,6 +123,7 @@ const fetchNews = async () => {
       width: "70px",
     },
     {
+        id: "sortDate", 
       name: "Event Date",
       selector: (row) => {
         if (!row.sortDate) return "-";
