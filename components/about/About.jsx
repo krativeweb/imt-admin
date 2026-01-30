@@ -3,7 +3,7 @@ import Link from "next/link";
  
 const About = () => {  
   return (   
-    <>
+    <> 
       <div className="content-column col-lg-6 col-md-12 col-sm-12 order-2">
         <div className="inner-column " data-aos="fade-left">  
           <div className="sec-title">
