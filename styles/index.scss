@@ -274,24 +274,34 @@ img.rounded-circle {
 
 .tox-dialog {
   max-height: 90vh !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .tox-dialog__body {
-  max-height: 85vh !important;
+  flex: 1;
   overflow: hidden !important;
 }
 
 .tox-dialog__body-content {
-  max-height: 80vh !important;
-  overflow-y: auto !important; /* ✅ THIS ENABLES SCROLL */
+  flex: 1;
+  overflow-y: auto !important;
 }
 
+/* 🔑 THIS IS IMPORTANT */
+.tox-dialog__footer {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  z-index: 10;
+  border-top: 1px solid #ddd;
+}
 .tox-dialog textarea {
-  min-height: 600px !important;
-  height: 70vh !important;
-  max-height: 75vh !important;
+  min-height: 300px !important;
+  height: 100% !important;
+  max-height: 100% !important;
   overflow-y: auto !important;
-  white-space: pre !important;
   resize: vertical;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 13px;
