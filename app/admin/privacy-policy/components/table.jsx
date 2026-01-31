@@ -22,10 +22,9 @@ const Table = () => {
     try {
       setLoading(true);
 
-      // ✅ Privacy Policy API
+      // Privacy Policy API
       const res = await api.get("/api/privacy-policy");
 
-      // backend returns ARRAY
       if (Array.isArray(res.data)) {
         setData(res.data);
       } else {
@@ -42,6 +41,9 @@ const Table = () => {
     fetchPage();
   }, []);
 
+  /* ---------------------------------
+     MODAL CONTROLS
+  --------------------------------- */
   const openEditModal = (row) => {
     setEditRow(row);
     setShowEditModal(true);
@@ -52,13 +54,18 @@ const Table = () => {
     setEditRow(null);
   };
 
+  /* ---------------------------------
+     SAVE EDIT
+  --------------------------------- */
   const handleEditSave = async (updatedData) => {
     try {
       await api.put(
         `/api/privacy-policy/${editRow._id}`,
         updatedData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -79,12 +86,16 @@ const Table = () => {
       width: "80px",
       center: true,
     },
+
     {
       name: "Page Title",
       selector: (row) => row.page_title,
       sortable: true,
       center: true,
     },
+
+   
+
     {
       name: "Banner Image",
       cell: (row) => {
@@ -97,7 +108,7 @@ const Table = () => {
             src={`${baseURL}${row.banner_image}`}
             alt="Banner"
             width="80"
-            height="30"
+            height="40"
             style={{
               objectFit: "cover",
               borderRadius: "6px",
@@ -108,6 +119,7 @@ const Table = () => {
       center: true,
       width: "160px",
     },
+
     {
       name: "Action",
       cell: (row) => (
@@ -123,8 +135,12 @@ const Table = () => {
     },
   ];
 
+  /* ---------------------------------
+     RENDER
+  --------------------------------- */
   return (
     <div className="p-2">
+
       {loading ? (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -133,7 +149,11 @@ const Table = () => {
           <div
             className="spinner-border"
             role="status"
-            style={{ width: "3rem", height: "3rem", color: "#D4AA2D" }}
+            style={{
+              width: "3rem",
+              height: "3rem",
+              color: "#D4AA2D",
+            }}
           >
             <span className="visually-hidden">Loading...</span>
           </div>
@@ -144,10 +164,13 @@ const Table = () => {
           columns={columns}
           data={data}
           highlightOnHover
-          pagination={false}
+          striped
+          responsive
+          pagination
         />
       )}
 
+      {/* Edit Modal */}
       {showEditModal && (
         <EditfieldModal
           show={showEditModal}
@@ -156,6 +179,7 @@ const Table = () => {
           onSave={handleEditSave}
         />
       )}
+
     </div>
   );
 };

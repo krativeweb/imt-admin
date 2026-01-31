@@ -16,6 +16,8 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
     meta_canonical: "",
     banner_image: "",
     banner_text: "",
+    email: "",
+    phone: "",
 
     // ✅ Privacy Policy Content
     content: "",
@@ -32,6 +34,8 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
         meta_canonical: field.meta_canonical || "",
         banner_image: field.banner_image || "",
         banner_text: field.banner_text || "",
+        email: field.email || "",
+        phone: field.phone || "",
 
         // ✅ load content
         content: field.content || "",
@@ -159,6 +163,45 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
 
             <hr className="my-4" />
 
+{/* Contact Info */}
+<div className="row g-3 mb-4">
+  <div className="col-md-6">
+    <label className="form-label fw-semibold">Email ID</label>
+    <input
+      type="email"
+      name="email"
+      className="form-control"
+      value={formData.email}
+      onChange={handleChange}
+      placeholder="example@email.com"
+    />
+  </div>
+
+  <div className="col-md-6">
+    <label className="form-label fw-semibold">Phone</label>
+    <input
+  type="text"
+  name="phone"
+  className="form-control"
+  value={formData.phone}
+  inputMode="numeric"
+  onChange={(e) => {
+    const filteredValue = e.target.value.replace(/[^0-9/ ]/g, "");
+
+    setFormData((prev) => ({
+      ...prev,
+      phone: filteredValue,
+    }));
+  }}
+  placeholder="Enter phone number"
+ 
+/>
+
+  </div>
+</div>
+
+            <hr className="my-4" />
+
             {/* Banner Section */}
             <div className="row g-3 mb-4">
               <div className="col-md-8">
@@ -184,22 +227,46 @@ const EditfieldModal = ({ show, onClose, field, onSave }) => {
 
               <div className="col-12">
                 <label className="form-label fw-semibold">Banner Text</label>
-                <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-                  value={formData.banner_text}
-                  onEditorChange={(content) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      banner_text: content,
-                    }))
-                  }
-                  init={{
-                    height: 300,
-                    menubar: true,
-                    branding: false,
-                    verify_html: false,
-                  }}
-                />
+              <Editor
+                                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                                value={formData.banner_text || ""}
+                                onEditorChange={(content) =>
+                                  setFormData((prev) => ({ ...prev, banner_text: content }))
+                                }
+                                init={{
+                                  height: 300,
+                                  menubar: true,
+                                  plugins: [
+                                    "advlist",
+                                    "autolink",
+                                    "lists",
+                                    "link",
+                                    "image",
+                                    "charmap",
+                                    "preview",
+                                    "anchor",
+                                    "searchreplace",
+                                    "visualblocks",
+                                    "code",
+                                    "fullscreen",
+                                    "insertdatetime",
+                                    "media",
+                                    "table",
+                                    "help",
+                                    "wordcount",
+                                  ],
+                                  toolbar:
+                                    "undo redo | formatselect | fontselect fontsizeselect | " +
+                                    "bold italic forecolor backcolor | " +
+                                    "alignleft aligncenter alignright alignjustify | " +
+                                    "bullist numlist outdent indent | link image media table | " +
+                                    "code | fullscreen | help",
+                                  branding: false,
+                                  content_style:
+                                    "body { font-family: 'Inter', sans-serif; font-size: 14px }",
+                                  resize: true,
+                                }}
+                              />
               </div>
             </div>
 
