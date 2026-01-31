@@ -143,38 +143,7 @@ file_picker_callback: (callback, value, meta) => {
         /* ===============================
            ✅ SOURCE CODE SCROLL FIX (KEY)
         =============================== */
-       setup: (editor) => {
-  editor.on("OpenWindow", (e) => {
-    if (e.dialog?.title === "Source Code") {
-      setTimeout(() => {
-        const dialog = document.querySelector(".tox-dialog");
-        const dialogBody = dialog?.querySelector(".tox-dialog__body");
-        const textarea = dialog?.querySelector("textarea");
-
-        if (dialog) {
-          dialog.style.maxHeight = "85vh";
-          dialog.style.display = "flex";
-          dialog.style.flexDirection = "column";
-        }
-
-        if (dialogBody) {
-          dialogBody.style.flex = "1";
-          dialogBody.style.overflow = "auto";
-        }
-
-        if (textarea) {
-          textarea.style.height = "100%";
-          textarea.style.minHeight = "400px";
-          textarea.style.fontFamily =
-            "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-          textarea.style.fontSize = "13px";
-          textarea.style.lineHeight = "1.6";
-          textarea.style.whiteSpace = "pre";
-        }
-      }, 50);
-    }
-  });
-},
+    
 
 
         /* ===============================
@@ -257,6 +226,7 @@ file_picker_callback: (callback, value, meta) => {
 };
 
 export default CmsEditor;
+
 
 
 
