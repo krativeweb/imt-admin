@@ -30,98 +30,19 @@ module.exports = [
     ],
   },
 
-  /* ================= STATIC / INFO ================= */
-  { id: 2, name: "Mandatory Disclosure", icon: "la-building", routePath: "/admin/mandatory-disclosure" },
-  { id: 3, name: "About IMT Hyderabad", icon: "la-wallet", routePath: "/admin/about-imt-hyderabad" },
-  { id: 4, name: "International Relation", icon: "la-wallet", routePath: "/admin/international-relations" },
 
-  /* ================= GENERAL ================= */
-  { id: 5, name: "Manage Others", icon: "la-id-badge", routePath: "/admin/others" },
 
-  /* ================= PEOPLE ================= */
-  {
-    id: 7,
-    name: "Manage Faculty",
-    icon: "la-user-tie",
-    children: [
-      { id: "7-1", name: "Faculty Page Seo Settings", routePath: "/admin/faculty-seo-settings" },
-      { id: "7-2", name: "Faculty Page Details Seo Settings", routePath: "/admin/faculty-details-seo-settings" },
-      { id: "7-3", name: "List Faculty", routePath: "/admin/list-faculty" },
-    ],
-  },
-
-  /* ================= ACADEMICS & RESOURCES ================= */
-  {
-    id: 8,
-    name: "Manage LRC",
+    {
+    id: 18,
+    name: "Manage Admissions",
     icon: "la-book",
     children: [
-      { id: "8-1", name: "LRC Page Details", routePath: "/admin/lrc-page-details" },
-      { id: "8-2", name: "List LRC FAQs", routePath: "/admin/lrc-faqs" },
+      { id: "18-1", name: "PGDM", routePath: "/admin/pgdm-admission" },
+      { id: "18-2", name: "Fellow Program in Management", routePath: "/admin/fellow-program-in-management" },
     ],
   },
 
-  {
-    id: 9,
-    name: "Manage Awards && Recognitions",
-    icon: "la-book",
-    children: [
-      { id: "9-1", name: "Page Seo Settings", routePath: "/admin/award-seo-settings" },
-      { id: "9-2", name: "Institute Awards", routePath: "/admin/institute-awards" },
-      { id: "9-3", name: "Faculty Awards", routePath: "/admin/faculty-awards" },
-    ],
-  },
-
-  {
-    id: 10,
-    name: "Manage Workshops & Conferences",
-    icon: "la-book",
-    children: [
-      { id: "10-1", name: "Page Seo Settings", routePath: "/admin/workshop_con-seo-settings" },
-      { id: "10-2", name: "Workshop Details", routePath: "/admin/workshops-details" },
-      { id: "10-3", name: "Conferences Details", routePath: "/admin/conferences-details" },
-    ],
-  },
-
-  /* ================= RESEARCH ================= */
-  {
-    id: 11,
-    name: "Manage Research",
-    icon: "la-book",
-    children: [
-      { id: "11-1", name: "Research Publication", routePath: "/admin/research-publication" },
-      { id: "11-2", name: "Sponsored Research & Advisory Services", routePath: "/admin/sponsoredresearch-advisoryservices" },
-    ],
-  },
-
-  {
-    id: 12,
-    name: "Manage Research Archive",
-    icon: "la-book",
-    children: [
-      { id: "12-1", name: "Research Archive SEO", routePath: "/admin/research-archive-seo" },
-      { id: "12-2", name: "Journal Publication", routePath: "/admin/research-journal-publication" },
-      { id: "12-3", name: "Cases Publication", routePath: "/admin/research-cases-publication" },
-      { id: "12-4", name: "Conference Proceeding", routePath: "/admin/research-conference-proceeding" },
-      { id: "12-5", name: "News Article", routePath: "/admin/research-news-article" },
-      { id: "12-6", name: "Books", routePath: "/admin/research-books" },
-      { id: "12-7", name: "Magazines", routePath: "/admin/research-magazines" },
-    ],
-  },
-
-  /* ================= CENTERS ================= */
-  {
-    id: 13,
-    name: "Manage Center & Labs",
-    icon: "la-book",
-    children: [
-      { id: "13-1", name: "Centre For Digital Transformation", routePath: "/admin/centre-digital-transformation" },
-      { id: "13-2", name: "Centre For Sustainability & CSR", routePath: "/admin/centre-sustainability-csr" },
-      { id: "13-3", name: "Innovation Lab", routePath: "/admin/innovation-lab" },
-    ],
-  },
-
-  /* ================= PROGRAMS ================= */
+      /* ================= PROGRAMS ================= */
   {
     id: 14,
     name: "Manage Programs",
@@ -138,20 +59,117 @@ module.exports = [
     ],
   },
 
+    /* ================= PEOPLE ================= */
+  {
+    id: 7,
+    name: "Manage Faculty",
+    icon: "la-user-tie",
+    children: [
+      { id: "7-1", name: "Faculty Page Seo Settings", routePath: "/admin/faculty-seo-settings" },
+      { id: "7-2", name: "Faculty Page Details Seo Settings", routePath: "/admin/faculty-details-seo-settings" },
+      { id: "7-3", name: "List Faculty", routePath: "/admin/list-faculty" },
+    ],
+  },
+
+    {
+    id: 9,
+    name: "Manage Awards && Recognitions",
+    icon: "la-book",
+    children: [
+      { id: "9-1", name: "Page Seo Settings", routePath: "/admin/award-seo-settings" },
+      { id: "9-2", name: "Institute Awards", routePath: "/admin/institute-awards" },
+      { id: "9-3", name: "Faculty Awards", routePath: "/admin/faculty-awards" },
+    ],
+  },
+
+    {
+    id: 10,
+    name: "Manage Workshops & Conferences",
+    icon: "la-book",
+    children: [
+      { id: "10-1", name: "Page Seo Settings", routePath: "/admin/workshop_con-seo-settings" },
+      { id: "10-2", name: "Workshop Details", routePath: "/admin/workshops-details" },
+      { id: "10-3", name: "Conferences Details", routePath: "/admin/conferences-details" },
+    ],
+  },
+
+    {
+    id: 12,
+    name: "Manage Research Archive",
+    icon: "la-book",
+    children: [
+      { id: "12-1", name: "Research Archive SEO", routePath: "/admin/research-archive-seo" },
+      { id: "12-2", name: "Journal Publication", routePath: "/admin/research-journal-publication" },
+      { id: "12-3", name: "Cases Publication", routePath: "/admin/research-cases-publication" },
+      { id: "12-4", name: "Conference Proceeding", routePath: "/admin/research-conference-proceeding" },
+      { id: "12-5", name: "News Article", routePath: "/admin/research-news-article" },
+      { id: "12-6", name: "Books", routePath: "/admin/research-books" },
+      { id: "12-7", name: "Magazines", routePath: "/admin/research-magazines" },
+    ],
+  },
+
+    /* ================= RESEARCH ================= */
+  {
+    id: 11,
+    name: "Manage Research",
+    icon: "la-book",
+    children: [
+      { id: "11-1", name: "Research Publication", routePath: "/admin/research-publication" },
+      { id: "11-2", name: "Sponsored Research & Advisory Services", routePath: "/admin/sponsoredresearch-advisoryservices" },
+    ],
+  },
+
+    /* ================= CENTERS ================= */
+  {
+    id: 13,
+    name: "Manage Center & Labs",
+    icon: "la-book",
+    children: [
+      { id: "13-1", name: "Centre For Digital Transformation", routePath: "/admin/centre-digital-transformation" },
+      { id: "13-2", name: "Centre For Sustainability & CSR", routePath: "/admin/centre-sustainability-csr" },
+      { id: "13-3", name: "Innovation Lab", routePath: "/admin/innovation-lab" },
+    ],
+  },
+
+  /* ================= STATIC / INFO ================= */
+  { id: 2, name: "Mandatory Disclosure", icon: "la-building", routePath: "/admin/mandatory-disclosure" },
+  { id: 3, name: "About IMT Hyderabad", icon: "la-wallet", routePath: "/admin/about-imt-hyderabad" },
+  { id: 4, name: "International Relation", icon: "la-wallet", routePath: "/admin/international-relations" },
+
+  /* ================= GENERAL ================= */
+  { id: 5, name: "Manage Others", icon: "la-id-badge", routePath: "/admin/others" },
+
+
+
+  /* ================= ACADEMICS & RESOURCES ================= */
+  {
+    id: 8,
+    name: "Manage LRC",
+    icon: "la-book",
+    children: [
+      { id: "8-1", name: "LRC Page Details", routePath: "/admin/lrc-page-details" },
+      { id: "8-2", name: "List LRC FAQs", routePath: "/admin/lrc-faqs" },
+    ],
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
   /* ================= PLACEMENTS & CONNECT ================= */
   { id: 6, name: "Manage Placement", icon: "la-boxes", routePath: "/admin/placement" },
   { id: 16, name: "Campus Placements", icon: "la-building", routePath: "/admin/campus-connect" },
   { id: 17, name: "Summer Internship", icon: "la-building", routePath: "/admin/internship" },
 
-  {
-    id: 18,
-    name: "Manage Admissions",
-    icon: "la-book",
-    children: [
-      { id: "18-1", name: "PGDM", routePath: "/admin/pgdm-admission" },
-      { id: "18-2", name: "Fellow Program in Management", routePath: "/admin/fellow-program-in-management" },
-    ],
-  },
+
 
   {
     id: 19,
@@ -186,9 +204,7 @@ module.exports = [
     ],
   },
 
-  /* ================= FOOTER / CONTACT ================= */
-  { id: 23, name: "Manage Contact Info", icon: "la-building", routePath: "/admin/contact-info" },
-  { id: 24, name: "Manage Footer", icon: "la-building", routePath: "/admin/footer" },
+
 
   /* ================= STUDENT LIFE ================= */
   {
@@ -217,4 +233,8 @@ module.exports = [
   },
   { id: 27, name: "Privacy Policy", icon: "la-building", routePath: "/admin/privacy-policy" },
   { id: 28, name: "Student Life", icon: "la-building", routePath: "/admin/student-life" },
+
+    /* ================= FOOTER / CONTACT ================= */
+  { id: 23, name: "Manage Contact Info", icon: "la-building", routePath: "/admin/contact-info" },
+  { id: 24, name: "Manage Footer", icon: "la-building", routePath: "/admin/footer" },
 ];
