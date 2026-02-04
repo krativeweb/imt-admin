@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import api, { setAccessToken } from "../app/admin/lib/api";
 
 export default function GuestWrapper({ children }) {
-  const router = useRouter();
+  const router = useRouter(); 
   const hasRun = useRef(false);
 
   const checkAlreadyLoggedIn = async () => {
