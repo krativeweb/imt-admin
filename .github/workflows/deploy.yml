@@ -1,45 +1,26 @@
-name: Deploy IMT Admin (Next.js)
+- name: Deploy to Server
+  run: |
+    ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=10 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+      cd ${{ secrets.APP_PATH }}
 
-on: 
-  push:
-    branches:
-      - main  
+      echo "🔄 Pulling latest code..."
+      git pull origin main
 
-jobs: 
-  deploy:
-    runs-on: ubuntu-latest
+      echo "🧹 Cleaning old files..."
+      rm -rf node_modules
+      rm -rf .next
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      echo "📦 Installing dependencies..."
+      npm ci --no-audit --no-fund
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      echo "🏗️ Building Next.js..."
+      npm run build
 
-      - name: Deploy to Server
-        run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-            cd ${{ secrets.APP_PATH }}
+      echo "🚀 Restarting PM2..."
+      pm2 restart imt-admin || pm2 start node_modules/next/dist/bin/next \
+        --name imt-admin \
+        -i max \
+        -- start -p 4051
 
-            echo "🔄 Pulling latest code..."
-            git pull origin main
-
-            echo "📦 Installing dependencies..."
-            npm install
-
-            echo "🏗️ Building Next.js..."
-            npm run build
-
-            echo "🚀 Reloading PM2..."
-            pm2 reload imt-admin || pm2 start node_modules/next/dist/bin/next \
-              --name imt-admin \
-              -i max \
-              -- start -p 4051
-
-            pm2 save
-          EOF
-
+      pm2 save
+    EOF
