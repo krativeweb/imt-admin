@@ -127,7 +127,7 @@ const DashboardHeader = () => {
                 <Image
                   alt="avatar"
                   className="thumb"
-                  src="/images/resource/company-6.png"
+                  src="/imtpilllogo.jpg"
                   width={50}
                   height={50}
                 />
