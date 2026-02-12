@@ -20,29 +20,25 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy to Server
-  run: |
-    ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=10 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-      cd ${{ secrets.APP_PATH }}
+      - name: Deploy to Server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            cd ${{ secrets.APP_PATH }}
 
-      echo "🔄 Pulling latest code..."
-      git pull origin main
+            echo "🔄 Pulling latest code..."
+            git pull origin main
 
-      echo "🧹 Cleaning old files..."
-      rm -rf node_modules
-      rm -rf .next
+            echo "📦 Installing dependencies..."
+            npm install
 
-      echo "📦 Installing dependencies..."
-      npm ci --no-audit --no-fund
+            echo "🏗️ Building Next.js..."
+            npm run build
 
-      echo "🏗️ Building Next.js..."
-      npm run build
+            echo "🚀 Reloading PM2..."
+            pm2 reload imt-admin || pm2 start node_modules/next/dist/bin/next \
+              --name imt-admin \
+              -i max \
+              -- start -p 4051
 
-      echo "🚀 Restarting PM2..."
-      pm2 restart imt-admin || pm2 start node_modules/next/dist/bin/next \
-        --name imt-admin \
-        -i max \
-        -- start -p 4051
-
-      pm2 save
-    EOF
+            pm2 save
+          EOF
