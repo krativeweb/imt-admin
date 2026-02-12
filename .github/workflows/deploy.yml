@@ -28,17 +28,20 @@ jobs:
             echo "🔄 Pulling latest code..."
             git pull origin main
 
+            echo "📦 Installing PNPM..."
+            if ! command -v pnpm &> /dev/null
+            then
+              npm install -g pnpm
+            fi
+
             echo "📦 Installing dependencies..."
-            npm install
+            pnpm install --frozen-lockfile
 
             echo "🏗️ Building Next.js..."
-            npm run build
+            pnpm build
 
             echo "🚀 Reloading PM2..."
-            pm2 reload imt-admin || pm2 start node_modules/next/dist/bin/next \
-              --name imt-admin \
-              -i max \
-              -- start -p 4051
+            pm2 reload imt-admin || pm2 start pnpm --name imt-admin -- start -p 4051
 
             pm2 save
           EOF
